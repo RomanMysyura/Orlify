@@ -9,7 +9,7 @@
  * @version 0.2.5
  *
  * Punt d'netrada de l'aplicació exemple del Framework Emeset.
- * Per provar com funciona es pot executer php -S localhost:8000 a la carpeta public.
+ * Per provar com funciona es pot executer php -S localhost:8000 a la carpeta public.cd 
  * I amb el navegador visitar la url http://localhost:8000/
  *
  */
@@ -19,6 +19,9 @@ use \Emeset\Contracts\Routers\Router;
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../vendor/autoload.php";
 include "../App/Controllers/portada.php";
+
+include "../App/Controllers/test.php";
+
 include "../App/Controllers/error.php";
 include "../App/Controllers/login.php";
 include "../App/Controllers/validarLogin.php";
@@ -33,6 +36,8 @@ $app = new \Emeset\Emeset($contenidor);
 $app->middleware([\App\Middleware\App::class, "execute"]);
 
 $app->route("", "ctrlPortada");
+$app->route("test", "ctrlTest");
+
 $app->route("login", "ctrlLogin");
 $app->route("validar-login", "ctrlValidarLogin");
 $app->route("privat", [\App\Controllers\Privat::class, "privat"], ["auth"]);

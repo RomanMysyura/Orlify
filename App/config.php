@@ -16,7 +16,13 @@ return [
         "clau" => Emeset\Env::get("login_clau", "1234")
     ],
     "app" => [
-        "name" => Emeset\Env::get("app_name", "Emeset demo"),
+        "name" => Emeset\Env::get("app_name", "Orlify"),
         "version" => Emeset\Env::get("app_version", "0.2.5")
+    ],
+    "database" => [
+        "server" => "localhost",
+        "username" => "root",
+        "password" => "",
+        "database" => ""
     ]
 ];
