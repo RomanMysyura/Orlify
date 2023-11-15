@@ -1,4 +1,10 @@
 {
+  "name": "Orlify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Roman Mysyura, Emma Cardosa, Marcos Muños",
+  "license": "ISC",
   "dependencies": {
     "tailwindcss": "^3.3.5"
   }
