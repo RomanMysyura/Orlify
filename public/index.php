@@ -9,7 +9,7 @@
  * @version 0.2.5
  *
  * Punt d'netrada de l'aplicació exemple del Framework Emeset.
- * Per provar com funciona es pot executer php -S localhost:8000 a la carpeta public.
+ * Per provar com funciona es pot executer php -S localhost:8000 a la carpeta publicc.
  * I amb el navegador visitar la url http://localhost:8000/
  *
  */
