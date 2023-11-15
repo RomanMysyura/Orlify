@@ -1,7 +1,7 @@
 <?php
 
 return [
-    /* configuració de connexió a la base dadess */
+    /* configuració de connexió a la base dades */
     /* Path on guardarem el fitxer sqlite */
     "sqlite" => [
         "path" => Emeset\Env::get("sqlite_path", "../"),
