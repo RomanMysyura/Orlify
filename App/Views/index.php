@@ -13,12 +13,13 @@
 </head>
 
 <body class="bg-gray-200 ">
-<?php include "navbar.php" ?>
+    <?php include "navbar.php" ?>
     <div class="flex">
         <!-- Sección 1 -->
         <div class="flex-1 p-4 m-2 mt-10 hidden md:flex flex-col">
             <p class="text-black text-7xl text-center">LA TEVA ORLA EN POCS PASOS</p>
-            <p class="text-black text-xl text-center mt-10">No necessites instal·lar ni descarregar res i la pots fer des de qualsevol
+            <p class="text-black text-xl text-center mt-10">No necessites instal·lar ni descarregar res i la pots fer
+                des de qualsevol
                 ordinador. I podràs descarregar una prova en PDF!</p>
         </div>
 
@@ -33,7 +34,7 @@
 
             <div class="w-full max-w-xs m-auto">
 
-                <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="/login" method="post">
+                <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="/validar-login" method="post">
                     <div class="mb-4">
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
                             Iniciar sesión
@@ -86,7 +87,7 @@
                     <div class="mb-6">
                         <input
                             class="bg-gray-100 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                            id="password" type="password" placeholder="Contraseña">
+                            name="password" id="password" type="password" placeholder="Contraseña">
                     </div>
                     <div class="flex items-center justify-between">
                         <button

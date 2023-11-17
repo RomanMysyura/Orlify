@@ -19,10 +19,10 @@ return [
         "name" => Emeset\Env::get("app_name", "Orlify"),
         "version" => Emeset\Env::get("app_version", "0.2.5")
     ],
-    "database" => [
-        "server" => "localhost",
-        "username" => "root",
-        "password" => "",
-        "database" => ""
+    "db" => [
+        "user" => "root",
+        "pass" => "",
+        "db" => "orles",
+        "host" => "localhost"
     ]
 ];
