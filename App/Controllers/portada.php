@@ -23,7 +23,7 @@ use \Emeset\Contracts\Container;
  **/
 function ctrlPortada(Request $request, Response $response, Container $container) :Response
 {
-    // Comptem quantes vegades has visitat aquesta pàgina
+    // Comptem quantes vegades has visitat aquesta pàginadfhdf
     $visites = $request->get(INPUT_COOKIE, "visites");
     if (!is_null($visites)) {
         $visites = (int)$visites + 1;
@@ -40,7 +40,7 @@ function ctrlPortada(Request $request, Response $response, Container $container)
     }
 
     $response->set("missatge", $missatge);
-    $response->SetTemplate("portada.php");
+    $response->SetTemplate("index.php");
 
     return $response;
 }
