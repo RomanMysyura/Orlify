@@ -19,9 +19,8 @@ use \Emeset\Contracts\Routers\Router;
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../vendor/autoload.php";
 include "../App/Controllers/portada.php";
-
+include "../App/Controllers/perfil.php";
 include "../App/Controllers/test.php";
-
 include "../App/Controllers/error.php";
 include "../App/Controllers/login.php";
 include "../App/Controllers/validarLogin.php";
@@ -37,7 +36,7 @@ $app->middleware([\App\Middleware\App::class, "execute"]);
 
 $app->route("", "ctrlPortada");
 $app->route("test", "ctrlTest");
-
+$app->route("perfil", "ctrlPerfil");
 $app->route("login", "ctrlLogin");
 $app->route("validar-login", "ctrlValidarLogin");
 $app->route("privat", [\App\Controllers\Privat::class, "privat"], ["auth"]);
