@@ -13,6 +13,7 @@
 </head>
 
 <body class="">
+  <?php include "navbar.php" ?>
   <div class="container mx-auto p-10">
     <div class="grid grid-cols-1 gap-4">
       <div>
@@ -32,7 +33,10 @@
       </div>
     </div>
   </div>
+
   <script src="/js/bundle.js"></script>
+  
+  <?php include "footer.php" ?>
 </body>
 
 </html>
