@@ -12,8 +12,8 @@
     <title><?=$app_config["app"]["name"]?></title>
 </head>
 
-<body class="bg-gray-200 p-4">
-
+<body class="bg-gray-200 ">
+<?php include "navbar.php" ?>
     <div class="flex">
         <!-- Sección 1 -->
         <div class="flex-1 p-4 m-2 mt-10 hidden md:flex flex-col">
@@ -146,6 +146,7 @@
         </div>
     </div>
     <script src="/js/bundle.js"></script>
+    <?php include "footer.php" ?>
 </body>
 
 </html>
