@@ -2,7 +2,9 @@
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-24 items-center justify-between">
      <button class="" aria-label="Logo">
+      <a href="/">
         <img class="h-20 w-auto sm:h-20" src="/img/logo.png" alt="Logo">
+      </a>
     </button>
       </div>
     </div>
@@ -25,7 +27,7 @@
           <div>
             <button type="button" class="" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
               
-              <a href="#" class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Perfil</a>
+              <a href="/perfil" class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Perfil</a>
             </button>
             
           </div>
