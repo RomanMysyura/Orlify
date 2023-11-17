@@ -1,17 +1,8 @@
 {
-<<<<<<< HEAD
-  "name": "orlify",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "author": "Roman Mysyura, Emma Cardosa, Marcos Muños",
-  "license": "ISC",
-  "dependencies": {
-    "tailwindcss": "^3.3.5"
-=======
   "type": "module",
   "devDependencies": {
     "autoprefixer": "^10.4.16",
+    "daisyui": "^4.3.1",
     "html-webpack-plugin": "^5.5.3",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
@@ -43,6 +34,5 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node"
->>>>>>> 3471641e898659accbdf88e01da4380f63ff633a
   }
 }
