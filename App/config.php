@@ -22,7 +22,10 @@ return [
     "database" => [
         "server" => "localhost",
         "username" => "root",
-        "password" => "",
-        "database" => ""
+        "password" => "1234",
+        "database" => "orla"
     ]
 ];
+include "../src/models/Users.php";
+include "../src/models/Db.php";
+include "../src/models/session.php";
