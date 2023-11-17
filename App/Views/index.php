@@ -16,12 +16,19 @@
     <?php include "navbar.php" ?>
     <div class="flex">
         <!-- Sección 1 -->
-        <div class="flex-1 p-4 m-9 mt-16 hidden md:flex flex-col">
-            <p class="text-black text-7xl text-center font-bold">LA TEVA ORLA EN POCS PASOS</p>
-            <p class="text-black text-xl text-center mt-10">No necessites instal·lar ni descarregar res i la pots fer
-                des de qualsevol
-                ordinador. I podràs descarregar una prova en PDF!</p>
-        </div>
+       <div class="flex-1 p-4 m-9 mt-16 hidden md:flex flex-col animate__animated animate__fadeInUp">
+    <p class="text-7xl text-center font-bold">
+        <span class="bg-gradient-to-r text-black bg-clip-text animate-fadeInGradient">LA TEVA ORLA EN POCS PASOS</span>
+    </p>
+    <p class="text-xl text-center mt-10 text-black">No necessites instal·lar ni descarregar res i la pots fer des de qualsevol ordinador. I podràs descarregar una prova en PDF!</p>
+
+
+    
+
+
+
+</div>
+
 
         <div class="flex-1  p-4 m-2">
 
