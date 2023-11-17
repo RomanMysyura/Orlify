@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+README - Generador d'Orles Definitiu.
+Descripció del Projecte
+Benvingut al Generador d'Orles Definitiu, una aplicació desenvolupada per Cendrasoft per facilitar la gestió i modernització del procés d'orles en els centres educatius. Aquesta aplicació té l'objectiu de simplificar les tasques associades a la creació, visualització i gestió d'orles, utilitzant la tecnologia per millorar l'experiència dels estudiants, professors i membres de l'equip directiu.
+=======
 # Emeset
  
 ## El framework per estudiants de 2n DAW.
@@ -602,3 +607,4 @@ Si els fitxers tenen l'extensió .ts seran transpilats de TypeScript a Javascrip
 
 
 #FpInfor #DawMp07 #DawMp07Uf01 #DawMp07Uf02 #DawMp07Uf03 #DawMp07Uf04
+>>>>>>> 3471641e898659accbdf88e01da4380f63ff633a

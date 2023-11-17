@@ -26,7 +26,7 @@
 
 
 
-        <!-- Sección 2 -->
+        <!-- Secció 2 -->
 
         <div class="flex-1  p-4 m-2">
 

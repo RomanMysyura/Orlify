@@ -2,7 +2,7 @@
 
 /**
  * Front controler
- * Exemple de MVC per a M07 Desenvolupament d'aplicacions web en entorn de servidor.
+ * Exemple de MVC per a M07 Desenvolupament d'aplicacions web en entorn de servidorr.
  * Aquest Framework implementa el mínim per tenir un MVC per fer pràctiques..
  * de M07.
  * @author: Dani Prados dprados@cendrassos.net
