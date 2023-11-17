@@ -1,6 +1,6 @@
 <?php
 
-namespace Daw;
+namespace App\Models;
 
 class Users {
 

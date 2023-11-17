@@ -41,8 +41,8 @@ $app->route("", "ctrlPortada");
 $app->route("test", "ctrlTest");
 
 $app->route("login", "ctrlLogin");
-$app->route("register", "ctrlRegister");
-$app->route("do_register", "ctrlDoRegister");
+$app->get("register", "ctrlRegister");
+$app->post("register", "ctrlDoRegister");
 $app->route("validar-login", "ctrlValidarLogin");
 $app->route("privat", [\App\Controllers\Privat::class, "privat"], ["auth"]);
 $app->route("tancar-sessio", "ctrlTancarSessio", ["auth"]);
