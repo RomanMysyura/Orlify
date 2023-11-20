@@ -7,17 +7,7 @@ use App\Models\UsersPDO;
 
 class UserController 
 {
-    public function register($request, $response, $container)
-    {
-        // Implementa la lógica de registro según tus necesidades
-        // ...
-
-        // Redirige a la página principal después del registro
-        $response->redirect("/");
-
-        return $response;
-    }
-
+   
     public function index($request, $response, $container)
     {
         // Obtén la conexión a la base de datos
@@ -40,6 +30,12 @@ class UserController
         return $response;
     }
     public function openPerfil($request, $response, $container)
+    {
+        $response->SetTemplate("perfil.php");
+
+        return $response;
+    }
+    public function register($request, $response, $container)
     {
         $response->SetTemplate("perfil.php");
 
