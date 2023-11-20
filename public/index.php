@@ -39,17 +39,18 @@ $app = new \Emeset\Emeset($contenidor);
 $app->middleware([\App\Middleware\App::class, "execute"]);
 
 $app->get("", [UserController::class,"index"]);
-$app->get("perfil", [UserController::class,"openPerfil"]);
+$app->get("perfil", [UserController::class,"perfil"]);
 $app->get("register", [UserController::class,"register"]);
 $app->get("contactar", [NavigationController::class,"contactar"]);
 $app->get("crear-orles", [NavigationController::class,"crearOrles"]);
+$app->post("register", [UserController::class,"register"]);
+$app->post("login", [UserController::class,"login"]);
+$app->get("logout", [UserController::class,"logout"]);
 
 
 
 
 
-
-$app->route("login", "ctrlLogin");
 $app->route("validar-login", "ctrlValidarLogin");
 $app->route("privat", [\App\Controllers\Privat::class, "privat"], ["auth"]);
 $app->route("tancar-sessio", "ctrlTancarSessio", ["auth"]);
