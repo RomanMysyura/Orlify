@@ -39,38 +39,30 @@ function ctrlPortada(Request $request, Response $response, Container $container)
         $missatge = "Hola! Ja has visitat {$visites} pàgines d'aquesta web!";
     }
 
-    // Conectar a la base de datos y realizar la consulta
+    // Conectar a la base de datos y realizar la consulta con PDO
     $servername = $container["config"]["database"]["server"];
     $username = $container["config"]["database"]["username"];
     $password = $container["config"]["database"]["password"];
     $database = $container["config"]["database"]["database"];
 
-    $conn = new mysqli($servername, $username, $password, $database);
+    try {
+        $pdo = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Verificar la conexión
-    if ($conn->connect_error) {
-        die("Error de conexión a la base de datos: " . $conn->connect_error);
-    }
+        // Realizar la consulta
+        $sql = "SELECT * FROM users";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
 
-    // Realizar la consulta
-    $sql = "SELECT * FROM users";
-    $result = $conn->query($sql);
+        // Obtener los resultados
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Verificar si hay resultados
-    if ($result->num_rows > 0) {
-        // Convertir los resultados en un array asociativo
-        $users = [];
-        while ($row = $result->fetch_assoc()) {
-            $users[] = $row;
-        }
         // Pasar los datos a la vista
         $response->set("users", $users);
-    } else {
-        $response->set("users", []);
-    }
 
-    // Cerrar la conexión
-    $conn->close();
+    } catch (PDOException $e) {
+        die("Error de conexión a la base de datos: " . $e->getMessage());
+    }
 
     $response->set("missatge", $missatge);
     $response->SetTemplate("index.php");
