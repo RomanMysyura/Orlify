@@ -3,6 +3,7 @@
 use \Emeset\Contracts\Http\Request;
 use \Emeset\Contracts\Http\Response;
 use \Emeset\Contracts\Container;
+use App\Models\Db;
 
 /**
  * Controlador de la portada d'exemple del Framework Emeset
@@ -39,30 +40,21 @@ function ctrlPortada(Request $request, Response $response, Container $container)
         $missatge = "Hola! Ja has visitat {$visites} pàgines d'aquesta web!";
     }
 
-    // Conectar a la base de datos y realizar la consulta con PDO
-    $servername = $container["config"]["database"]["server"];
-    $username = $container["config"]["database"]["username"];
-    $password = $container["config"]["database"]["password"];
-    $database = $container["config"]["database"]["database"];
+    // Utilizar el modelo para obtener la conexión
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
 
-    try {
-        $pdo = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // Realizar la consulta
+    $sql = "SELECT * FROM users";
+    $stmt = $connection->prepare($sql);
+    $stmt->execute();
 
-        // Realizar la consulta
-        $sql = "SELECT * FROM users";
-        $stmt = $pdo->prepare($sql);
-        $stmt->execute();
+    // Obtener los resultados
+    $users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-        // Obtener los resultados
-        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        // Pasar los datos a la vista
-        $response->set("users", $users);
-
-    } catch (PDOException $e) {
-        die("Error de conexión a la base de datos: " . $e->getMessage());
-    }
+    // Pasar los datos a la vista
+    $response->set("users", $users);
 
     $response->set("missatge", $missatge);
     $response->SetTemplate("index.php");
