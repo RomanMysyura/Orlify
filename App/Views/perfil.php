@@ -11,7 +11,7 @@
     <div class="border-b border-black w-90">
         <h4 class="text-center text-4xl font-bold mb-5 mt-5">Perfil</h4>
     </div>
-    <div class="w-full max-w-md  m-auto bg-gray-100 rounded-md mt-5">
+    <div class="w-full md:max-w-md m-auto bg-gray-100 rounded-md mt-5">
         <div class="card-body items-center text-center ">
             <h2 class="text-center text-lg font-bold mb-5">Les meves dades</h2>
         

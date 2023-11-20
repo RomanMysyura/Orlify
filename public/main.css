@@ -2084,6 +2084,10 @@ html {
     display: flex;
   }
 
+  .md\:max-w-md {
+    max-width: 28rem;
+  }
+
   .md\:p-8 {
     padding: 2rem;
   }
