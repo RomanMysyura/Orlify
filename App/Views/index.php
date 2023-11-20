@@ -15,15 +15,15 @@
 <body class="bg-gray-200 ">
     <?php include "navbar.php" ?>
     <div class="mt-5">
-    <h2>Lista de Usuarios</h2>
-    <ul>
-        <?php foreach ($users as $user): ?>
-            <li>
-                <?= $user["name"] ?> <?= $user["surname"] ?>
-            </li>
-        <?php endforeach; ?>
-    </ul>
-</div>
+        <h2>Lista de Usuarios</h2>
+        <ul>
+            <?php foreach ($users as $user): ?>
+                <li>
+                    <?= $user["name"] ?> <?= $user["surname"] ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 
 
 

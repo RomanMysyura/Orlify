@@ -16,17 +16,18 @@
 
 use \Emeset\Contracts\Routers\Router;
 
+use App\Controllers\UserController;
+
+
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../vendor/autoload.php";
 
 include "../App/Controllers/portada.php";
 include "../App/Controllers/perfil.php";
-include "../App/Controllers/test.php";
 include "../App/Controllers/error.php";
 include "../App/Controllers/login.php";
 include "../App/Controllers/validarLogin.php";
 include "../App/Controllers/tancarSessio.php";
-include "../App/Controllers/controllerDoRegister.php";
 
 
 include "../App/Middleware/auth.php";
@@ -38,7 +39,12 @@ $contenidor = new \App\Container(__DIR__ . "/../App/config.php");
 $app = new \Emeset\Emeset($contenidor);
 $app->middleware([\App\Middleware\App::class, "execute"]);
 
-$app->route("", "ctrlPortada");
+
+$app->get("", [UserController::class,"index"]);
+$app->get("perfil", [UserController::class,"openPerfil"]);
+
+
+// $app->route("", "ctrlPortada");
 $app->route("test", "ctrlTest");
 $app->route("perfil", "ctrlPerfil");
 $app->route("login", "ctrlLogin");

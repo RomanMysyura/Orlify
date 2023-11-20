@@ -3,7 +3,6 @@
 use \Emeset\Contracts\Http\Request;
 use \Emeset\Contracts\Http\Response;
 use \Emeset\Contracts\Container;
-use App\Models\Db;
 
 /**
  * Controlador de la portada d'exemple del Framework Emeset
@@ -22,9 +21,9 @@ use App\Models\Db;
  * @param array $config  paràmetres de configuració de l'aplicació
  *
  **/
-function ctrlPortada(Request $request, Response $response, Container $container): Response
+function ctrlPortada(Request $request, Response $response, Container $container) :Response
 {
-    // Comptem quantes vegades has visitat aquesta pàgina
+    // Comptem quantes vegades has visitat aquesta pàginadfhdf
     $visites = $request->get(INPUT_COOKIE, "visites");
     if (!is_null($visites)) {
         $visites = (int)$visites + 1;
@@ -39,22 +38,6 @@ function ctrlPortada(Request $request, Response $response, Container $container)
     } else {
         $missatge = "Hola! Ja has visitat {$visites} pàgines d'aquesta web!";
     }
-
-    // Utilizar el modelo para obtener la conexión
-    $dbConfig = $container["config"]["database"];
-    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-    $connection = $dbModel->getConnection();
-
-    // Realizar la consulta
-    $sql = "SELECT * FROM users";
-    $stmt = $connection->prepare($sql);
-    $stmt->execute();
-
-    // Obtener los resultados
-    $users = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
-    // Pasar los datos a la vista
-    $response->set("users", $users);
 
     $response->set("missatge", $missatge);
     $response->SetTemplate("index.php");
