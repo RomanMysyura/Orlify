@@ -30,7 +30,7 @@
                 <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="/login" method="post">
                     <div class="mb-4">
                         <label class="block text-gray-700 text-md font-bold mb-4" for="username">
-                            Iniciar sesión
+                            Iniciar sessió
                         </label>
                         <div class="mt-5">
                             <div class="relative">
@@ -143,16 +143,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
-
-
-
-
-
 
     <div class="container mx-auto p-10">
         <div class="grid grid-cols-1 gap-4">

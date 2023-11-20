@@ -1005,6 +1005,20 @@ html {
   display: inline-flex;
   align-items: center;
 }
+.radio {
+  flex-shrink: 0;
+  --chkbg: var(--bc);
+  height: 1.5rem;
+  width: 1.5rem;
+  cursor: pointer;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border-radius: 9999px;
+  border-width: 1px;
+  border-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-border-opacity)));
+  --tw-border-opacity: 0.2;
+}
 .btm-nav > * .label {
   font-size: 1rem;
   line-height: 1.5rem;
@@ -1199,14 +1213,6 @@ html {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
-.card-title {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 1.25rem;
-  line-height: 1.75rem;
-  font-weight: 600;
-}
 @keyframes checkmark {
 
   0% {
@@ -1233,9 +1239,6 @@ html {
 }
 .input[list]::-webkit-calendar-picker-indicator {
   line-height: 1em;
-}
-.input-bordered {
-  border-color: var(--fallback-bc,oklch(var(--bc)/0.2));
 }
 .input:focus,
   .input:focus-within {
@@ -1328,6 +1331,28 @@ html {
   50% {
     background-position-x: -115%;
   }
+}
+.radio:focus {
+  box-shadow: none;
+}
+.radio:focus-visible {
+  outline-style: solid;
+  outline-width: 2px;
+  outline-offset: 2px;
+  outline-color: var(--fallback-bc,oklch(var(--bc)/1));
+}
+.radio:checked,
+  .radio[aria-checked="true"] {
+  --tw-bg-opacity: 1;
+  background-color: var(--fallback-bc,oklch(var(--bc)/var(--tw-bg-opacity)));
+  background-image: none;
+  animation: radiomark var(--animation-input, 0.2s) ease-out;
+  box-shadow: 0 0 0 4px var(--fallback-b1,oklch(var(--b1)/1)) inset,
+      0 0 0 4px var(--fallback-b1,oklch(var(--b1)/1)) inset;
+}
+.radio:disabled {
+  cursor: not-allowed;
+  opacity: 0.2;
 }
 @keyframes radiomark {
 
@@ -1429,16 +1454,10 @@ html {
   font-size: 0.875rem;
   line-height: 1.25rem;
 }
-.card-compact .card-title {
-  margin-bottom: 0.25rem;
-}
 .card-normal .card-body {
   padding: var(--padding-card, 2rem);
   font-size: 1rem;
   line-height: 1.5rem;
-}
-.card-normal .card-title {
-  margin-bottom: 0.75rem;
 }
 .static {
   position: static;
@@ -1473,6 +1492,9 @@ html {
 }
 .m-2 {
   margin: 0.5rem;
+}
+.m-5 {
+  margin: 1.25rem;
 }
 .m-9 {
   margin: 2.25rem;
@@ -1517,12 +1539,6 @@ html {
 }
 .mt-5 {
   margin-top: 1.25rem;
-}
-.mr-auto {
-  margin-right: auto;
-}
-.ml-10 {
-  margin-left: 2.5rem;
 }
 .block {
   display: block;
@@ -1669,10 +1685,6 @@ html {
   --tw-bg-opacity: 1;
   background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
-.bg-gray-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
-}
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
@@ -1700,12 +1712,12 @@ html {
   --tw-bg-opacity: 1;
   background-color: rgb(185 28 28 / var(--tw-bg-opacity));
 }
+.bg-transparent {
+  background-color: transparent;
+}
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-.bg-transparent {
-  background-color: transparent;
 }
 .fill-current {
   fill: currentColor;
@@ -1771,12 +1783,6 @@ html {
 }
 .text-center {
   text-align: center;
-}
-.text-start {
-  text-align: start;
-}
-.text-end {
-  text-align: end;
 }
 .text-4xl {
   font-size: 2.25rem;
@@ -1916,14 +1922,6 @@ html {
   --tw-bg-opacity: 1;
   background-color: rgb(153 27 27 / var(--tw-bg-opacity));
 }
-.hover\:bg-gray-400:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
-}
-.hover\:bg-gray-100:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
-}
 .hover\:bg-white:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -1936,11 +1934,6 @@ html {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
-.hover\:transition-colors:hover {
-  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
 .focus\:border-b-2:focus {
   border-bottom-width: 2px;
 }
@@ -1951,10 +1944,6 @@ html {
 .focus\:border-blue-700:focus {
   --tw-border-opacity: 1;
   border-color: rgb(29 78 216 / var(--tw-border-opacity));
-}
-.focus\:bg-gray-100:focus {
-  --tw-bg-opacity: 1;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 .focus\:bg-white:focus {
   --tw-bg-opacity: 1;
@@ -2125,6 +2114,10 @@ html {
 
   .md\:flex {
     display: flex;
+  }
+
+  .md\:max-w-md {
+    max-width: 28rem;
   }
 
   .md\:p-8 {
