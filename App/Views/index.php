@@ -14,6 +14,21 @@
 
 <body class="bg-gray-200 ">
     <?php include "navbar.php" ?>
+    <div class="mt-5">
+    <h2>Lista de Usuarios</h2>
+    <ul>
+        <?php foreach ($users as $user): ?>
+            <li>
+                <?= $user["name"] ?> <?= $user["surname"] ?>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+</div>
+
+
+
+
+
     <div class="flex">
         <!-- Sección 1 -->
        <div class="flex-1 p-4 m-9 mt-16 hidden md:flex flex-col animate__animated animate__fadeInUp">
