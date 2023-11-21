@@ -2,7 +2,7 @@ import jQuery from "jquery";
 window.$ = window.jQuery = jQuery;
 
 export  default function hola() {
-    console.log('hola hola');
+    console.log('hola holadsfsd');
 }
 console.log("Hola 2");
 
@@ -17,3 +17,7 @@ function resta(a, b) {
 }
 
 export {add, resta};
+
+
+
+

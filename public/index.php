@@ -16,21 +16,21 @@
 
 use \Emeset\Contracts\Routers\Router;
 
+use App\Controllers\UserController;
+use App\Controllers\NavigationController;
+
+
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../vendor/autoload.php";
-
-include "../App/Controllers/portada.php";
 include "../App/Controllers/perfil.php";
-include "../App/Controllers/test.php";
 include "../App/Controllers/error.php";
 include "../App/Controllers/login.php";
 include "../App/Controllers/validarLogin.php";
 include "../App/Controllers/tancarSessio.php";
-include "../App/Controllers/controllerDoRegister.php";
 
 
 include "../App/Middleware/auth.php";
-include "../App/Middleware/test.php";
+
 
 /* Creem els diferents models */
 $contenidor = new \App\Container(__DIR__ . "/../App/config.php");
@@ -38,11 +38,18 @@ $contenidor = new \App\Container(__DIR__ . "/../App/config.php");
 $app = new \Emeset\Emeset($contenidor);
 $app->middleware([\App\Middleware\App::class, "execute"]);
 
-$app->route("", "ctrlPortada");
-$app->route("test", "ctrlTest");
-$app->route("perfil", "ctrlPerfil");
-$app->route("login", "ctrlLogin");
-$app->route("register", "ctrlDoRegister");
+$app->get("", [UserController::class,"index"]);
+$app->get("perfil", [UserController::class,"perfil"]);
+$app->get("contactar", [NavigationController::class,"contactar"]);
+$app->get("crear-orles", [NavigationController::class,"crearOrles"]);
+$app->post("register", [UserController::class,"register"]);
+$app->post("login", [UserController::class,"login"]);
+$app->get("logout", [UserController::class,"logout"]);
+$app->get("panel-de-control", [NavigationController::class,"panelDeControl"]);
+
+
+
+
 $app->route("validar-login", "ctrlValidarLogin");
 $app->route("privat", [\App\Controllers\Privat::class, "privat"], ["auth"]);
 $app->route("tancar-sessio", "ctrlTancarSessio", ["auth"]);
