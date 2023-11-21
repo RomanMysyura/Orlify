@@ -36,6 +36,7 @@ class NavigationController
         $response->SetTemplate("paneldecontrol.php");
 
         return $response;
+    }
+   
 }
 
-}
