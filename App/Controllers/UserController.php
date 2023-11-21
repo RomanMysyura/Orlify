@@ -137,4 +137,13 @@ class UserController
     }
     
 
+    public function updateUser($request, $response, $container)
+    {
+       
+     
+      $response->SetTemplate("index.php");
+        return $response;
+    }
+    
+
 }
