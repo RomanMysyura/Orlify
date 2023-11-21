@@ -30,13 +30,16 @@
                     <div>
                         <button type="button" class="" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
 
-                            
-                                <?php if (isset($_SESSION["logged"]) && $_SESSION["logged"]): ?>
-                                  <a href="/perfil"
+
+                            <?php if (isset($_SESSION["logged"]) && $_SESSION["logged"]): ?>
+                            <a href="/perfil"
                                 class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Perfil</a>
-                        <a href="/logout"
-                            class="text-red-500	 hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Tancar sessió</a>
-                        <?php endif; ?>
+                            <a href="/panel-de-control"
+                                class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Panel de control</a>
+                            <a href="/logout"
+                                class="text-red-500	 hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Tancar
+                                sessió</a>
+                            <?php endif; ?>
                         </button>
 
                     </div>
