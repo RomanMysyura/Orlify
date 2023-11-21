@@ -14,12 +14,29 @@ class NavigationController
 
         return $response;
     }
-  
-    public function panelDeControl($request, $response, $container)
+    public function crearOrles($request, $response, $container)
     {
+        $response->SetTemplate("crearOrles.php");
+
+        return $response;
+    }
+
+    public function panelDeControl($request, $response, $container)
+{
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+
+        $usersModel = new UsersPDO($connection);
+
+        $users = $usersModel->getAllUsers();
+
+        $response->set("users", $users);
+
         $response->SetTemplate("paneldecontrol.php");
 
         return $response;
     }
    
 }
+
