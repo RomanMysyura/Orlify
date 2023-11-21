@@ -19,11 +19,11 @@ return [
         "name" => Emeset\Env::get("app_name", "Orlify"),
         "version" => Emeset\Env::get("app_version", "0.2.5")
     ],
-    "database" => [
-        "server" => "localhost",
-        "username" => "root",
-        "password" => "1234",
-        "database" => "orla"
+    "db" => [
+        "user" => "root",
+        "pass" => "1234",
+        "db" => "orla",
+        "host" => "localhost"      
     ]
 ];
 include "../src/models/Users.php";
