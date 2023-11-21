@@ -10,9 +10,10 @@
 <?php include "navbar.php" ?>
 
     <div class="flex text-center">
+    <input type="hidden" id="orlaId" value="<?= $orla['orla_id'] ?>">
         <div class="w-full max-w-xs  m-auto mt-5">
             <div class="border-b border-black">
-            <h1 class="font-bold text-xl mb-3">Crear Orles</h1>
+            <h1 class="font-bold text-xl mb-3">Afegir Fotografia</h1>
             </div>
             <form>
                 <div class="mb-4">
@@ -64,30 +65,15 @@
                 <h1 class="font-bold text-xl mb-3">Totes les Fotografies</h1>
             </div>
             <div class="flex flex-wrap mt-2">
+            <?php
+
+            foreach ($photos as $photo) ?>
     <div class="photo-container">
-        <img src="https://picsum.photos/200/300" alt="random image" class="w-32 h-38 m-2">
+        <img src=" <?= $photo['url'] ?>" alt="Photo" class="w-32 h-38 m-2">
         <button class="m-2 btn btn-xs  btn-outline btn-error">Eliminar</button>
     </div>
-    <div class="photo-container">
-        <img src="https://picsum.photos/200/300" alt="random image" class="w-32 h-38 m-2">
-        <button class="m-2 btn btn-xs  btn-outline btn-error">Eliminar</button>
-    </div>
-    <div class="photo-container">
-        <img src="https://picsum.photos/200/300" alt="random image" class="w-32 h-38 m-2">
-        <button class="m-2 btn btn-xs  btn-outline btn-error">Eliminar</button>
-    </div>
-    <div class="photo-container">
-        <img src="https://picsum.photos/200/300" alt="random image" class="w-32 h-38 m-2">
-        <button class="m-2 btn btn-xs  btn-outline btn-error">Eliminar</button>
-    </div>
-    <div class="photo-container">
-        <img src="https://picsum.photos/200/300" alt="random image" class="w-32 h-38 m-2">
-        <button class="m-2 btn btn-xs  btn-outline btn-error">Eliminar</button>
-    </div>
-    <div class="photo-container">
-        <img src="https://picsum.photos/200/300" alt="random image" class="w-32 h-38 m-2">
-        <button class="m-2 btn btn-xs  btn-outline btn-error">Eliminar</button>
-    </div>
+    
+
     
     <!-- Repite el patrón para cada imagen y botón -->
 </div>

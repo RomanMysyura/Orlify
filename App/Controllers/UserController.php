@@ -135,6 +135,5 @@ class UserController
         $response->SetTemplate("index.php");
         return $response;
     }
-    
 
 }
