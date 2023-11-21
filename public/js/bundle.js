@@ -48,7 +48,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jque
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   add: () => (/* binding */ add),\n/* harmony export */   \"default\": () => (/* binding */ hola),\n/* harmony export */   resta: () => (/* binding */ resta)\n/* harmony export */ });\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\r\nwindow.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0__;\r\n\r\nfunction hola() {\r\n    console.log('hola holadsfsd');\r\n}\r\nconsole.log(\"Hola 2\");\r\n\r\n$(\"#missatge\").append(\"<p>Text afegit amb jQuery.</p>\");\r\n\r\nfunction add(a, b) {\r\n  return a + b;\r\n}\r\n\r\nfunction resta(a, b) {\r\n  return a - b;\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack:///./App/js/scripts.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\r\nwindow.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0__;\r\n\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack:///./App/js/scripts.js?");
 
 /***/ })
 
