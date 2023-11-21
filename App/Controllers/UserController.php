@@ -86,7 +86,7 @@ class UserController
             $response->SetTemplate("perfil.php");
         } else {
             $response->SetTemplate("index.php");
-            $response->set("error_message", "Credenciales incorrectas");
+            $response->set("error_message_login", "Email i/o contrasenya incorrectes");
             $_SESSION["logged"] = false;
         }
     
@@ -124,15 +124,15 @@ class UserController
             $password = $_POST["password"];
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-            $response->SetTemplate("perfil.php");
+            $response->set("error_message_register", "Email i/o contrasenya incorrectes");
+            $response->SetTemplate("index.php");
             $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
 
             
             return $response;
         }
 
-        $response->SetTemplate("perfil.php");
+        $response->SetTemplate("index.php");
         return $response;
     }
     

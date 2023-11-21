@@ -20,4 +20,10 @@ class NavigationController
 
         return $response;
     }
+    public function panelDeControl($request, $response, $container)
+    {
+        $response->SetTemplate("paneldecontrol.php");
+
+        return $response;
+    }
 }
