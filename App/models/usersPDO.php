@@ -68,4 +68,12 @@ class UsersPDO
         ]);
     }
     
+    public function getUserPhotos($userId)
+    {
+        $sql = "SELECT * FROM photo WHERE user_id = ?";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([$userId]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

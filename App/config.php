@@ -22,8 +22,8 @@ return [
     "database" => [
         "server" => "localhost",
         "username" => "root",
-        "password" => "1234",
-        "database" => "orles"
+        "password" => "",
+        "database" => "orlify"
     ]
 ];
 include "../src/models/Users.php";
