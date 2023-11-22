@@ -172,10 +172,32 @@ class UserController
     }
     
     public function carnetUser($request, $response, $container) {
+        // Verifica si el usuario está autenticado
+        if ($_SESSION["logged"]) {
+            // Obtén la conexión a la base de datos
+            $dbConfig = $container["config"]["database"];
+            $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+            $connection = $dbModel->getConnection();
 
-        $response->SetTemplate("carnet.php");
+            // Crea una instancia del modelo UsersPDO
+            $usersModel = new UsersPDO($connection);
+
+            // Obtén los datos del usuario actual
+            $userId = $_SESSION["user_id"];
+            $user = $usersModel->getUserById($userId);
+
+            // Pasa los datos a la vista
+            $response->set("user", $user);
+
+            // Establece la plantilla
+            $response->SetTemplate("carnet.php");
+        } else {
+            // Si no está autenticado, redirige a la página de inicio de sesión u otra página
+            $response->redirect("/login");
+        }
+
         return $response;
-
     }
+
     
 }
