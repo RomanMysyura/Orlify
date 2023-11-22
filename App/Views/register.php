@@ -10,7 +10,6 @@
 <body>
   <div class="container d-flex justify-content-center align-items-center vh-100">
       <div class="shadow-form text-center form-dades">
-          <a href="index.php?r=index"><img src="images/logo.png" alt="" style="width: 20%;"></a>
           <h1 class="account">Crea un compte</h1>
           <form class="form-registrar" action="/do_register" method="post">
               <input type="hidden" name="/" value="do_register">

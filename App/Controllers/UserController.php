@@ -136,5 +136,30 @@ class UserController
         return $response;
     }
     
-
+    public function uploadUser($request, $response, $container)
+    {
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+    
+        $usersModel = new UsersPDO($connection);
+    
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $id = $_POST["id"];
+            $name = $_POST["name"];
+            $surname = $_POST["surname"];
+            $email = $_POST["email"];
+            $password = $_POST["password"];
+    
+            $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : null;
+    
+            $usersModel->editUser($id,$name, $surname, $email, $hashedPassword);
+    
+            $response->SetTemplate("perfil.php");
+            return $response;
+            
+        }
+        return $response;
+    }
+    
 }

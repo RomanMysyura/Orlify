@@ -45,6 +45,7 @@ $app->get("contactar", [NavigationController::class,"contactar"]);
 $app->get("crear-orles", [NavigationController::class,"crearOrles"]);
 $app->post("register", [UserController::class,"register"]);
 $app->post("login", [UserController::class,"login"]);
+$app->post("uploadUser", [UserController::class,"uploadUser"]);
 $app->get("logout", [UserController::class,"logout"]);
 
 
