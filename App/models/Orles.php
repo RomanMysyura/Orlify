@@ -13,22 +13,40 @@ class Orles
 
     public function getOrles($user_id)
     {
-        $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, o.id AS orla_id, o.status, o.url
+        $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, o.id AS orla_id, o.status, o.url, o.name_orla
                                     FROM users u
                                     JOIN user_groups ug ON u.id = ug.user_id
                                     JOIN groups g ON ug.group_id = g.id
                                     JOIN orla o ON g.id = o.group_id
                                     WHERE u.id = :user_id ");
         $stmt->bindParam(":user_id", $user_id);
-
-        // Ejecuta la consulta
+    
         $stmt->execute();
-
-        // Recupera los resultados después de ejecutar la consulta
+    
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
+    
         return $result;
     }
+    
+
+    public function createNewOrla()
+    {
+       
+    
+    
+        if (isset($_SESSION["group_id"])) {
+            $group_id = $_SESSION["group_id"];
+    
+            $sql = "INSERT INTO `orla`(`group_id`) VALUES (?)";
+            $stmt = $this->sql->prepare($sql);
+            $stmt->execute([$group_id]);
+        } else {
+           
+            echo "Error: No se ha definido group_id en la sesión.";
+        }
+    }
+    
+
 
     public function getPhotosForOrla($orla_id)
     {

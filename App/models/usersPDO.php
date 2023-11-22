@@ -34,9 +34,11 @@ class UsersPDO
 
 
     
-    public function login($email, $password)
+public function login($email, $password)
 {
-    $sql = "SELECT * FROM users WHERE email = ?";
+    $sql = "SELECT u.*, ug.group_id FROM users u
+            JOIN user_groups ug ON u.id = ug.user_id
+            WHERE u.email = ?";
     $stmt = $this->sql->prepare($sql);
     $stmt->execute([$email]);
 
@@ -47,8 +49,9 @@ class UsersPDO
         return $user;
     }
 
-    return false;
+    return null;
 }
+
 
     public function registerUser($name, $surname, $email, $birthDate, $password)
     {

@@ -52,6 +52,8 @@ $app->get("panel-de-control", [NavigationController::class,"panelDeControl"]);
 $app->post("updateUser", [UserController::class,"updateUser"]);
 
 
+$app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"]);
+
 
 
 
