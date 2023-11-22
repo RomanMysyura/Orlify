@@ -75,14 +75,14 @@ class UserController
         $loggedInUser = $usersModel->login($email, $password);
     
         if ($loggedInUser) {
-            $_SESSION["user_id"] = $loggedInUser["id"];  
+            $_SESSION["user_id"] = $loggedInUser["id"];
+            $_SESSION["group_id"] = $loggedInUser["group_id"];
             $_SESSION["logged"] = true;
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
-
-            
+    
             $response->set("user", $user);
-            
+    
             $response->SetTemplate("perfil.php");
         } else {
             $response->SetTemplate("index.php");
@@ -92,6 +92,7 @@ class UserController
     
         return $response;
     }
+    
 
     
 
