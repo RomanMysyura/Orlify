@@ -178,4 +178,23 @@ class UserController
 
     }
     
+    public function photoUser($request, $response, $container) {
+
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+
+        $userId = $_SESSION["user_id"];
+
+        $usersModel = new UsersPDO($connection);
+
+        $photos = $usersModel->getUserPhotos($userId);
+
+        $response->set("photos", $photos);
+        $response->SetTemplate("photo.php");
+        return $response;
+
+    }
+
+    
 }
