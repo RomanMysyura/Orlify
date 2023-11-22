@@ -34,6 +34,18 @@ class OrlesControllers
         return $response;
     }
 
+
+
+    public function crearOrles($request, $response, $container)
+    {
+
+
+    
+        $response->SetTemplate("crearOrles.php");
+
+        return $response;   
+}
+
    
     public function editarOrles($request, $response, $container)
     {

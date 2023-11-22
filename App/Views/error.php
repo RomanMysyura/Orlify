@@ -16,7 +16,7 @@
   <div class="container mx-auto p-10">
     <div class="grid grid-cols-1 gap-4">
       <div>
-        <h1 class="mb-4 text-xl text-red-700 font-extrabold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-4xl dark:text-white">Alguna cosa ha anat malament!</h1>
+        <h1 class="mb-4 text-xlfont-extrabold tracking-tight leading-none text-gray-900 md:text-3xl lg:text-4xl dark:text-white">Alguna cosa ha anat malament!</h1>
       </div>
     </div>
 
