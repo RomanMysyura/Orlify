@@ -9,8 +9,6 @@
 <body>
 <?php include "navbar.php" ?>
 
-<<<<<<< HEAD:App/Views/crearOrles.php
-=======
     <div class="flex text-center">
     <input type="hidden" id="orlaId" value="<?= $orla_id ?>">
         <div class="w-full max-w-xs  m-auto mt-5">
@@ -68,8 +66,81 @@
             </div>
             <div class="flex flex-wrap mt-2">
             <?php
->>>>>>> 0b112acbeba360d59af3671c8a15e06dcca1aa85:App/Views/editarOrles.php
 
-<?php include "footer.php" ?>  
+            foreach ($photos as $photo) ?>
+    <div class="photo-container">
+        <img src=" <?= $photo['url'] ?>" alt="Photo" class="w-32 h-38 m-2">
+        <button class="m-2 btn btn-xs  btn-outline btn-error">Eliminar</button>
+    </div>
+    
+
+    
+    <!-- Repite el patrón para cada imagen y botón -->
+</div>
+
+
+        </div>
+    </div>
+
+
+<?php include "footer.php" ?>
+
+    <script>
+   const video = document.getElementById('video');
+    const captureButton = document.getElementById('captureButton');
+    const canvas = document.getElementById('canvas');
+    const downloadLink = document.getElementById('downloadLink');
+    const screenshotsContainer = document.getElementById('screenshotsContainer');
+    const context = canvas.getContext('2d');
+    let isCameraOpen = false;
+
+    // Función para abrir/cerrar la cámara
+    function toggleCamera() {
+        if (isCameraOpen) {
+            // Detener la transmisión de la cámara
+            const stream = video.srcObject;
+            const tracks = stream.getTracks();
+
+            tracks.forEach(track => track.stop());
+            video.srcObject = null;
+
+            // Ocultar el botón de captura, el enlace de descarga y las imágenes
+            captureButton.style.display = 'none';
+            downloadLink.style.display = 'none';
+            screenshotsContainer.innerHTML = '';
+        } else {
+            // Obtener la corriente de la cámara y mostrarla en el elemento de video
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) => {
+                    video.srcObject = stream;
+                    // Mostrar el botón de captura después de abrir la cámara
+                    captureButton.style.display = 'inline-block';
+                })
+                .catch((error) => {
+                    console.error('Error al acceder a la cámara:', error);
+                });
+        }
+
+        // Cambiar el estado de la cámara
+        isCameraOpen = !isCameraOpen;
+    }
+
+    // Capturar una foto cuando se hace clic en el botón
+    captureButton.addEventListener('click', () => {
+        // Dibujar el fotograma actual del video en el lienzo
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+        // Mostrar el enlace de descarga y configurar la imagen
+        const imageDataURL = canvas.toDataURL('image/png');
+        downloadLink.href = imageDataURL;
+        downloadLink.download = 'captura.png';
+        downloadLink.style.display = 'inline-block';
+
+        // Crear un nuevo elemento img y agregarlo al contenedor de imágenes capturadas
+        const img = document.createElement('img');
+        img.src = imageDataURL;
+        screenshotsContainer.prepend(img);
+    });
+    </script>
 </body>
 </html>

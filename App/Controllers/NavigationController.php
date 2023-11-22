@@ -14,16 +14,12 @@ class NavigationController
 
         return $response;
     }
-<<<<<<< HEAD
-    
-=======
     public function crearOrles($request, $response, $container)
     {
         $response->SetTemplate("editarOrles.php");
 
         return $response;
     }
->>>>>>> 0b112acbeba360d59af3671c8a15e06dcca1aa85
 
     public function panelDeControl($request, $response, $container)
 {

@@ -43,12 +43,7 @@ $app->get("", [UserController::class,"index"]);
 $app->get("perfil", [UserController::class,"perfil"]);
 $app->get("orles", [OrlesControllers::class,"orles"]);
 $app->get("contactar", [NavigationController::class,"contactar"]);
-<<<<<<< HEAD
-$app->get("crear-orles", [OrlesControllers::class,"crearOrles"]);
-
-=======
 $app->get("editar-orles", [OrlesControllers::class,"editarOrles"]);
->>>>>>> 0b112acbeba360d59af3671c8a15e06dcca1aa85
 $app->post("register", [UserController::class,"register"]);
 $app->post("login", [UserController::class,"login"]);
 $app->get("logout", [UserController::class,"logout"]);
