@@ -43,7 +43,8 @@ $app->get("", [UserController::class,"index"]);
 $app->get("perfil", [UserController::class,"perfil"]);
 $app->get("orles", [OrlesControllers::class,"orles"]);
 $app->get("contactar", [NavigationController::class,"contactar"]);
-$app->get("editar-orles", [OrlesControllers::class,"editarOrles"]);
+$app->get("crear-orles", [OrlesControllers::class,"crearOrles"]);
+
 $app->post("register", [UserController::class,"register"]);
 $app->post("login", [UserController::class,"login"]);
 $app->get("logout", [UserController::class,"logout"]);
