@@ -34,8 +34,18 @@ class OrlesControllers
         return $response;
     }
 
-   
+
+
     public function crearOrles($request, $response, $container)
+    {
+        $response->SetTemplate("crearOrles.php");
+
+        return $response;
+    }
+
+
+
+    public function addPhotoToOrla($request, $response, $container)
     {
         $dbConfig = $container["config"]["database"];
         $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);

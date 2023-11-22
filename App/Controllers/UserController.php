@@ -124,7 +124,7 @@ class UserController
             $password = $_POST["password"];
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $response->set("error_message_register", "Email i/o contrasenya incorrectes");
+            $response->set("error_message_register", "La conta creada correctament");
             $response->SetTemplate("index.php");
             $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
 
