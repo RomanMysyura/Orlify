@@ -57,4 +57,15 @@ class UsersPDO
         $stmt = $this->sql->prepare($sql);
         $stmt->execute([$name, $surname, $email, $birthDate, $password]);
     }
+    public function editUser($id, $name, $surname, $email) {
+    
+        $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email WHERE id = :id");
+        $stmt->execute([
+            ':id' => $id,
+            ':name' => $name,
+            ':surname' => $surname,
+            ':email' => $email
+        ]);
+    }
+    
 }
