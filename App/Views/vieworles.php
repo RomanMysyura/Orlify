@@ -25,7 +25,9 @@
                 <h2 class="card-title"><?= $orla['status'] ?></h2>
                 <div class="card-actions">
                     <button class="btn btn-outline btn-sm mt-3 mr-8">Descarregar</button>
-                    <button class="btn btn-outline btn-success btn-sm mt-3 ml-8"><a href="/crear-orles">Editar</a></button>
+                    <button class="btn btn-outline btn-success btn-sm mt-3 ml-8">
+                        <a href="/editar-orles?id=<?= $orla['orla_id'] ?>">Editar</a>
+                    </button>
                     <input type="hidden" id="orlaId" value="<?= $orla['orla_id'] ?>">
                 </div>
             </div>

@@ -34,38 +34,24 @@ class OrlesControllers
         return $response;
     }
 
-
-
-    public function crearOrles($request, $response, $container)
+   
+    public function editarOrles($request, $response, $container)
     {
-        $response->SetTemplate("crearOrles.php");
-
-        return $response;
-    }
 
 
-
-    public function addPhotoToOrla($request, $response, $container)
-    {
         $dbConfig = $container["config"]["database"];
         $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-         $connection = $dbModel->getConnection();
+        $connection = $dbModel->getConnection();
 
-            $OrlaModel = new Orles($connection);
-          
-
-        //     // Obtén los datos del usuario actual
-
-        $userId = $_SESSION["user_id"];
-
+        $orla_id = $_GET["id"];
+        $OrlaModel = new Orles($connection);
         $photos = $OrlaModel->getPhotosForOrla($orla_id);
-
         $response->set("photos", $photos);
-  
+        $response->set("orla_id", $orla_id);
+        
 
-        $response->SetTemplate("crearOrles.php");
+        $response->SetTemplate("editarOrles.php");
 
-        return $response;
-    }
-
+        return $response;   
+}
 }
