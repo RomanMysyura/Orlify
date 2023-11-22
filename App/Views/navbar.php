@@ -32,8 +32,13 @@
 
 
                             <?php if (isset($_SESSION["logged"]) && $_SESSION["logged"]): ?>
-                            <a href="/perfil"
-                                class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Perfil</a>
+                            <details class="dropdown">
+                                <summary class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Perfil</summary>
+                                <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
+                                    <li><a href="/perfil">Editar dades</a></li>
+                                    <li><a href="/carnet">Carnet</a></li>
+                                </ul>
+                            </details>
                             <a href="/panel-de-control"
                                 class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Panel de control</a>
                             <a href="/orles" 

@@ -41,6 +41,7 @@ $app->middleware([\App\Middleware\App::class, "execute"]);
 
 $app->get("", [UserController::class,"index"]);
 $app->get("perfil", [UserController::class,"perfil"]);
+$app->get("carnet", [UserController::class,"carnetUser"]);
 $app->get("orles", [OrlesControllers::class,"orles"]);
 $app->get("contactar", [NavigationController::class,"contactar"]);
 $app->get("editar-orles", [OrlesControllers::class,"editarOrles"]);
@@ -50,6 +51,7 @@ $app->post("uploadUser", [UserController::class,"uploadUser"]);
 $app->get("logout", [UserController::class,"logout"]);
 $app->get("panel-de-control", [NavigationController::class,"panelDeControl"]);
 $app->post("updateUser", [UserController::class,"updateUser"]);
+
 
 
 

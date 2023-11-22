@@ -171,6 +171,11 @@ class UserController
         return $response;
     }
     
-    
+    public function carnetUser($request, $response, $container) {
+
+        $response->SetTemplate("carnet.php");
+        return $response;
+
+    }
     
 }
