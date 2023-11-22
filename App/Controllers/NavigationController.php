@@ -16,7 +16,7 @@ class NavigationController
     }
     public function crearOrles($request, $response, $container)
     {
-        $response->SetTemplate("crearOrles.php");
+        $response->SetTemplate("editarOrles.php");
 
         return $response;
     }

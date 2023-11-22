@@ -10,7 +10,7 @@
 <?php include "navbar.php" ?>
 
     <div class="flex text-center">
-    <input type="hidden" id="orlaId" value="<?= $orla['orla_id'] ?>">
+    <input type="hidden" id="orlaId" value="<?= $orla_id ?>">
         <div class="w-full max-w-xs  m-auto mt-5">
             <div class="border-b border-black">
             <h1 class="font-bold text-xl mb-3">Afegir Fotografia</h1>
