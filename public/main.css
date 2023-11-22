@@ -2293,6 +2293,10 @@ html {
   margin-left: 1rem;
   margin-right: 1rem;
 }
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -2358,6 +2362,18 @@ html {
 }
 .mt-8 {
   margin-top: 2rem;
+}
+.ml-2 {
+  margin-left: 0.5rem;
+}
+.mb-auto {
+  margin-bottom: auto;
+}
+.mt-auto {
+  margin-top: auto;
+}
+.mt-40 {
+  margin-top: 10rem;
 }
 .block {
   display: block;
@@ -2449,6 +2465,9 @@ html {
 .flex-1 {
   flex: 1 1 0%;
 }
+.flex-shrink-0 {
+  flex-shrink: 0;
+}
 .shrink-0 {
   flex-shrink: 0;
 }
@@ -2481,8 +2500,14 @@ html {
 .flex-wrap {
   flex-wrap: wrap;
 }
+.items-start {
+  align-items: flex-start;
+}
 .items-center {
   align-items: center;
+}
+.justify-start {
+  justify-content: flex-start;
 }
 .justify-end {
   justify-content: flex-end;
