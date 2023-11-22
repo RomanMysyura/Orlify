@@ -50,7 +50,6 @@ class UsersPDO
     return false;
 }
 
-
     public function registerUser($name, $surname, $email, $birthDate, $password)
     {
         // Puedes ajustar esta consulta según tu estructura de tabla

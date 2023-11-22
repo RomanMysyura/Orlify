@@ -18,6 +18,7 @@ use \Emeset\Contracts\Routers\Router;
 
 use App\Controllers\UserController;
 use App\Controllers\NavigationController;
+use App\Controllers\OrlesControllers;
 
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
@@ -40,12 +41,17 @@ $app->middleware([\App\Middleware\App::class, "execute"]);
 
 $app->get("", [UserController::class,"index"]);
 $app->get("perfil", [UserController::class,"perfil"]);
-$app->get("register", [UserController::class,"register"]);
+$app->get("orles", [OrlesControllers::class,"orles"]);
 $app->get("contactar", [NavigationController::class,"contactar"]);
-$app->get("crear-orles", [NavigationController::class,"crearOrles"]);
+$app->get("editar-orles", [OrlesControllers::class,"editarOrles"]);
 $app->post("register", [UserController::class,"register"]);
 $app->post("login", [UserController::class,"login"]);
 $app->get("logout", [UserController::class,"logout"]);
+$app->get("panel-de-control", [NavigationController::class,"panelDeControl"]);
+$app->post("updateUser", [UserController::class,"updateUser"]);
+
+
+
 
 
 

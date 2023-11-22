@@ -1,3 +1,4 @@
+<div>
 <nav class="bg-black">
     <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
         <div class="relative flex h-24 items-center justify-between">
@@ -18,8 +19,7 @@
                     <div class="flex space-x-4">
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                         <a href="/crear-orles"
-                            class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Crear
-                            orles</a>
+                            class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Crear orles</a>
                         <a href="/contactar"
                             class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Contactar</a>
                     </div>
@@ -30,13 +30,18 @@
                     <div>
                         <button type="button" class="" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
 
-                            
-                                <?php if (isset($_SESSION["logged"]) && $_SESSION["logged"]): ?>
-                                  <a href="/perfil"
+
+                            <?php if (isset($_SESSION["logged"]) && $_SESSION["logged"]): ?>
+                            <a href="/perfil"
                                 class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Perfil</a>
-                        <a href="/logout"
-                            class="text-red-500	 hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Tancar sessió</a>
-                        <?php endif; ?>
+                            <a href="/panel-de-control"
+                                class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Panel de control</a>
+                            <a href="/orles" 
+                                class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Les meves orles</a>
+                            <a href="/logout"
+                            class="text-red-500	 hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Tancar
+                            sessió</a>
+                            <?php endif; ?>
                         </button>
 
                     </div>
@@ -46,11 +51,12 @@
     </div>
     <div class="sm:hidden" id="mobile-menu">
         <div class="space-y-1 px-2 pb-3 pt-2">
-            <a href="/crear-orles"
-                class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Crear
+            <a href="/editar-orles"
+                class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Editar
                 orles</a>
             <a href="/contactar"
                 class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Contactar</a>
         </div>
     </div>
 </nav>
+</div>

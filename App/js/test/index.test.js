@@ -1,4 +1,4 @@
-import {add, resta} from "../hola.js";
+import {add, resta} from "../scripts.js";
 
 describe('Addition', () => {
     test('given 3 and 7 as inputs, should return 10', () => {
