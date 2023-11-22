@@ -48,6 +48,7 @@ $app->post("register", [UserController::class,"register"]);
 $app->post("login", [UserController::class,"login"]);
 $app->get("logout", [UserController::class,"logout"]);
 $app->get("panel-de-control", [NavigationController::class,"panelDeControl"]);
+$app->post("updateUser", [UserController::class,"updateUser"]);
 
 
 
