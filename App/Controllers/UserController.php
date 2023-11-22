@@ -149,17 +149,20 @@ class UserController
             $name = $_POST["name"];
             $surname = $_POST["surname"];
             $email = $_POST["email"];
-            $password = $_POST["password"];
     
-            $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : null;
+            $usersModel->editUser($id, $name, $surname, $email);
     
-            $usersModel->editUser($id,$name, $surname, $email, $hashedPassword);
-    
-            $response->SetTemplate("perfil.php");
-            return $response;
-            
+            header("Location: perfil");
+            exit();
         }
+    
+        $id = $_POST["id"];
+        $user = $usersModel->getUserById($id);
+    
+        $response->SetTemplate("perfil.php", ["user" => $user]);
         return $response;
     }
+    
+    
     
 }

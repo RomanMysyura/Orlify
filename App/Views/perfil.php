@@ -28,9 +28,6 @@
             <label for="email">Email:</label>
             <input type="text" id="email" name="email" class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300" placeholder="email" value="<?= $user['email'] ?>">
 
-            <label for="contrasenya">Contrasenya:</label>
-            <input type="password" id="password" name="password" class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300" placeholder="Contrasenya" value="<?= $user['password'] ?>">
-
             <div class="card-actions justify-end mt-5">
                 <button type="submit" class="btn btn-active btn-neutral">Editar</button>
             </div>

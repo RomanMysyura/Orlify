@@ -58,17 +58,14 @@ class UsersPDO
         $stmt = $this->sql->prepare($sql);
         $stmt->execute([$name, $surname, $email, $birthDate, $password]);
     }
-    public function editUser($id, $name, $surname, $email, $password) {
-        // Verifica si la contraseña está vacía antes de aplicar el hash
-        $hashedPassword = !empty($password) ? password_hash($password, PASSWORD_DEFAULT) : null;
+    public function editUser($id, $name, $surname, $email) {
     
-        $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email, password = :password WHERE id = :id");
+        $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email WHERE id = :id");
         $stmt->execute([
             ':id' => $id,
             ':name' => $name,
             ':surname' => $surname,
-            ':email' => $email,
-            ':password' => $hashedPassword  // Usa el valor hash, no null
+            ':email' => $email
         ]);
     }
     
