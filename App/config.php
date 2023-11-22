@@ -23,7 +23,7 @@ return [
         "server" => "localhost",
         "username" => "root",
         "password" => "1234",
-        "database" => "orles"
+        "database" => "orlify"
     ]
 ];
 include "../src/models/Users.php";
