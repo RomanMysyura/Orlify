@@ -42,6 +42,7 @@ $app->middleware([\App\Middleware\App::class, "execute"]);
 $app->get("", [UserController::class,"index"]);
 $app->get("perfil", [UserController::class,"perfil"]);
 $app->get("carnet", [UserController::class,"carnetUser"]);
+$app->get("photo", [UserController::class,"photoUser"]);
 $app->get("orles", [OrlesControllers::class,"orles"]);
 $app->get("contactar", [NavigationController::class,"contactar"]);
 $app->get("editar-orles", [OrlesControllers::class,"editarOrles"]);
