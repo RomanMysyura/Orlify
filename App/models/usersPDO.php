@@ -104,4 +104,29 @@ public function login($email, $password)
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function getUserSelectedPhoto($userId)
+    {
+        $sql = "SELECT * FROM photo WHERE user_id = ? AND selected_photo = 'si'";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([$userId]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+
+    public function selectPhotoNo($userId)
+    {
+        $sql = "UPDATE photo SET selected_photo = 'no' WHERE user_id = ?";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([$userId]);  
+    }
+
+    public function selectPhotoSi($userId, $photo)
+    {
+        $sql = "UPDATE photo SET selected_photo = 'si' WHERE user_id = ? AND id = ?";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([$userId, $photo]);  
+        
+    }
 }
