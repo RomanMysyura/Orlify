@@ -163,4 +163,37 @@ class UsersPDO
         $stmt->execute([$userId, $photo]);  
         
     }
+
+    public function getAlumnesByProfessor($userId)
+    {
+        $sql = "SELECT
+            u.id AS user_id,
+            u.name AS user_name,
+            u.surname AS user_surname,
+            u.email AS user_email,
+            u.phone AS user_phone,
+            u.dni AS user_dni,
+            u.birth_date AS user_birth_date,
+            u.role AS user_role,
+            g.id AS group_id,
+            g.name AS group_name,
+            p.name AS photo_name,
+            p.url AS photo_url,
+            p.selected_photo AS photo_selected
+        FROM users u
+        JOIN user_groups ug ON u.id = ug.user_id
+        JOIN groups g ON ug.group_id = g.id
+        LEFT JOIN photo p ON u.id = p.user_id
+        WHERE g.id = (SELECT ug2.group_id FROM user_groups ug2 WHERE ug2.user_id = :userId LIMIT 1)
+          AND u.role = 'Alumne'
+        LIMIT 0, 25;
+        ";
+    
+        $stmt = $this->sql->prepare($sql);
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    
 }

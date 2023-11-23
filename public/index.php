@@ -44,6 +44,7 @@ $app->get("carnet", [UserController::class,"carnetUser"]);
 $app->get("photo", [UserController::class,"photoUser"]);
 $app->get("orles", [OrlesControllers::class,"orles"]);
 $app->get("contactar", [NavigationController::class,"contactar"]);
+$app->get("cercador", [UserController::class,"cercador"]);
 $app->get("editar-orles", [OrlesControllers::class,"editarOrles"]);
 $app->post("register", [UserController::class,"register"]);
 $app->post("randomuser", [UserController::class,"randomuser"]);
