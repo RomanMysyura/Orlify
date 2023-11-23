@@ -66,9 +66,9 @@
             </div>
 
             <div class="crear_usuari ">
-               
-                <form class="bg-white shadow-md w-full max-w-xl mt-2 m-auto rounded px-8 pt-6 pb-8 mb-4" action="/randomuser"
-                    method="post">
+
+                <form class="bg-white shadow-md w-full max-w-xl mt-2 m-auto rounded px-8 pt-6 pb-8 mb-4"
+                    action="/randomuser" method="post">
                     <!-- Campos del formulario -->
                     <div class="mb-4">
                         <label class="block text-gray-700 text-md font-bold mb-4" for="username">
@@ -107,18 +107,34 @@
                         </div>
                     </div>
                     <div class="mt-5 flex items-center justify-center">
-    <button class="btn btn-outline inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none" type="submit">
-        Crear nou usuari
-    </button>
-</div>
+                        <button
+                            class="btn btn-outline inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
+                            type="submit">
+                            Crear nou usuari
+                        </button>
+                    </div>
                 </form>
                 <div class="flex justify-center mt-2">
-                <button id="crearUsuarioPrueba"
-                    class="btn btn-outline items-center justify-center  h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none">
-                    Crear Usuari de Prova
-                </button>
+                    <button id="crearUsuarioPrueba"
+                        class="btn btn-outline items-center justify-center  h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none">
+                        Crear Usuari de Prova
+                    </button>
                 </div>
-             
+                <form id="crearUsuariosForm" class="bg-white shadow-md w-full max-w-xl mt-5 m-auto rounded px-8 pt-6 pb-8 mb-4">
+                    <label class="block text-black text-md font-bold mb-4" for="numUsuarios">
+                        Crear x número d'usuaris
+                    </label>
+                    <input id="numUsuarios" name="numUsuarios" type="text" placeholder="Número d'usuaris"
+                        class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        <div class="mt-5 flex items-center justify-center">
+                        <button id="crearUsuariosBtn"
+                        class="btn btn-outline inline-flex mt-2 items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
+                        type="button">
+                        Crear
+                    </button>
+                    </div>
+                </form>
+
             </div>
 
 
@@ -133,64 +149,9 @@
 
     <?php include "footer.php" ?>
 
-    <script>
-    $(document).ready(function() {
-        $(".editorles, .editphoto, .crear_usuari").hide();
-
-        $("#editarUsuarioBtn").click(function() {
-            $(".editar_usuari, .crear_usuari, .editorles, .editphoto").hide();
-            $("#editorlesBtn, #editphotoBtn, #crearUsuarioBtn").removeClass("bg-gray-400").addClass(
-                "bg-white");
-
-            $(".editar_usuari").show();
-
-            $(this).removeClass("bg-white").addClass("bg-gray-400");
-        });
-
-        $("#crearUsuarioBtn").click(function() {
-            $(".editar_usuari, .editorles, .editphoto").hide();
-            $("#editarUsuarioBtn, #editphotoBtn, #editorlesBtn").removeClass("bg-gray-400").addClass(
-                "bg-white");
-
-            $(".crear_usuari").show();
-
-            $(this).removeClass("bg-white").addClass("bg-gray-400");
-        });
-
-        $("#editorlesBtn").click(function() {
-            $(".editar_usuari, .crear_usuari, .editorles, .editphoto").hide();
-            $("#editarUsuarioBtn, #editphotoBtn,  #crearUsuarioBtn").removeClass("bg-gray-400")
-                .addClass("bg-white");
-
-            $(".editorles").show();
-
-            $(this).removeClass("bg-white").addClass("bg-gray-400");
-        });
-
-        $("#editphotoBtn").click(function() {
-            $(".editar_usuari, .crear_usuari, .editorles, .editphoto").hide();
-            $("#editarUsuarioBtn, #editorlesBtn,  #crearUsuarioBtn").removeClass("bg-gray-400")
-                .addClass("bg-white");
-
-            $(".editphoto").show();
-
-            $(this).removeClass("bg-white").addClass("bg-gray-400");
-        });
-    });
-
-    document.getElementById('crearUsuarioPrueba').addEventListener('click', function() {
-        fetch('https://randomuser.me/api/')
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('mail').value = data.results[0].email;
-                document.getElementById('username').value = data.results[0].name.first;
-                document.getElementById('surname').value = data.results[0].name.last;
-                document.getElementById('birth_date').value = data.results[0].dob.date.substring(0, 10);
-                document.getElementById('password').value = 'testing10';
-            })
-            .catch(error => console.error('Error:', error));
-    });
-    </script>
+    <script src="../js/paneldecontrol.js"></script>
+    
+  
 </body>
 
 </html>
