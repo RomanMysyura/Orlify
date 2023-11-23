@@ -2447,6 +2447,9 @@ html {
 .mt-8 {
   margin-top: 2rem;
 }
+.ml-2 {
+  margin-left: 0.5rem;
+}
 .block {
   display: block;
 }
@@ -2551,9 +2554,6 @@ html {
 }
 .flex-grow {
   flex-grow: 1;
-}
-.cursor-pointer {
-  cursor: pointer;
 }
 .resize-none {
   resize: none;
@@ -2999,10 +2999,6 @@ html {
 .hover\:bg-blue-600:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
-}
-.hover\:bg-blue-700:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 .hover\:bg-blue-800:hover {
   --tw-bg-opacity: 1;

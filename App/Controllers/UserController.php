@@ -281,4 +281,24 @@ class UserController
         return $response;
          
     }
+
+    public function cercador($request, $response, $container)
+    {
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+    
+        $userId = $_SESSION["user_id"];
+
+
+        $alumnes = new UsersPDO($connection);
+
+        $alumnes = $alumnes->getAlumnesByProfessor($userId);
+
+
+        $response->set("alumnes", $alumnes);
+        $response->SetTemplate("cercador.php");
+
+        return $response;
+    }
 }
