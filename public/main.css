@@ -2292,6 +2292,10 @@ html {
 .m-auto {
   margin: auto;
 }
+.mx-4 {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -2299,10 +2303,6 @@ html {
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
-}
-.mx-4 {
-  margin-left: 1rem;
-  margin-right: 1rem;
 }
 .my-4 {
   margin-top: 1rem;
@@ -2362,41 +2362,20 @@ html {
 .mt-8 {
   margin-top: 2rem;
 }
-.ml-4 {
-  margin-left: 1rem;
-}
-.mt-4 {
-  margin-top: 1rem;
+.mb-6 {
+  margin-bottom: 1.5rem;
 }
 .ml-20 {
   margin-left: 5rem;
 }
-.mb-7 {
-  margin-bottom: 1.75rem;
-}
-.mb-6 {
-  margin-bottom: 1.5rem;
-}
-.ml-5 {
-  margin-left: 1.25rem;
-}
-.mr-5 {
-  margin-right: 1.25rem;
-}
-.ml-2 {
-  margin-left: 0.5rem;
+.ml-4 {
+  margin-left: 1rem;
 }
 .mr-6 {
   margin-right: 1.5rem;
 }
-.mr-4 {
-  margin-right: 1rem;
-}
-.mt-6 {
-  margin-top: 1.5rem;
-}
-.mr-10 {
-  margin-right: 2.5rem;
+.mt-4 {
+  margin-top: 1rem;
 }
 .block {
   display: block;
@@ -2437,23 +2416,23 @@ html {
 .h-32 {
   height: 8rem;
 }
+.h-40 {
+  height: 10rem;
+}
 .h-6 {
   height: 1.5rem;
 }
 .h-12 {
   height: 3rem;
 }
-.h-80 {
-  height: 20rem;
-}
-.h-40 {
-  height: 10rem;
-}
-.w-2\/6 {
-  width: 33.333333%;
+.w-24 {
+  width: 6rem;
 }
 .w-32 {
   width: 8rem;
+}
+.w-40 {
+  width: 10rem;
 }
 .w-48 {
   width: 12rem;
@@ -2476,11 +2455,8 @@ html {
 .w-12 {
   width: 3rem;
 }
-.w-24 {
-  width: 6rem;
-}
-.w-40 {
-  width: 10rem;
+.w-2\/6 {
+  width: 33.333333%;
 }
 .max-w-7xl {
   max-width: 80rem;
@@ -2541,6 +2517,9 @@ html {
 .items-center {
   align-items: center;
 }
+.justify-start {
+  justify-content: flex-start;
+}
 .justify-end {
   justify-content: flex-end;
 }
@@ -2580,6 +2559,9 @@ html {
 .rounded-box {
   border-radius: var(--rounded-box, 1rem);
 }
+.rounded-full {
+  border-radius: 9999px;
+}
 .rounded-lg {
   border-radius: 0.5rem;
 }
@@ -2592,13 +2574,6 @@ html {
 .rounded-xl {
   border-radius: 0.75rem;
 }
-.rounded-full {
-  border-radius: 9999px;
-}
-.rounded-l {
-  border-top-left-radius: 0.25rem;
-  border-bottom-left-radius: 0.25rem;
-}
 .rounded-b-lg {
   border-bottom-right-radius: 0.5rem;
   border-bottom-left-radius: 0.5rem;
@@ -2606,17 +2581,11 @@ html {
 .rounded-bl {
   border-bottom-left-radius: 0.25rem;
 }
-.rounded-br-lg {
-  border-bottom-right-radius: 0.5rem;
-}
 .border {
   border-width: 1px;
 }
 .border-b {
   border-bottom-width: 1px;
-}
-.border-b-2 {
-  border-bottom-width: 2px;
 }
 .border-black {
   --tw-border-opacity: 1;
@@ -2810,9 +2779,6 @@ html {
 .text-center {
   text-align: center;
 }
-.text-right {
-  text-align: right;
-}
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
@@ -2877,10 +2843,6 @@ html {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
 }
-.text-gray-300 {
-  --tw-text-opacity: 1;
-  color: rgb(209 213 219 / var(--tw-text-opacity));
-}
 .text-gray-400 {
   --tw-text-opacity: 1;
   color: rgb(156 163 175 / var(--tw-text-opacity));
@@ -2916,9 +2878,6 @@ html {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-.underline {
-  text-decoration-line: underline;
 }
 .shadow {
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
@@ -2979,6 +2938,10 @@ html {
   --tw-bg-opacity: 1;
   background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
+.hover\:bg-blue-700:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
 .hover\:bg-blue-800:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(30 64 175 / var(--tw-bg-opacity));
@@ -2990,10 +2953,6 @@ html {
 .hover\:bg-gray-400:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(156 163 175 / var(--tw-bg-opacity));
-}
-.hover\:bg-gray-700:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(55 65 81 / var(--tw-bg-opacity));
 }
 .hover\:bg-gray-800:hover {
   --tw-bg-opacity: 1;
@@ -3010,10 +2969,6 @@ html {
 .hover\:bg-white:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-.hover\:bg-blue-700:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(29 78 216 / var(--tw-bg-opacity));
 }
 .hover\:text-black:hover {
   --tw-text-opacity: 1;
