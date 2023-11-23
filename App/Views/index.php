@@ -205,13 +205,23 @@
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
-                    
-
-
-
-
-                    
-
+                    <div class="mt-5">
+    <label class="block text-gray-700 text-md font-bold mb-4" for="group">
+        Selecciona el teu curs
+    </label>
+    <select id="group" name="group" class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit">
+        <option value="1">1 SMX</option>
+        <option value="2">2 SMX</option>
+        <option value="3">1 DAW</option>
+        <option value="4">2 DAW</option>
+        <option value="5">1 ESO</option>
+        <option value="6">2 ESO</option>
+        <option value="7">3 ESO</option>
+        <option value="8">4 ESO</option>
+        <option value="9">1 BAT</option>
+        <option value="10">2 BAT</option>
+    </select>
+</div>
 
                     <div class="flex items-center justify-between mt-10">
                         <button

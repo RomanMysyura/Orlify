@@ -59,7 +59,17 @@ public function login($email, $password)
         $sql = "INSERT INTO users (name, surname, email, birth_date, password) VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->sql->prepare($sql);
         $stmt->execute([$name, $surname, $email, $birthDate, $password]);
+        $userId = $this->sql->lastInsertId();
+
+    return $userId;
     }
+    public function assignUserToGroup($userId, $groupId)
+{
+    $sql = "INSERT INTO user_groups (user_id, group_id) VALUES (?, ?)";
+    $stmt = $this->sql->prepare($sql);
+    $stmt->execute([$userId, $groupId]);
+}
+
 
     public function getGroups()
     {

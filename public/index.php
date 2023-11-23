@@ -23,7 +23,6 @@ use App\Controllers\OrlesControllers;
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../vendor/autoload.php";
-include "../App/Controllers/perfil.php";
 include "../App/Controllers/error.php";
 include "../App/Controllers/login.php";
 include "../App/Controllers/validarLogin.php";
