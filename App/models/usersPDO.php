@@ -34,9 +34,11 @@ class UsersPDO
 
 
     
-    public function login($email, $password)
+public function login($email, $password)
 {
-    $sql = "SELECT * FROM users WHERE email = ?";
+    $sql = "SELECT u.*, ug.group_id FROM users u
+            JOIN user_groups ug ON u.id = ug.user_id
+            WHERE u.email = ?";
     $stmt = $this->sql->prepare($sql);
     $stmt->execute([$email]);
 
@@ -47,8 +49,9 @@ class UsersPDO
         return $user;
     }
 
-    return false;
+    return null;
 }
+
 
     public function registerUser($name, $surname, $email, $birthDate, $password)
     {
@@ -57,6 +60,21 @@ class UsersPDO
         $stmt = $this->sql->prepare($sql);
         $stmt->execute([$name, $surname, $email, $birthDate, $password]);
     }
+
+    public function getGroups()
+    {
+        $sql = "SELECT * FROM groups";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute();
+    
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
+
+
+
+
     public function editUser($id, $name, $surname, $email) {
     
         $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email WHERE id = :id");
@@ -68,4 +86,12 @@ class UsersPDO
         ]);
     }
     
+    public function getUserPhotos($userId)
+    {
+        $sql = "SELECT * FROM photo WHERE user_id = ?";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([$userId]);
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 }

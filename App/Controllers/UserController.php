@@ -75,14 +75,14 @@ class UserController
         $loggedInUser = $usersModel->login($email, $password);
     
         if ($loggedInUser) {
-            $_SESSION["user_id"] = $loggedInUser["id"];  
+            $_SESSION["user_id"] = $loggedInUser["id"];
+            $_SESSION["group_id"] = $loggedInUser["group_id"];
             $_SESSION["logged"] = true;
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
-
-            
+    
             $response->set("user", $user);
-            
+    
             $response->SetTemplate("perfil.php");
         } else {
             $response->SetTemplate("index.php");
@@ -92,6 +92,7 @@ class UserController
     
         return $response;
     }
+    
 
     
 
@@ -136,6 +137,35 @@ class UserController
         return $response;
     }
 
+    public function randomuser($request, $response, $container)
+    {
+        // Obtén la conexión a la base de datos
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+
+        $usersModel = new UsersPDO($connection);
+
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $name = $_POST["username"];
+            $surname = $_POST["surname"];
+            $email = $_POST["mail"];
+            $birthDate = $_POST["birth_date"];
+            $password = $_POST["password"];
+
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $response->set("error_message_register", "La conta creada correctament");
+            $response->SetTemplate("paneldecontrol.php");
+            $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
+
+            
+            return $response;
+        }
+
+        $response->SetTemplate("paneldecontrol.php");
+        return $response;
+    }
+
     public function updateUser($request, $response, $container)
     {
        
@@ -177,5 +207,24 @@ class UserController
         return $response;
 
     }
+    
+    public function photoUser($request, $response, $container) {
+
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+
+        $userId = $_SESSION["user_id"];
+
+        $usersModel = new UsersPDO($connection);
+
+        $photos = $usersModel->getUserPhotos($userId);
+
+        $response->set("photos", $photos);
+        $response->SetTemplate("photo.php");
+        return $response;
+
+    }
+
     
 }
