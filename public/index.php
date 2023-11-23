@@ -47,6 +47,7 @@ $app->get("orles", [OrlesControllers::class,"orles"]);
 $app->get("contactar", [NavigationController::class,"contactar"]);
 $app->get("editar-orles", [OrlesControllers::class,"editarOrles"]);
 $app->post("register", [UserController::class,"register"]);
+$app->post("randomuser", [UserController::class,"randomuser"]);
 $app->post("login", [UserController::class,"login"]);
 $app->post("uploadUser", [UserController::class,"uploadUser"]);
 $app->get("logout", [UserController::class,"logout"]);
