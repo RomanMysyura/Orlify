@@ -94,9 +94,27 @@ class UsersPDO
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getAllGroups()
+    {
+        $sql = "SELECT * FROM groups";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute();
 
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 
-
+    public function getUsersInGroup($groupId)
+    {
+        $sql = "SELECT users.* FROM users
+                JOIN user_groups ON users.id = user_groups.user_id
+                WHERE user_groups.group_id = :group_id";
+    
+        $stmt = $this->sql->prepare($sql);
+        $stmt->bindParam(':group_id', $groupId, \PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
 
 
     public function editUser($id, $name, $surname, $email, $phone)
