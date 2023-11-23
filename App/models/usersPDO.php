@@ -60,6 +60,21 @@ public function login($email, $password)
         $stmt = $this->sql->prepare($sql);
         $stmt->execute([$name, $surname, $email, $birthDate, $password]);
     }
+
+    public function getGroups()
+    {
+        $sql = "SELECT * FROM groups";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute();
+    
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+
+
+
+
+
     public function editUser($id, $name, $surname, $email) {
     
         $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email WHERE id = :id");
