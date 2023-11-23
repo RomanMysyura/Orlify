@@ -123,16 +123,21 @@ class UserController
             $email = $_POST["mail"];
             $birthDate = $_POST["birth_date"];
             $password = $_POST["password"];
-
+            $groupId = $_POST["group"]; // Nuevo campo para obtener el grupo seleccionado
+    
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $response->set("error_message_register", "La conta creada correctament");
+            $response->set("error_message_register", "La cuenta creada correctamente");
             $response->SetTemplate("index.php");
-            $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
-
-            
+    
+            // Registrar usuario y obtener el ID del nuevo usuario
+            $userId = $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
+    
+            // Asociar el usuario al grupo en la tabla user_groups
+            $usersModel->assignUserToGroup($userId, $groupId);
+    
             return $response;
         }
-
+    
         $response->SetTemplate("index.php");
         return $response;
     }
