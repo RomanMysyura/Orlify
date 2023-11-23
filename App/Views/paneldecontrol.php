@@ -66,14 +66,8 @@
             </div>
 
             <div class="crear_usuari ">
-
-                <button id="crearUsuarioPrueba"
-                    class="btn btn-outline mt-5 items-center justify-start h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none">
-                    Crear Usuari de Prova
-                </button>
-
-                <!-- Formulario -->
-                <form class="bg-white shadow-md w-full max-w-md m-auto rounded px-8 pt-6 pb-8 mb-4" action="/register"
+               
+                <form class="bg-white shadow-md w-full max-w-xl mt-2 m-auto rounded px-8 pt-6 pb-8 mb-4" action="/randomuser"
                     method="post">
                     <!-- Campos del formulario -->
                     <div class="mb-4">
@@ -112,15 +106,19 @@
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
-                    <div class="flex items-center justify-between mt-10">
-
-                        <button
-                            class="btn btn-outline ml-auto inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
-                            type="submit">
-                            Crear nou usuari
-                        </button>
-                    </div>
+                    <div class="mt-5 flex items-center justify-center">
+    <button class="btn btn-outline inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none" type="submit">
+        Crear nou usuari
+    </button>
+</div>
                 </form>
+                <div class="flex justify-center mt-2">
+                <button id="crearUsuarioPrueba"
+                    class="btn btn-outline items-center justify-center  h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none">
+                    Crear Usuari de Prova
+                </button>
+                </div>
+             
             </div>
 
 
