@@ -50,6 +50,16 @@ class UserController
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("userPhoto", $userPhoto);
+        
+            // Llama al método del modelo para obtener el grupo
+            $group = $usersModel->getGroupForUser($userId);
+           
+           
+            
+        
+            // Pasa los datos a la vista
+            $response->set("user", $user);
+            $response->set("group", $group);
 
             // Establece la plantilla
             $response->SetTemplate("perfil.php");
@@ -124,6 +134,8 @@ class UserController
             $name = $_POST["username"];
             $surname = $_POST["surname"];
             $email = $_POST["mail"];
+            $phone = $_POST["phone"];
+            $dni = $_POST["dni"];
             $birthDate = $_POST["birth_date"];
             $password = $_POST["password"];
             $groupId = $_POST["group"]; // Nuevo campo para obtener el grupo seleccionado
@@ -133,7 +145,7 @@ class UserController
             $response->SetTemplate("index.php");
     
             // Registrar usuario y obtener el ID del nuevo usuario
-            $userId = $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
+            $userId = $usersModel->registerUser($name, $surname, $email,$phone,$dni, $birthDate, $hashedPassword);
     
             // Asociar el usuario al grupo en la tabla user_groups
             $usersModel->assignUserToGroup($userId, $groupId);
@@ -195,8 +207,9 @@ class UserController
             $name = $_POST["name"];
             $surname = $_POST["surname"];
             $email = $_POST["email"];
+            $phone = $_POST["phone"];
     
-            $usersModel->editUser($id, $name, $surname, $email);
+            $usersModel->editUser($id, $name, $surname, $email,$phone);
     
             header("Location: perfil");
             exit();
@@ -208,8 +221,8 @@ class UserController
         $response->SetTemplate("perfil.php", ["user" => $user]);
         return $response;
     }
-    
-    public function carnetUser($request, $response, $container) {
+    public function carnetUser($request, $response, $container)
+    {
         // Verifica si el usuario está autenticado
         if ($_SESSION["logged"]) {
             // Obtén la conexión a la base de datos
@@ -223,9 +236,16 @@ class UserController
             // Obtén los datos del usuario actual
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
-
+        
+            // Llama al método del modelo para obtener el grupo
+            $group = $usersModel->getGroupForUser($userId);
+           
+           
+            
+        
             // Pasa los datos a la vista
             $response->set("user", $user);
+            $response->set("group", $group);
 
             // Establece la plantilla
             $response->SetTemplate("carnet.php");
@@ -236,6 +256,7 @@ class UserController
 
         return $response;
     }
+ 
 
     
     public function photoUser($request, $response, $container) {

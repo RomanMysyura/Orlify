@@ -200,6 +200,17 @@
                                 id="birth_date" name="birth_date" type="date">
                     </div>
                     <div class="mt-5">
+                    <div class="relative">
+                            <input id="phone" name="phone" type="text" placeholder="Telèfon" class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <div class="relative">
+                            <input id="dni" name="dni" type="text" placeholder="DNI" class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        </div>
+                    </div>
+                    <div class="mt-5">
                         <div class="relative">
                             <input id="password" name="password" type="password" placeholder="Contrasenya"
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />

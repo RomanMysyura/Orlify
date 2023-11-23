@@ -26,7 +26,7 @@
             <div>
                 <h2 class="card-title text-black ml-20"><?= $user['name']; ?></h2>
                 <h2 class="card-title text-black ml-20"><?= $user['surname']; ?></h2>
-                <h2 class="card-title text-black ml-20"><?= $user['curso']; ?></h2>
+                <h2 class="card-title text-black ml-20"><?= isset($group) ? $group : '' ?></h2>
             </div>
         </div>
         <img src="img/qr.png" alt="Ejemplo" class="w-24 h-24 object-cover mr-6 mt-4">
