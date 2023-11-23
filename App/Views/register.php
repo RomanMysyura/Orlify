@@ -12,7 +12,6 @@
       <div class="shadow-form text-center form-dades">
           <h1 class="account">Crea un compte</h1>
           <form class="form-registrar" action="/do_register" method="post">
-              <input type="hidden" name="/" value="do_register">
               <div class="mb-3">
                   <input value="usuari" name="rol" type="hidden" class="form-control" id="input" aria-describedby="emailHelp">
                   <div id="emailHelp" class="form-text"></div>
@@ -28,8 +27,13 @@
                   <div id="emailHelp" class="form-text"></div>
               </div>
               <div class="mb-3">
+                  <label for="exampleInputLastName1" class="form-label h6">telefon</label>
+                  <input name="tel" type="tel" class="form-control" id="input" aria-describedby="emailHelp">
+                  <div id="emailHelp" class="form-text"></div>
+              </div>
+              <div class="mb-3">
                   <label for="exampleInputEmail1" class="form-label h6">dni</label>
-                  <input name="email" type="text" class="form-control" id="input" aria-describedby="emailHelp">
+                  <input name="dni" type="text" class="form-control" id="input" aria-describedby="emailHelp">
                   <div id="emailHelp" class="form-text"></div>
               </div>
               <div class="mb-3">
