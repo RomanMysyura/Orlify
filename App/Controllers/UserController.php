@@ -40,13 +40,16 @@ class UserController
 
             // Crea una instancia del modelo UsersPDO
             $usersModel = new UsersPDO($connection);
+            $userPhoto = new UsersPDO($connection);
 
             // Obtén los datos del usuario actual
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
+            $userPhoto = $usersModel->getUserSelectedPhoto($userId);
 
             // Pasa los datos a la vista
             $response->set("user", $user);
+            $response->set("userPhoto", $userPhoto);
 
             // Establece la plantilla
             $response->SetTemplate("perfil.php");
@@ -253,5 +256,29 @@ class UserController
 
     }
 
+
+    public function uploadPhoto($request, $response, $container) {
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
     
+        $userId = $_SESSION["user_id"];
+    
+        $UploadPhotoNo = new UsersPDO($connection);
+        $UploadPhotosi = new UsersPDO($connection);
+    
+        if (isset($_POST["selectedPhoto"])) {
+            $selectedPhoto = $_POST["selectedPhoto"];
+    
+            $UploadPhotoNo->selectPhotoNo($userId);
+            $UploadPhotosi->selectPhotoSi($userId, $selectedPhoto);
+            header("Location: perfil");
+            exit();
+
+        } else {
+            echo 'error';
+        }
+        return $response;
+         
+    }
 }

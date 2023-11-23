@@ -19,7 +19,7 @@
         <div class="card-body items-center text-center">
         <div  class="tooltip avatar" data-tip="Editar foto">
             <div class="w-24 rounded-full">
-             <a href="/photo"><img src="../img/3.jpeg" /></a>
+             <a href="/photo"><img src="" /></a>
             </div>
         </div>
             <h2 class="text-center text-lg font-bold mb-5">Les meves dades</h2>
