@@ -2809,6 +2809,9 @@ html {
 .fill-current {
   fill: currentColor;
 }
+.fill-slate-600 {
+  fill: #475569;
+}
 .stroke-current {
   stroke: currentColor;
 }
@@ -3119,6 +3122,9 @@ html {
 .focus\:bg-white:focus {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+.focus\:fill-blue-200:focus {
+  fill: #bfdbfe;
 }
 .focus\:stroke-blue-200:focus {
   stroke: #bfdbfe;
