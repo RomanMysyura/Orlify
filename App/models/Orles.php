@@ -62,6 +62,21 @@ class Orles
         return $result;
     }
     
+    public function eliminarOrla($orla_id)
+    {
+        // Eliminar registros de orla_users asociados a la orla
+        $stmtOrlaUsers = $this->sql->prepare("DELETE FROM orla_users WHERE orla_id = :orla_id");
+        $stmtOrlaUsers->bindParam(":orla_id", $orla_id);
+        $stmtOrlaUsers->execute();
+    
+        // Ahora puedes eliminar la orla de la tabla orla
+        $stmtOrla = $this->sql->prepare("DELETE FROM orla WHERE id = :orla_id");
+        $stmtOrla->bindParam(":orla_id", $orla_id);
+        $stmtOrla->execute();
+    
+        // Redireccionar o retornar según sea necesario
+    }
+    
 
 
     public function addUsersToOrla($orla_id, $selected_users)
@@ -74,6 +89,7 @@ class Orles
             $stmt->execute();
         }
     }
+    
     
     
 
