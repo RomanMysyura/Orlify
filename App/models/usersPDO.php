@@ -221,7 +221,7 @@ class UsersPDO
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
     public function deleteUser($userid){
-        $stm = $this->sql->prepare("DELETE FROM users WHERE id = :id");
+        $stm = $this->sql->prepare("DELETE * FROM users WHERE id = :id");
         $stm->execute([':id' => $userid]);
     }
 }
