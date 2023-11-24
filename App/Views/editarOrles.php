@@ -114,12 +114,13 @@
             </div>
             <div class="flex flex-wrap mt-2">
                 <?php foreach ($photos as $photo) : ?>
-                <div class="photo-container bg-gray-400">
-                    <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>" class="w-32 h-38 m-2">
+                <div
+                    class="photo-container relative overflow-hidden transform transition-transform duration-300 hover:scale-110">
+                    <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>" class="w-32 h-40 m-2">
+                    <p><?= $photo['name'] ?> </p>
                     <button class="m-2 btn btn-xs btn-outline btn-error">Eliminar</button>
                 </div>
                 <?php endforeach; ?>
-
             </div>
 
         </div>
