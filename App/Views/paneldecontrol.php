@@ -72,11 +72,13 @@
                                         usuari</button>
                                 </td>
                                 <td>
-                                    <a href="/paneldecontrol?id<?= $user['id']; ?>"action="/deleteUser" method="post"
+                                    <button>
+                                    <a href="/paneldecontrol?id<?= $user['id']; ?>"
                                         class="bg-red-500 text-white py-2 px-4 rounded"
                                         onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">
                                         Eliminar <i class="fa-solid fa-trash"></i>
                                     </a>
+                                    </button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>

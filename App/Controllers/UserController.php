@@ -372,15 +372,22 @@ class UserController
         return $response;
 
     }
-    public function deleteUser($request, $response, $container) {
-        $userId = $_GET["id"];
+    public function deleteUser($request, $response, $container)
+    {
+        $user_id = $_GET['id']; // Obtener el ID de la orla desde la URL
+    
         $dbConfig = $container["config"]["database"];
         $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
         $connection = $dbModel->getConnection();
     
         $usersModel = new UsersPDO($connection);
-        $usersModel->deleteUser($userId);
-        header("Location: /paneldecontrol");
-        exit();
+        $usersModel->deleteUser($user_id);
+        $userId = $_SESSION["user_id"];
+        $users = $usersModel-IdPanel($userId);
+    
+        $response->set("users", $users);
+    
+        $response->SetTemplate("paneldecontrol.php");
+        return $response;
     }
     }
