@@ -58,6 +58,10 @@ $app->post("uploadPhoto", [UserController::class,"uploadPhoto"]);
 
 
 
+
+
+$app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"]);
+
 $app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"]);
 
 

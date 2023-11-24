@@ -53,13 +53,30 @@ class Orles
         $stmt = $this->sql->prepare("SELECT p.id AS photo_id, p.name, p.url
                                     FROM photo p
                                     JOIN users u ON p.user_id = u.id
-                                    JOIN user_groups ug ON u.id = ug.user_id
-                                    JOIN groups g ON ug.group_id = g.id
-                                    JOIN orla o ON g.id = o.group_id
+                                    JOIN orla_users ou ON u.id = ou.user_id
+                                    JOIN orla o ON ou.orla_id = o.id
                                     WHERE o.id = :orla_id");
         $stmt->bindParam(":orla_id", $orla_id);
         $stmt->execute();
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }
+    
+
+
+    public function addUsersToOrla($orla_id, $selected_users)
+    {
+        // Iterar sobre los usuarios seleccionados y realizar la inserción en la tabla orla_users
+        foreach ($selected_users as $user_id) {
+            $stmt = $this->sql->prepare("INSERT INTO orla_users (user_id, orla_id) VALUES (:user_id, :orla_id)");
+            $stmt->bindParam(":user_id", $user_id);
+            $stmt->bindParam(":orla_id", $orla_id);
+            $stmt->execute();
+        }
+    }
+    
+    
+
+
+    
 }
