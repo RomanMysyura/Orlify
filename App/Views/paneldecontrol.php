@@ -73,7 +73,7 @@
                                 </td>
                                 <td>
                                     <button>
-                                    <a href="/paneldecontrol?id=<?= $user['id']; ?>"
+                                    <a href="/deleteUser?id=<?= $user['id']; ?>"
                                         class="bg-red-500 text-white py-2 px-4 rounded"
                                         onclick="return confirm('Estas segur que vols eliminar aquest usuari?')">
                                         Eliminar <i class="fa-solid fa-trash"></i>
