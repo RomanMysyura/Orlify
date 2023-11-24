@@ -16,18 +16,21 @@
 
 use \Emeset\Contracts\Routers\Router;
 
+use App\Controllers\UserController;
+use App\Controllers\NavigationController;
+use App\Controllers\OrlesControllers;
+
+
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../vendor/autoload.php";
-include "../App/Controllers/portada.php";
-
-include "../App/Controllers/test.php";
-
 include "../App/Controllers/error.php";
 include "../App/Controllers/login.php";
 include "../App/Controllers/validarLogin.php";
 include "../App/Controllers/tancarSessio.php";
+
+
 include "../App/Middleware/auth.php";
-include "../App/Middleware/test.php";
+
 
 /* Creem els diferents models */
 $contenidor = new \App\Container(__DIR__ . "/../App/config.php");
@@ -35,10 +38,35 @@ $contenidor = new \App\Container(__DIR__ . "/../App/config.php");
 $app = new \Emeset\Emeset($contenidor);
 $app->middleware([\App\Middleware\App::class, "execute"]);
 
-$app->route("", "ctrlPortada");
-$app->route("test", "ctrlTest");
+$app->get("", [UserController::class,"index"]);
+$app->get("perfil", [UserController::class,"perfil"]);
+$app->get("carnet", [UserController::class,"carnetUser"]);
+$app->get("photo", [UserController::class,"photoUser"]);
+$app->get("orles", [OrlesControllers::class,"orles"]);
+$app->get("contactar", [UserController::class,"contactar"]);
+$app->post("enviarcontactar", [UserController::class,"enviarcontactar"]);
+$app->get("cercador", [UserController::class,"cercador"]);
+$app->get("editar-orles", [OrlesControllers::class,"editarOrles"]);
+$app->post("register", [UserController::class,"register"]);
+$app->post("randomuser", [UserController::class,"randomuser"]);
+$app->post("login", [UserController::class,"login"]);
+$app->post("uploadUser", [UserController::class,"uploadUser"]);
+$app->get("logout", [UserController::class,"logout"]);
+$app->get("panel-de-control", [NavigationController::class,"panelDeControl"]);
+$app->post("updateUser", [UserController::class,"updateUser"]);
+$app->post("uploadPhoto", [UserController::class,"uploadPhoto"]);
+$app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"]);
+$app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"]);
 
-$app->route("login", "ctrlLogin");
+
+$app->get("eliminar-orla", [OrlesControllers::class,"eliminarOrla"]);
+
+
+
+
+
+
+
 $app->route("validar-login", "ctrlValidarLogin");
 $app->route("privat", [\App\Controllers\Privat::class, "privat"], ["auth"]);
 $app->route("tancar-sessio", "ctrlTancarSessio", ["auth"]);

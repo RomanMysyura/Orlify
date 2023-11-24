@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/main.css">
+    <title><?=$app_config["app"]["name"]?></title>
+</head>
+
+<body class="bg-gray-200 ">
+    <?php include "navbar.php"?>
+
+    <div class="flex">
+        <div class="flex-1 p-4 m-9 mt-16 hidden md:flex flex-col ">
+            <p class="text-7xl text-center font-bold">
+                <span class="bg-gradient-to-r text-black bg-clip-text animate-fadeInGradient">LA TEVA ORLA EN POCS
+                    PASOS</span>
+            </p>
+            <div class="w-full max-w-xl mt-5 mx-auto overflow-hidden">
+                <div id="slider" class="carousel carousel-end rounded-box flex transition-transform duration-500 ease-in-out">
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img1.png" alt="Imagen 1" class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img2.png" alt="Imagen 2" class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img3.png" alt="Imagen 3" class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img4.png" alt="Imagen 4" class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img5.png" alt="Imagen 5" class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img6.png" alt="Imagen 6" class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <!-- <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img7.png" alt="Imagen 7" class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img8.png" alt="Imagen 8" class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img9.png" alt="Imagen 9" class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img10.png" alt="Imagen 10" class="w-full h-full object-cover transition-opacity duration-500 "></div> -->
+
+                </div>
+            </div>
+            <p class="text-xl text-center mt-10 text-black">No necessites instal·lar ni descarregar res i la pots fer
+                des de qualsevol ordinador. I podràs descarregar una prova en PDF!</p>
+        </div>
+
+
+
+
+
+
+        <div class="flex-1  p-4 m-2">
+            <div class="w-full max-w-md  m-auto">
+                <?php if(isset($error_message_login)): ?>
+                <div role="alert" class="alert alert-error mb-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span><?php echo $error_message_login; ?></span>
+                </div>
+                <?php endif; ?>
+
+
+
+
+
+                <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 " action="/login" method="post">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-md font-bold mb-4" for="username">
+                            Iniciar sessió
+                        </label>
+                        <div class="mt-5">
+                            <div class="relative">
+                                <input id="email" name="email" type="email" placeholder="Correu electronic"
+                                    class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="relative">
+                            <input id="pass" name="password" type="password" placeholder="Contrasenya"
+                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between mt-10">
+                        <button
+                            class=" btn btn-outline ml-auto inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-gray-900 rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
+                            type="submit">
+                            Iniciar sessió
+                        </button>
+                    </div>
+                </form>
+
+
+                <?php if(isset($error_message_register)): ?>
+                <div role="alert" class="alert alert-success mb-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span><?php echo $error_message_register; ?></span>
+                </div>
+                <?php endif; ?>
+                <form class="bg-white shadow-md w-full max-w-md m-auto rounded px-8 pt-6 pb-8 mb-4" action="/register"
+                    method="post">
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-md font-bold mb-4" for="username">
+                            Crear nou compte
+                        </label>
+                        <div class="mt-5">
+                            <div class="relative">
+                                <input id="mail" name="mail" type="text" placeholder="Correu electronic"
+                                    class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="relative">
+                            <input id="username" name="username" type="text" placeholder="Nom"
+                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="relative">
+                            <input id="surname" name="surname" type="text" placeholder="Cognoms"
+                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        </div>
+                    </div>
+                    <div class="mb-4 mt-5">
+                        <label class="text-xs text-black top-4" for="birth_date">
+                            Data de naixement
+                            <input
+                                class="bg-gray-100 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                id="birth_date" name="birth_date" type="date">
+                    </div>
+                    <div class="mt-5">
+                        <div class="relative">
+                            <input id="phone" name="phone" type="text" placeholder="Telèfon"
+                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <div class="relative">
+                            <input id="dni" name="dni" type="text" placeholder="DNI"
+                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <div class="relative">
+                            <input id="password" name="password" type="password" placeholder="Contrasenya"
+                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        </div>
+                    </div>
+                    <div class="mt-5">
+                        <label class="block text-gray-700 text-md font-bold mb-4" for="group">
+                            Selecciona el teu curs
+                        </label>
+                        <select id="group" name="group"
+                            class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit">
+                            <option value="1">1 SMX</option>
+                            <option value="2">2 SMX</option>
+                            <option value="3">1 DAW</option>
+                            <option value="4">2 DAW</option>
+                            <option value="5">1 ESO</option>
+                            <option value="6">2 ESO</option>
+                            <option value="7">3 ESO</option>
+                            <option value="8">4 ESO</option>
+                            <option value="9">1 BAT</option>
+                            <option value="10">2 BAT</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center justify-between mt-10">
+                        <button
+                            class="btn btn-outline ml-auto inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
+                            type="submit">
+                            Registrarse
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    </div>
+    <script>
+    const slider = document.getElementById('slider');
+
+// Configuración del slider
+const intervaloTiempo = 2000; // Intervalo de tiempo en milisegundos (2 segundos en este caso)
+
+function moverSlider() {
+    const anchoSlide = document.querySelector('.slide').offsetWidth;
+    slider.style.transition = 'transform 0.8s ease-in-out';
+    slider.style.transform = `translateX(-${anchoSlide}px)`;
+
+    // Cuando la animación de transición ha terminado, mueve el primer slide al final
+    setTimeout(() => {
+        const primerSlide = slider.firstElementChild;
+        slider.appendChild(primerSlide);
+        slider.style.transition = 'none';
+        slider.style.transform = 'translateX(0)';
+    }, 800); // Ajusta el tiempo de espera a la duración de la transición
+}
+
+// Inicia el slider automáticamente
+setInterval(moverSlider, intervaloTiempo);
+    </script>
+    <script src="/js/bundle.js"></script>
+
+    <?php include "footer.php" ?>
+</body>
+
+</html>
