@@ -221,9 +221,13 @@ class UsersPDO
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
     public function deleteUser($userid){
-        $stm = $this->sql->prepare("DELETE FROM user_groups WHERE id = :id");
-        $stm->execute([':id' => $userid]);
+        // Primero, eliminar de la tabla user_groups
+        $stm = $this->sql->prepare("DELETE FROM user_groups WHERE user_id = :user_id");
+        $stm->execute([':user_id' => $userid]);
+    
+        // Luego, eliminar de la tabla users
         $stm = $this->sql->prepare("DELETE FROM users WHERE id = :id");
         $stm->execute([':id' => $userid]);
     }
+    
 }
