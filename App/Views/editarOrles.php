@@ -12,41 +12,43 @@
     <?php include "navbar.php" ?>
 
     <div class="flex text-center">
-        <input type="hidden" id="orlaId" value="<?= $orla_id ?>">
+
         <div class="w-full max-w-xs  m-auto mt-5">
 
 
 
-        <div class="border-b border-black p-4">
-    <h1 class="font-bold text-xl mb-3">Seleccionar usuarios y grupos</h1>
+            <div class="border-b border-black p-4">
+                <h1 class="font-bold text-xl mb-3">Seleccionar usuarios y grupos</h1>
 
-    <form action="/select_users_to_orla" method="post">
+                <form action="/add_users_to_orla" method="post">
+                    <!-- Agregar el campo oculto para el ID de la orla -->
+                    <input type="hidden" name="orla_id" value="<?= $orla_id ?>">
 
-        <?php
-        echo '<ul class="menu bg-base-200 w-full rounded-box ">';
-        foreach ($groups as $group) {
-            echo '<li>';
-            echo '<details>';
-            echo '<summary>' . $group['id'] . " - " . $group['name'] . '</summary>';
-            echo '<ul>';
+                    <?php
+    echo '<ul class="menu bg-base-200 w-full rounded-box ">';
+    foreach ($groups as $group) {
+        echo '<li>';
+        echo '<details>';
+        echo '<summary>' . $group['id'] . " - " . $group['name'] . '</summary>';
+        echo '<ul>';
 
-            // Verificar si $usersInGroup está definido antes de intentar recorrerlo
-            if (isset($usersInGroups[$group['id']])) {
-                foreach ($usersInGroups[$group['id']] as $user) {
-                    echo '<li><label><input type="checkbox" name="selected_users[]" value=' . $user['id'] . ' />' . $user['name'] . '</label></li>';
-                }
+        if (isset($usersInGroups[$group['id']])) {
+            foreach ($usersInGroups[$group['id']] as $user) {
+                echo '<li><label><input type="checkbox" name="selected_users[]" value=' . $user['id'] . ' />' . $user['name'] . '</label></li>';
             }
-
-            echo '</ul>';
-            echo '</details>';
-            echo '</li>';
         }
-        echo '</ul>';
-        ?>
 
-        <button type="submit" class="btn btn-active btn-neutral">Seleccionar</button>
-    </form>
-</div>
+        echo '</ul>';
+        echo '</details>';
+        echo '</li>';
+    }
+    echo '</ul>';
+    ?>
+
+                    <button type="submit" class="btn btn-active btn-neutral">Seleccionar</button>
+                </form>
+
+            </div>
 
 
 
@@ -111,19 +113,14 @@
                 <h1 class="font-bold text-xl mb-3">Totes les Fotografies</h1>
             </div>
             <div class="flex flex-wrap mt-2">
-                <?php
-
-            foreach ($photos as $photo) ?>
-                <div class="photo-container">
-                    <img src=" <?= $photo['url'] ?>" alt="Photo" class="w-32 h-38 m-2">
-                    <button class="m-2 btn btn-xs  btn-outline btn-error">Eliminar</button>
+                <?php foreach ($photos as $photo) : ?>
+                <div class="photo-container bg-gray-400">
+                    <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>" class="w-32 h-38 m-2">
+                    <button class="m-2 btn btn-xs btn-outline btn-error">Eliminar</button>
                 </div>
+                <?php endforeach; ?>
 
-
-
-                <!-- Repite el patrón para cada imagen y botón -->
             </div>
-
 
         </div>
     </div>
