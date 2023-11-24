@@ -21,14 +21,14 @@
 
         <div
             class="bg-white border border-slate-200 grid grid-cols-6 gap-2 rounded-xl p-2 text-sm w-full max-w-md  m-auto mt-10 ">
-            <h1 class="text-center text-gray-400 text-xl font-bold col-span-6">Enviar missatge</h1>
-            <input type="email" id="email" name="email" placeholder="Email"
+            <h1 class="text-center text-gray-500 text-xl bg-white font-bold col-span-6">Enviar missatge</h1>
+            <input type="email" id="email" title="email" name="email" placeholder="Email"
                 class="bg-slate-100 text-slate-600 h-10 placeholder:text-slate-600 placeholder:opacity-50 border border-slate-200 col-span-6 resize-none outline-none rounded-lg p-2 duration-300 focus:border-slate-600">
-            <input placeholder="El teu missatge..." type="text" name="mensaje" id="error_notification"
+            <input placeholder="El teu missatge..." title="missatge" type="text" name="mensaje" id="error_notification"
                 class="bg-slate-100 text-slate-600 h-28 placeholder:text-slate-600 placeholder:opacity-50 border border-slate-200 col-span-6 resize-none outline-none rounded-lg p-2 duration-300 focus:border-slate-600"></input>
 
             <span class="col-span-2"></span>
-            <button type="submit"
+            <button type="submit" title="enviar"
                 class="bg-slate-100 stroke-slate-600 border border-slate-200 col-span-2 flex justify-center rounded-lg p-2 duration-300 hover:border-slate-600 hover:text-white focus:stroke-blue-200 focus:bg-blue-400">
                 <svg fill="none" viewBox="0 0 24 24" height="30px" width="30px" xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5"

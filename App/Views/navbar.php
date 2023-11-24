@@ -43,7 +43,7 @@
                             <a href="/orles" 
                                 class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Les meves orles</a>
                             <a href="/logout"
-                            class="text-red-500	 hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Tancar
+                            class="text-red-800	 hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Tancar
                             sessió</a>
                             <?php endif; ?>
                         </button>

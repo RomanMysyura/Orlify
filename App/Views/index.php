@@ -65,14 +65,14 @@
                         </label>
                         <div class="mt-5">
                             <div class="relative">
-                                <input id="email" name="email" type="email" placeholder="Correu electronic"
+                                <input id="email" title="email" name="email" type="email" placeholder="Correu electronic"
                                     class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                             </div>
                         </div>
                     </div>
                     <div class="mt-5">
                         <div class="relative">
-                            <input id="pass" name="password" type="password" placeholder="Contrasenya"
+                            <input id="pass" name="password" title="password" type="password" placeholder="Contrasenya"
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
@@ -105,46 +105,46 @@
                         </label>
                         <div class="mt-5">
                             <div class="relative">
-                                <input id="mail" name="mail" type="text" placeholder="Correu electronic"
+                                <input id="mail" title="mail" name="mail" type="text" placeholder="Correu electronic"
                                     class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                             </div>
                         </div>
                     </div>
                     <div class="mt-5">
                         <div class="relative">
-                            <input id="username" name="username" type="text" placeholder="Nom"
+                            <input id="username" title="username" name="username" type="text" placeholder="Nom"
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
                     <div class="mt-5">
                         <div class="relative">
-                            <input id="surname" name="surname" type="text" placeholder="Cognoms"
+                            <input id="surname" title="surname" name="surname" type="text" placeholder="Cognoms"
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
                     <div class="mb-4 mt-5">
                         <label class="text-xs text-black top-4" for="birth_date">
                             Data de naixement
-                            <input
+                            <input title="data"
                                 class="bg-gray-100 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 id="birth_date" name="birth_date" type="date">
                     </div>
                     <div class="mt-5">
                         <div class="relative">
-                            <input id="phone" name="phone" type="text" placeholder="Telèfon"
+                            <input id="phone" name="phone"  title="phone" type="text" placeholder="Telèfon"
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
 
                     <div class="mt-5">
                         <div class="relative">
-                            <input id="dni" name="dni" type="text" placeholder="DNI"
+                            <input id="dni" name="dni" title="dni" type="text" placeholder="DNI"
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
                     <div class="mt-5">
                         <div class="relative">
-                            <input id="password" name="password" type="password" placeholder="Contrasenya"
+                            <input id="password" title="password" name="password" type="password" placeholder="Contrasenya"
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
