@@ -373,28 +373,13 @@ class UserController
 
     }
     public function deleteUser($request, $response, $container) {
+        $userId = $_GET["id"];
         $dbConfig = $container["config"]["database"];
         $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
         $connection = $dbModel->getConnection();
     
-        // Obtener el id del usuario desde la URL
-        $userId = $_GET["id"];
-    
-        // Validar si el id es válido (puedes agregar más validaciones según tus necesidades)
-        if (!is_numeric($userId) || $userId <= 0) {
-            // Manejar el caso de id no válido, redireccionar o mostrar un mensaje de error
-            // Ejemplo: header("Location: /error-page");
-            // O: mostrar mensaje y salir
-            die("Error: ID de usuario no válido.");
-        }
-    
         $usersModel = new UsersPDO($connection);
-    
-        // Llamar a la función deleteUser con el id obtenido de la URL
         $usersModel->deleteUser($userId);
-    
-        // Redireccionar u otra lógica según tus necesidades
-        // En este ejemplo, redirige a la página de panel de control
         header("Location: /paneldecontrol");
         exit();
     }
