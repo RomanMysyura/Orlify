@@ -36,6 +36,7 @@
     "testEnvironment": "node"
   },
   "dependencies": {
-    "@tailwindcss/aspect-ratio": "^0.4.2"
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "material-icons": "^1.13.12"
   }
 }
