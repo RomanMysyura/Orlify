@@ -35,6 +35,7 @@
             Guardar
         </button>
     </div>
+    <p class="text-center text-md mb-5 mt-5 hover:text-blue-800 transition duration-300"><a href="/contactar">Si hi ha qualsevol error, posa't en contacte amb nosaltres!</a></p>
 </form>
     <?php include "footer.php" ?>
 </body>
