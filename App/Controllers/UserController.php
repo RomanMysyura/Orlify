@@ -93,8 +93,10 @@ class UserController
             $_SESSION["logged"] = true;
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
+            $group = $usersModel->getGroupForUser($userId);
     
             $response->set("user", $user);
+            $response->set("group", $group);
     
             $response->SetTemplate("perfil.php");
         } else {
