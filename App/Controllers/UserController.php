@@ -324,4 +324,78 @@ class UserController
 
         return $response;
     }
-}
+    
+    public function PanelUploadUser($request, $response, $container)
+    {
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+    
+        $usersModel = new UsersPDO($connection);
+    
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $id = $_POST["id"];
+            $name = $_POST["name"];
+            $surname = $_POST["surname"];
+            $email = $_POST["email"];
+            $phone = $_POST["phone"];
+            $dni = $_POST["dni"];
+            $birth_date = $_POST["birth_date"];
+            $role = $_POST["role"];
+    
+            $usersModel->PaneleditUser($id, $name, $surname, $email,$phone,$dni,$birth_date,$role);
+    
+            header("Location: paneldecontrol");
+            exit();
+        }
+    
+        $id = $_POST["id"];
+        $user = $usersModel->getUserById($id);
+    
+        $response->SetTemplate("paneldecontrol.php", ["user" => $user]);
+        return $response;
+    }
+    public function Idpanel($request, $response, $container) {
+
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+
+        $userId = $_SESSION["user_id"];
+
+        $usersModel = new UsersPDO($connection);
+
+        $users = $usersModel->Idpanel($userId);
+
+        $response->set("users", $users);
+        $response->SetTemplate("paneldecontrol.php");
+        return $response;
+
+    }
+    public function deleteUser($request, $response, $container) {
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+    
+        // Obtener el id del usuario desde la URL
+        $userId = $_GET["id"];
+    
+        // Validar si el id es válido (puedes agregar más validaciones según tus necesidades)
+        if (!is_numeric($userId) || $userId <= 0) {
+            // Manejar el caso de id no válido, redireccionar o mostrar un mensaje de error
+            // Ejemplo: header("Location: /error-page");
+            // O: mostrar mensaje y salir
+            die("Error: ID de usuario no válido.");
+        }
+    
+        $usersModel = new UsersPDO($connection);
+    
+        // Llamar a la función deleteUser con el id obtenido de la URL
+        $usersModel->deleteUser($userId);
+    
+        // Redireccionar u otra lógica según tus necesidades
+        // En este ejemplo, redirige a la página de panel de control
+        header("Location: /paneldecontrol");
+        exit();
+    }
+    }

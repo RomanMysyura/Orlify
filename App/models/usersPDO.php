@@ -129,6 +129,21 @@ class UsersPDO
             ':phone' => $phone
         ]);
     }
+    public function PaneleditUser($id, $name, $surname, $email, $phone,$dni,$birth_date,$role)
+    {
+
+        $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email, phone = :phone, dni = :dni, birth_date = :birth_date, role = :role WHERE id = :id");
+        $stmt->execute([
+            ':id' => $id,
+            ':name' => $name,
+            ':surname' => $surname,
+            ':email' => $email,
+            ':phone' => $phone,
+            ':dni' => $dni,
+            ':birth_date' => $birth_date,
+            ':role' => $role
+        ]);
+    }
 
     public function getUserPhotos($userId)
     {
@@ -195,5 +210,18 @@ class UsersPDO
     
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+    public function IdPanel($userId)
+    {
+        $sql = "SELECT * FROM users WHERE id = :id";
     
+        $stmt = $this->sql->prepare($sql);
+        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+    public function deleteUser($userid){
+        $stm = $this->sql->prepare("DELETE FROM users WHERE id = :id");
+        $stm->execute([':id' => $userid]);
+    }
 }

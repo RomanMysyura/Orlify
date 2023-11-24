@@ -7,14 +7,15 @@
     <link rel="stylesheet" href="/main.css">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="../js/paneldecontrol.js"></script>
-    <title><?=$app_config["app"]["name"]?></title>
+    <title>
+        <?= $app_config["app"]["name"] ?>
+    </title>
 </head>
 
 <body class="bg-gray-200">
     <?php include "navbar.php" ?>
 
     <div class="flex">
-        <!-- Menú a la izquierda -->
         <div class="flex flex-col w-48">
             <a href="#" class="p-4 bg-white hover:bg-gray-400" id="editarUsuarioBtn">Editar Usuaris</a>
             <a href="#" class="p-4 bg-white hover:bg-gray-400" id="crearUsuarioBtn">Afegir Usuari</a>
@@ -22,11 +23,9 @@
             <a href="#" class="p-4 bg-white hover:bg-gray-400" id="editphotoBtn">Editar Fotografies</a>
         </div>
 
-        <!-- Textos a la derecha -->
         <div class="ml-0 w-full">
             <div class="editar_usuari">
                 <table class=" bg-white border border-gray-300 w-full">
-                    <!-- ... (resto de la tabla) ... -->
                     <thead>
                         <tr>
                             <th class="py-2 px-4 border-b">ID</th>
@@ -43,24 +42,64 @@
 
                     <tbody>
                         <?php foreach ($users as $user): ?>
-                        <tr>
-                            <td class="py-2 px-4 border-b"><?= $user['id'] ?></td>
-                            <td class="py-2 px-4 border-b"><?= $user['name'] ?></td>
-                            <td class="py-2 px-4 border-b"><?= $user['surname'] ?></td>
-                            <td class="py-2 px-4 border-b"><?= $user['email'] ?></td>
-                            <td class="py-2 px-4 border-b"><?= $user['phone'] ?></td>
-                            <td class="py-2 px-4 border-b"><?= $user['dni'] ?></td>
-                            <td class="py-2 px-4 border-b"><?= $user['birth_date'] ?></td>
-                            <td class="py-2 px-4 border-b"><?= $user['role'] ?></td>
-                            <td class="py-2 px-4 border-b">
-                                <button class="btn">Editar usuari</button>
-                            </td>
-                        </tr>
+                            <tr>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['id'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['name'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['surname'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['email'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['phone'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['dni'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['birth_date'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['role'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <button class="btn" onclick="mostrarModalEditarUsuario(<?= $user['id'] ?>)">Editar
+                                        usuari</button>
+                                </td>
+                                <td>
+                                    <a href="/paneldecontrol&id<?= $user['id']; ?>"action="/deleteUser" method="post"
+                                        class="bg-red-500 text-white py-2 px-4 rounded"
+                                        onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">
+                                        Eliminar <i class="fa-solid fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
                         <?php endforeach; ?>
                     </tbody>
                 </table>
+                <div id="modalEditarUsuario" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 hidden">
+                    <div class="flex justify-center items-center h-full">
+                        <div class="bg-white p-8 rounded-lg shadow-md w-96">
+                            <form id="editarUsuarioForm" action="/Idpanel" method="get"
+                                class="p-4 bg-white rounded-md shadow-md">
+                                <!-- Campo oculto para almacenar la ID del usuario -->
+                                <input type="hidden" id="userId" name="userId" value="">
+                                <!-- Otros campos del formulario -->
 
-
+                                <td class="py-2 px-4 border-b">
+                                    <button type="submit" class="btn">Editar usuari</button>
+                                </td>
+                            </form>
+                            <button id="cerrarModal" class="btn bg-gray-400 hover:bg-gray-500"
+                                onclick="cerrarModalEditarUsuario()">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>
@@ -120,18 +159,19 @@
                         Crear Usuari de Prova
                     </button>
                 </div>
-                <form id="crearUsuariosForm" class="bg-white shadow-md w-full max-w-xl mt-5 m-auto rounded px-8 pt-6 pb-8 mb-4">
+                <form id="crearUsuariosForm"
+                    class="bg-white shadow-md w-full max-w-xl mt-5 m-auto rounded px-8 pt-6 pb-8 mb-4">
                     <label class="block text-black text-md font-bold mb-4" for="numUsuarios">
                         Crear x número d'usuaris
                     </label>
                     <input id="numUsuarios" name="numUsuarios" type="text" placeholder="Número d'usuaris"
                         class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
-                        <div class="mt-5 flex items-center justify-center">
+                    <div class="mt-5 flex items-center justify-center">
                         <button id="crearUsuariosBtn"
-                        class="btn btn-outline inline-flex mt-2 items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
-                        type="button">
-                        Crear
-                    </button>
+                            class="btn btn-outline inline-flex mt-2 items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
+                            type="button">
+                            Crear
+                        </button>
                     </div>
                 </form>
 
@@ -150,8 +190,8 @@
     <?php include "footer.php" ?>
 
     <script src="../js/paneldecontrol.js"></script>
-    
-  
+
+
 </body>
 
 </html>
