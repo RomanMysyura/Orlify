@@ -92,6 +92,30 @@ public function createNewOrla($request, $response, $container)
 
 
 
+
+public function eliminarOrla($request, $response, $container)
+{
+    $orla_id = $_GET['id']; // Obtener el ID de la orla desde la URL
+
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
+
+    $OrlaModel = new Orles($connection);
+    $OrlaModel->eliminarOrla($orla_id);
+    $userId = $_SESSION["user_id"];
+    $orla = $OrlaModel->getOrles($userId);
+
+    $response->set("orles", $orla);
+
+    $response->SetTemplate("vieworles.php");
+    return $response;
+}
+
+
+
+
+
 public function add_users_to_orla($request, $response, $container)
 {
     // Obtener el ID de la orla y los usuarios seleccionados del formulario
