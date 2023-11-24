@@ -43,7 +43,8 @@ $app->get("perfil", [UserController::class,"perfil"]);
 $app->get("carnet", [UserController::class,"carnetUser"]);
 $app->get("photo", [UserController::class,"photoUser"]);
 $app->get("orles", [OrlesControllers::class,"orles"]);
-$app->get("contactar", [NavigationController::class,"contactar"]);
+$app->get("contactar", [UserController::class,"contactar"]);
+$app->post("enviarcontactar", [UserController::class,"enviarcontactar"]);
 $app->get("cercador", [UserController::class,"cercador"]);
 $app->get("editar-orles", [OrlesControllers::class,"editarOrles"]);
 $app->post("register", [UserController::class,"register"]);
@@ -54,6 +55,7 @@ $app->get("logout", [UserController::class,"logout"]);
 $app->get("panel-de-control", [NavigationController::class,"panelDeControl"]);
 $app->post("updateUser", [UserController::class,"updateUser"]);
 $app->post("uploadPhoto", [UserController::class,"uploadPhoto"]);
+
 
 
 $app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"]);
