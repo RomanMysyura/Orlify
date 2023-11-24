@@ -195,5 +195,12 @@ class UsersPDO
     
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function createerror($userId, $mensaje)
+    {
+        $sql = "INSERT INTO errornotifications (user_id, description) VALUES (?, ?)";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([$userId, $mensaje]);
+    }
     
 }

@@ -324,4 +324,38 @@ class UserController
 
         return $response;
     }
+
+    public function contactar($request, $response, $container)
+    {
+
+      
+        
+        
+         $response->SetTemplate("contactar.php");
+        return $response;
+ 
+    }
+
+    public function enviarcontactar($request, $response, $container)
+    {
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+
+        $userId = $_SESSION["user_id"];
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+
+        $mensaje = $_POST["mensaje"];
+        $email = $_POST["email"];
+
+        $errorModel = new UsersPDO($connection);
+        $Createerror = $errorModel->createerror($userId, $mensaje);
+
+        $response->SetTemplate("contactar.php");
+        return $response;
+        } else {
+            echo 'error';
+        }
+ 
+    }
 }
