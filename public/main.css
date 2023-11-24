@@ -2394,9 +2394,6 @@ html {
 .z-\[1\] {
   z-index: 1;
 }
-.col-span-1 {
-  grid-column: span 1 / span 1;
-}
 .col-span-2 {
   grid-column: span 2 / span 2;
 }
@@ -2405,6 +2402,9 @@ html {
 }
 .col-span-6 {
   grid-column: span 6 / span 6;
+}
+.col-span-1 {
+  grid-column: span 1 / span 1;
 }
 .col-start-5 {
   grid-column-start: 5;
@@ -3091,6 +3091,10 @@ html {
 .hover\:text-black:hover {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+.hover\:text-blue-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(30 64 175 / var(--tw-text-opacity));
 }
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
