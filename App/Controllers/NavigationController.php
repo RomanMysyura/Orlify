@@ -26,6 +26,16 @@ class NavigationController
         return $response;
     }
    
+    public function recuperarpass($request, $response, $container)
+    {
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+
+        $usersModel = new UsersPDO($connection);
+        $response->SetTemplate("recuperarpass.php");
+        return $response;
+    }
    
 }
 
