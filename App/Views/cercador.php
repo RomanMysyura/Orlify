@@ -25,7 +25,7 @@
                         </svg>
                     </div>
 
-                    <input class="peer h-full w-full outline-none text-sm text-gray-700 pr-2" type="text"
+                    <input class="peer h-full w-full outline-none text-sm text-gray-700 pr-2" title="search" type="text"
                         id="searchInput" placeholder="Buscar por nombre, correo, etc." />
                 </div>
             </div>
