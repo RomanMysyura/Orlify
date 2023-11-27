@@ -87,7 +87,7 @@
                     </div>
                     <div class="mt-5">
                         <div class="relative">
-                            <!-- Cambiado el tipo de input a "button" y añadido el evento onclick -->
+                            <!-- Cambiado el tipo de input a "buttdon" y añadido el evento onclick -->
                             <input id="cam" name="cam" type="button" value="Obrir càmera"
                                 class="file-input file-input-bordered w-full max-w-xs border-b  border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit"
                                 onclick="toggleCamera()" />
