@@ -103,3 +103,41 @@ function addHiddenField(form, name, value) {
     input.value = value;
     form.appendChild(input);
 }
+    function mostrarModalEditarUsuario(userId) {
+
+        document.getElementById('modalEditarUsuario').classList.remove('hidden');
+        
+    }
+
+    document.getElementById('cerrarModal').addEventListener('click', function () {
+        document.getElementById('modalEditarUsuario').classList.add('hidden');
+    });
+    function mostrarModalEditarUsuario(userId) {
+        // Establece el valor de la ID del usuario en el campo oculto
+        $("#userId").val(userId);
+
+        // Abre el modal
+        $("#modalEditarUsuario").show();
+
+        // Realiza una solicitud AJAX para obtener la información del usuario
+        $.ajax({
+            type: "POST",
+            url: "UserController.php", // Ruta de tu script PHP para obtener la información del usuario
+            data: { userId: userId },
+            dataType: "json",
+            success: function (response) {
+                // Actualiza los campos del formulario con la información del usuario
+                $("#name").val(response.name);
+                $("#surname").val(response.surname);
+                // Otros campos del formulario
+            },
+            error: function (error) {
+                console.log("Error al obtener la información del usuario: ", error);
+            }
+        });
+    }
+
+    function cerrarModalEditarUsuario() {
+        // Cierra el modal
+        $("#modalEditarUsuario").hide();
+    }
