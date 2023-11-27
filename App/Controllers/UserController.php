@@ -286,26 +286,29 @@ class UserController
         $dbConfig = $container["config"]["database"];
         $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
         $connection = $dbModel->getConnection();
-
+    
         $userId = $_SESSION["user_id"];
-
-        $UploadPhotoNo = new UsersPDO($connection);
-        $UploadPhotosi = new UsersPDO($connection);
-
+    
+        $UploadUserPhoto = new UsersPDO($connection);
+    
         if (isset($_POST["selectedPhoto"])) {
             $selectedPhoto = $_POST["selectedPhoto"];
-
-            $UploadPhotoNo->selectPhotoNo($userId);
-            $UploadPhotosi->selectPhotoSi($userId, $selectedPhoto);
+    
+            // Desactivar todas las fotos del usuario
+            $UploadUserPhoto->deactivateUserPhotos($userId);
+    
+            // Activar la foto seleccionada
+            $UploadUserPhoto->activateSelectedPhoto($userId, $selectedPhoto);
+    
             header("Location: perfil");
             exit();
-
         } else {
             echo 'error';
         }
+    
         return $response;
-
     }
+    
 
     public function cercador($request, $response, $container)
     {

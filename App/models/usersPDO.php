@@ -165,20 +165,22 @@ class UsersPDO
     }
 
 
-    public function selectPhotoNo($userId)
+    public function deactivateUserPhotos($userId)
     {
-        $sql = "UPDATE photo SET selected_photo = 'no' WHERE user_id = ?";
+        $sql = "UPDATE photo SET selected_photo = 'inactive' WHERE user_id = ?";
         $stmt = $this->sql->prepare($sql);
-        $stmt->execute([$userId]);  
+        $stmt->execute([$userId]);
     }
+    
+    public function activateSelectedPhoto($userId, $selectedPhoto)
+    {
+        $sql = "UPDATE photo SET selected_photo = 'active' WHERE user_id = ? AND id = ?";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([$userId, $selectedPhoto]);
+    }
+    
 
-    public function selectPhotoSi($userId, $photo)
-    {
-        $sql = "UPDATE photo SET selected_photo = 'si' WHERE user_id = ? AND id = ?";
-        $stmt = $this->sql->prepare($sql);
-        $stmt->execute([$userId, $photo]);  
-        
-    }
+   
 
     public function getAlumnesByProfessor($userId)
     {
