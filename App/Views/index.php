@@ -5,11 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/main.css">
-    <title><?=$app_config["app"]["name"]?></title>
+    <title>
+        <?= $app_config["app"]["name"] ?>
+    </title>
 </head>
 
 <body class="bg-gray-200 ">
-    <?php include "navbar.php"?>
+    <?php include "navbar.php" ?>
 
     <div class="flex">
         <div class="flex-1 p-4 m-9 mt-16 hidden md:flex flex-col ">
@@ -18,13 +20,20 @@
                     PASOS</span>
             </p>
             <div class="w-full max-w-xl mt-5 mx-auto overflow-hidden">
-                <div id="slider" class="carousel carousel-end rounded-box flex transition-transform duration-500 ease-in-out">
-                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img1.png" alt="Imagen 1" class="w-full h-full object-cover transition-opacity duration-500 "></div>
-                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img2.png" alt="Imagen 2" class="w-full h-full object-cover transition-opacity duration-500 "></div>
-                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img3.png" alt="Imagen 3" class="w-full h-full object-cover transition-opacity duration-500 "></div>
-                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img4.png" alt="Imagen 4" class="w-full h-full object-cover transition-opacity duration-500 "></div>
-                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img5.png" alt="Imagen 5" class="w-full h-full object-cover transition-opacity duration-500 "></div>
-                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img6.png" alt="Imagen 6" class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                <div id="slider"
+                    class="carousel carousel-end rounded-box flex transition-transform duration-500 ease-in-out">
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img1.png" alt="Imagen 1"
+                            class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img2.png" alt="Imagen 2"
+                            class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img3.png" alt="Imagen 3"
+                            class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img4.png" alt="Imagen 4"
+                            class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img5.png" alt="Imagen 5"
+                            class="w-full h-full object-cover transition-opacity duration-500 "></div>
+                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img6.png" alt="Imagen 6"
+                            class="w-full h-full object-cover transition-opacity duration-500 "></div>
                     <!-- <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img7.png" alt="Imagen 7" class="w-full h-full object-cover transition-opacity duration-500 "></div>
                     <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img8.png" alt="Imagen 8" class="w-full h-full object-cover transition-opacity duration-500 "></div>
                     <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img9.png" alt="Imagen 9" class="w-full h-full object-cover transition-opacity duration-500 "></div>
@@ -43,15 +52,17 @@
 
         <div class="flex-1  p-4 m-2">
             <div class="w-full max-w-md  m-auto">
-                <?php if(isset($error_message_login)): ?>
-                <div role="alert" class="alert alert-error mb-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span><?php echo $error_message_login; ?></span>
-                </div>
+                <?php if (isset($error_message_login)): ?>
+                    <div role="alert" class="alert alert-error mb-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <?php echo $error_message_login; ?>
+                        </span>
+                    </div>
                 <?php endif; ?>
 
 
@@ -65,7 +76,8 @@
                         </label>
                         <div class="mt-5">
                             <div class="relative">
-                                <input id="email" title="email" name="email" type="email" placeholder="Correu electronic"
+                                <input id="email" title="email" name="email" type="email"
+                                    placeholder="Correu electronic"
                                     class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                             </div>
                         </div>
@@ -89,15 +101,17 @@
                 </form>
 
 
-                <?php if(isset($error_message_register)): ?>
-                <div role="alert" class="alert alert-success mb-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span><?php echo $error_message_register; ?></span>
-                </div>
+                <?php if (isset($error_message_register)): ?>
+                    <div role="alert" class="alert alert-success mb-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <?php echo $error_message_register; ?>
+                        </span>
+                    </div>
                 <?php endif; ?>
                 <form class="bg-white shadow-md w-full max-w-md m-auto rounded px-8 pt-6 pb-8 mb-4" action="/register"
                     method="post">
@@ -134,7 +148,7 @@
                     </div>
                     <div class="mt-5">
                         <div class="relative">
-                            <input id="phone" name="phone"  title="phone" type="text" placeholder="Telèfon"
+                            <input id="phone" name="phone" title="phone" type="text" placeholder="Telèfon"
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
@@ -145,12 +159,45 @@
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
-                    <div class="mt-5">
-                        <div class="relative">
-                            <input id="password" title="password" name="password" type="password" placeholder="Contrasenya"
-                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
-                        </div>
-                    </div>
+                    <div class="mt-5 relative">
+    <input id="password" title="password" name="password" type="password" placeholder="Contrasenya"
+        class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+    
+    <!-- Botón para mostrar información al pasar el ratón -->
+    <button id="infoButton" type="button" class="absolute inset-y-0 right-0 px-3 flex items-center bg-gray-200 hover:bg-gray-300 rounded-r-md mb-2">
+        <svg class="w-6 h-6 bg-gray-200 dark:text-white" aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+            <path stroke="#6b7280" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M7.529 7.988a2.502 2.502 0 0 1 5 .191A2.441 2.441 0 0 1 10 10.582V12m-.01 3.008H10M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+        </svg>
+    </button>
+    
+    <!-- Contenedor de información -->
+    <div id="infoContainer" class="absolute z-10 invisible bg-white border border-gray-200 rounded-lg shadow-sm p-4 right-0">
+        <p>Entre 6 y 13 letras</p>
+        <p>1 caracter especial</p>
+        <p>Al menos 1 letra y 1 número</p>
+    </div>
+</div>
+<div id="mss"></div>
+<script>
+    // Agregar evento al pasar el ratón sobre el botón
+    document.getElementById('infoButton').addEventListener('mouseover', function () {
+        // Mostrar el contenedor de información
+        document.getElementById('infoContainer').classList.remove('invisible');
+    });
+
+    // Agregar evento al quitar el ratón del botón
+    document.getElementById('infoButton').addEventListener('mouseout', function () {
+        // Ocultar el contenedor de información
+        document.getElementById('infoContainer').classList.add('invisible');
+    });
+</script>
+
+
+
+                    <!-- Otros campos del formulario ... -->
+
                     <div class="mt-5">
                         <label class="block text-gray-700 text-md font-bold mb-4" for="group">
                             Selecciona el teu curs
@@ -171,7 +218,7 @@
                     </div>
 
                     <div class="flex items-center justify-between mt-10">
-                        <button
+                        <button id="btnEnviar"
                             class="btn btn-outline ml-auto inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
                             type="submit">
                             Registrarse
@@ -187,31 +234,32 @@
 
     </div>
     <script>
-    const slider = document.getElementById('slider');
+        const slider = document.getElementById('slider');
 
-// Configuración del slider
-const intervaloTiempo = 2000; // Intervalo de tiempo en milisegundos (2 segundos en este caso)
+        // Configuración del slider
+        const intervaloTiempo = 2000; // Intervalo de tiempo en milisegundos (2 segundos en este caso)
 
-function moverSlider() {
-    const anchoSlide = document.querySelector('.slide').offsetWidth;
-    slider.style.transition = 'transform 0.8s ease-in-out';
-    slider.style.transform = `translateX(-${anchoSlide}px)`;
+        function moverSlider() {
+            const anchoSlide = document.querySelector('.slide').offsetWidth;
+            slider.style.transition = 'transform 0.8s ease-in-out';
+            slider.style.transform = `translateX(-${anchoSlide}px)`;
 
-    // Cuando la animación de transición ha terminado, mueve el primer slide al final
-    setTimeout(() => {
-        const primerSlide = slider.firstElementChild;
-        slider.appendChild(primerSlide);
-        slider.style.transition = 'none';
-        slider.style.transform = 'translateX(0)';
-    }, 800); // Ajusta el tiempo de espera a la duración de la transición
-}
+            // Cuando la animación de transición ha terminado, mueve el primer slide al final
+            setTimeout(() => {
+                const primerSlide = slider.firstElementChild;
+                slider.appendChild(primerSlide);
+                slider.style.transition = 'none';
+                slider.style.transform = 'translateX(0)';
+            }, 800); // Ajusta el tiempo de espera a la duración de la transición
+        }
 
-// Inicia el slider automáticamente
-setInterval(moverSlider, intervaloTiempo);
+        // Inicia el slider automáticamente
+        setInterval(moverSlider, intervaloTiempo);
     </script>
-    <script src="/js/bundle.js"></script>
+
 
     <?php include "footer.php" ?>
+    <script src="/js/bundle.js"></script>
 </body>
 
 </html>
