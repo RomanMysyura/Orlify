@@ -91,8 +91,6 @@ public function createNewOrla($request, $response, $container)
 }
 
 
-
-
 public function eliminarOrla($request, $response, $container)
 {
     $orla_id = $_GET['id']; // Obtener el ID de la orla desde la URL
@@ -113,15 +111,13 @@ public function eliminarOrla($request, $response, $container)
 }
 
 
-
-
-
 public function add_users_to_orla($request, $response, $container)
 {
     // Obtener el ID de la orla y los usuarios seleccionados del formulario
     
     $orla_id = $_POST['orla_id'];
     $selected_users = $_POST['selected_users'];
+    
     echo("Orla ID: " . $orla_id);
     echo("Selected Users: " . implode(', ', $selected_users));
     // Llamar a la función en el modelo para agregar usuarios a la orla
@@ -132,9 +128,8 @@ public function add_users_to_orla($request, $response, $container)
     $OrlaModel = new Orles($connection);
     $OrlaModel->addUsersToOrla($orla_id, $selected_users);
 
-    // Redirigir o mostrar la vista según sea necesario
-    // (por ejemplo, redirigir a la página de vista de orles)
-    $response->redirect('/view_orles'); // Ajusta la ruta según tu aplicación
+    
+    $response->SetTemplate("editarOrles.php");
 
     return $response;
 }

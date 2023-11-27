@@ -13,11 +13,11 @@
 
     <div class="flex text-center">
 
-        <div class="w-full max-w-xs  m-auto mt-5">
+        <div class="w-full max-w-xs md:w-1/3 m-auto mt-5 ml-20 mr-20">
 
 
 
-            <div class="border-b border-black p-4">
+            <div class="border-b border-black  w-full">
                 <h1 class="font-bold text-xl mb-3">Seleccionar usuarios y grupos</h1>
 
                 <form action="/add_users_to_orla" method="post">
@@ -25,11 +25,11 @@
                     <input type="hidden" name="orla_id" value="<?= $orla_id ?>">
 
                     <?php
-    echo '<ul class="menu bg-base-200 w-full rounded-box ">';
+    echo '<ul class="menu bg-slate-200 w-full rounded-md ">';
     foreach ($groups as $group) {
         echo '<li>';
         echo '<details>';
-        echo '<summary>' . $group['id'] . " - " . $group['name'] . '</summary>';
+        echo '<summary>'. $group['name'] . '</summary>';
         echo '<ul>';
 
         if (isset($usersInGroups[$group['id']])) {
@@ -108,18 +108,19 @@
             </form>
         </div>
 
-        <div class="w-full max-w-xl  m-auto mt-5">
-            <div class="border-b border-black">
-                <h1 class="font-bold text-xl mb-3">Totes les Fotografies</h1>
+        <div class=" w-1/2 m-auto mt-5  rounded-md border-2 border-inherit p-2 shadow-xl">
+            <div class="">
+                <h1 class="font-bold text-xl mb-3">Usuaris seleccionats</h1>
             </div>
-            <div class="flex flex-wrap mt-2">
+            <div class="flex flex-wrap mt-2 ">
                 <?php foreach ($photos as $photo) : ?>
-                <div class="photo-container bg-gray-400">
-                    <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>" class="w-32 h-38 m-2">
-                    <button class="m-2 btn btn-xs btn-outline btn-error">Eliminar</button>
+                <div
+                    class="photo-container relative overflow-hidden transform transition-transform duration-300 hover:scale-110 mb-5  rounded-md ml-auto mr-auto">
+                    <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>" class="w-36 h-44 m-1 rounded-md ">
+                    <p class="font-bold"><?= $photo['name'] ?> </p>
+
                 </div>
                 <?php endforeach; ?>
-
             </div>
 
         </div>
