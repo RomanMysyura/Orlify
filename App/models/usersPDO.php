@@ -31,6 +31,8 @@ class UsersPDO
 
         return $stmt->fetch(\PDO::FETCH_ASSOC);
     }
+
+    
     public function login($email, $password)
     {
         $sql = "SELECT u.*, ug.group_id FROM users u
@@ -157,52 +159,46 @@ class UsersPDO
 
     public function getUserSelectedPhoto($userId)
     {
-        $sql = "SELECT * FROM photo WHERE user_id = ? AND selected_photo = 'si'";
+        $sql = "SELECT * FROM photo WHERE user_id = ? AND selected_photo = 'active'";
         $stmt = $this->sql->prepare($sql);
         $stmt->execute([$userId]);
 
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+ 
 
-
-    public function selectPhotoNo($userId)
+    public function deactivateUserPhotos($userId)
     {
-        $sql = "UPDATE photo SET selected_photo = 'no' WHERE user_id = ?";
+        $sql = "UPDATE photo SET selected_photo = 'inactive' WHERE user_id = ?";
         $stmt = $this->sql->prepare($sql);
-        $stmt->execute([$userId]);  
+        $stmt->execute([$userId]);
     }
-
-    public function selectPhotoSi($userId, $photo)
+    
+    public function activateSelectedPhoto($userId, $selectedPhoto)
     {
-        $sql = "UPDATE photo SET selected_photo = 'si' WHERE user_id = ? AND id = ?";
+        $sql = "UPDATE photo SET selected_photo = 'active' WHERE user_id = ? AND id = ?";
         $stmt = $this->sql->prepare($sql);
-        $stmt->execute([$userId, $photo]);  
-        
+        $stmt->execute([$userId, $selectedPhoto]);
     }
+    
 
+   
     public function getAlumnesByProfessor($userId)
     {
-        $sql = "SELECT
-            u.id AS user_id,
-            u.name AS user_name,
-            u.surname AS user_surname,
-            u.email AS user_email,
-            u.phone AS user_phone,
-            u.dni AS user_dni,
-            u.birth_date AS user_birth_date,
-            u.role AS user_role,
-            g.id AS group_id,
-            g.name AS group_name,
-            p.name AS photo_name,
-            p.url AS photo_url,
-            p.selected_photo AS photo_selected
-        FROM users u
-        JOIN user_groups ug ON u.id = ug.user_id
-        JOIN groups g ON ug.group_id = g.id
-        LEFT JOIN photo p ON u.id = p.user_id
-        WHERE g.id = (SELECT ug2.group_id FROM user_groups ug2 WHERE ug2.user_id = :userId LIMIT 1)
-          AND u.role = 'Alumne'
-        LIMIT 0, 25;
+        $sql = "
+            SELECT u.id AS user_id, u.name AS user_name, u.surname AS user_surname,
+                   u.email AS user_email, u.phone AS user_phone, u.dni AS user_dni,
+                   u.birth_date AS user_birth_date, g.name AS group_name, p.url AS photo_url
+            FROM users u
+            JOIN user_groups ug ON u.id = ug.user_id
+            JOIN groups g ON ug.group_id = g.id
+            LEFT JOIN photo p ON u.id = p.user_id AND p.selected_photo = 'active'
+            WHERE ug.group_id IN (
+                SELECT group_id
+                FROM user_groups
+                WHERE user_id = :userId
+            )
+            AND u.role = 'Alumne'
         ";
     
         $stmt = $this->sql->prepare($sql);
@@ -211,6 +207,7 @@ class UsersPDO
     
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+    
 
 
     public function createerror($userId, $mensaje)
@@ -242,5 +239,16 @@ class UsersPDO
         $stm = $this->sql->prepare("DELETE FROM users WHERE id = :id");
         $stm->execute([':id' => $userid]);
     }
+
+
+
+    public function uploadPhotoFromFile($userId, $photoUrl, $selectedPhoto)
+    {
+        $sql = "INSERT INTO photo (user_id, url, selected_photo) VALUES (?, ?, ?)";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([$userId, $photoUrl, $selectedPhoto]);
+    }
+    
+
     
 }

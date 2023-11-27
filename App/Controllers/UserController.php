@@ -54,9 +54,6 @@ class UserController
             // Llama al método del modelo para obtener el grupo
             $group = $usersModel->getGroupForUser($userId);
 
-
-
-
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
@@ -90,6 +87,7 @@ class UserController
         if ($loggedInUser) {
             $_SESSION["user_id"] = $loggedInUser["id"];
             $_SESSION["group_id"] = $loggedInUser["group_id"];
+            $_SESSION["role"] = $loggedInUser["role"];
             $_SESSION["logged"] = true;
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
@@ -286,28 +284,31 @@ class UserController
         $dbConfig = $container["config"]["database"];
         $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
         $connection = $dbModel->getConnection();
-
+    
         $userId = $_SESSION["user_id"];
-
-        $UploadPhotoNo = new UsersPDO($connection);
-        $UploadPhotosi = new UsersPDO($connection);
-
+    
+        $UploadUserPhoto = new UsersPDO($connection);
+    
         if (isset($_POST["selectedPhoto"])) {
             $selectedPhoto = $_POST["selectedPhoto"];
-
-            $UploadPhotoNo->selectPhotoNo($userId);
-            $UploadPhotosi->selectPhotoSi($userId, $selectedPhoto);
+    
+            // Desactivar todas las fotos del usuario
+            $UploadUserPhoto->deactivateUserPhotos($userId);
+    
+            // Activar la foto seleccionada
+            $UploadUserPhoto->activateSelectedPhoto($userId, $selectedPhoto);
+    
             header("Location: perfil");
             exit();
-
         } else {
             echo 'error';
         }
+    
         return $response;
-
     }
+    
 
-    public function cercador($request, $response, $container)
+    public function alumnes($request, $response, $container)
     {
         $dbConfig = $container["config"]["database"];
         $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
@@ -315,14 +316,12 @@ class UserController
 
         $userId = $_SESSION["user_id"];
 
-
         $alumnes = new UsersPDO($connection);
 
         $alumnes = $alumnes->getAlumnesByProfessor($userId);
 
-
         $response->set("alumnes", $alumnes);
-        $response->SetTemplate("cercador.php");
+        $response->SetTemplate("alumnes.php");
 
         return $response;
     }
@@ -429,4 +428,51 @@ class UserController
         $response->SetTemplate("paneldecontrol.php");
         return $response;
     }
+
+    
+    public function uploadPhotoFromFile($request, $response, $container)
+    {
+      
+        if (isset($_FILES['photo'])) {
+            $file = $_FILES['photo'];
+    
+            if ($file['error'] === UPLOAD_ERR_OK) {
+                $tmpFilePath = $file['tmp_name'];
+    
+                $newFileName = uniqid('image_') . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+    
+                $destinationPath = "img/" . $newFileName;
+    
+                if (move_uploaded_file($tmpFilePath, $destinationPath)) {
+                    echo "La imagen se ha guardado correctamente en la ruta: " . $destinationPath;
+    
+                    $dbConfig = $container["config"]["database"];
+                    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+                    $connection = $dbModel->getConnection();
+    
+                    $usersModel = new UsersPDO($connection);
+    
+                    $user_id = $_POST['user_id']; 
+    
+                   
+                    $usersModel->uploadPhotoFromFile($user_id, $destinationPath, 'active');
+                } else {
+                    echo "Error al guardar la imagen.";
+                }
+            } else {
+                echo "Error al subir la imagen.";
+            }
+        } else {
+            echo "No se ha enviado ninguna imagen.";
+        }
+    
+        $response->SetTemplate("alumnes.php");
+        return $response;
+    }
+    
+
+
+    
+
+    
 }

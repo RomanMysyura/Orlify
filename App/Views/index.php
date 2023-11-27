@@ -10,7 +10,6 @@
 
 <body class="bg-gray-200 ">
     <?php include "navbar.php"?>
-
     <div class="flex">
         <div class="flex-1 p-4 m-9 mt-16 hidden md:flex flex-col ">
             <p class="text-7xl text-center font-bold">
