@@ -130,6 +130,21 @@ class UsersPDO
             ':phone' => $phone
         ]);
     }
+    public function PaneleditUser($id, $name, $surname, $email, $phone,$dni,$birth_date,$role)
+    {
+
+        $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email, phone = :phone, dni = :dni, birth_date = :birth_date, role = :role WHERE id = :id");
+        $stmt->execute([
+            ':id' => $id,
+            ':name' => $name,
+            ':surname' => $surname,
+            ':email' => $email,
+            ':phone' => $phone,
+            ':dni' => $dni,
+            ':birth_date' => $birth_date,
+            ':role' => $role
+        ]);
+    }
 
     public function getUserPhotos($userId)
     {
@@ -197,11 +212,35 @@ class UsersPDO
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+
     public function createerror($userId, $mensaje)
     {
         $sql = "INSERT INTO errornotifications (user_id, description) VALUES (?, ?)";
         $stmt = $this->sql->prepare($sql);
         $stmt->execute([$userId, $mensaje]);
+    }
+    public function IdPanel($userId)
+    {
+        $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, g.id AS group_id, g.name
+                                        FROM users u
+                                        JOIN user_groups ug ON u.id = ug.user_id
+                                        JOIN groups g ON ug.group_id = g.id");
+        
+        $stmt->execute();
+        
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        return $result;
+    }
+    
+    public function deleteUser($userid){
+        // Primero, eliminar de la tabla user_groups
+        $stm = $this->sql->prepare("DELETE FROM user_groups WHERE user_id = :user_id");
+        $stm->execute([':user_id' => $userid]);
+    
+        // Luego, eliminar de la tabla users
+        $stm = $this->sql->prepare("DELETE FROM users WHERE id = :id");
+        $stm->execute([':id' => $userid]);
     }
     
 }
