@@ -13,7 +13,7 @@
 
     <div class="flex text-center">
 
-        <div class="w-full max-w-xs md:w-1/3 m-auto mt-5">
+        <div class="w-full max-w-xs md:w-1/3 m-auto mt-5 ml-20 mr-20">
 
 
 
@@ -108,7 +108,7 @@
             </form>
         </div>
 
-        <div class="w-full w-1/2 m-auto mt-5  rounded-md border-2 border-inherit p-2 shadow-xl">
+        <div class=" w-1/2 m-auto mt-5  rounded-md border-2 border-inherit p-2 shadow-xl">
             <div class="">
                 <h1 class="font-bold text-xl mb-3">Usuaris seleccionats</h1>
             </div>
