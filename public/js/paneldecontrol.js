@@ -1,9 +1,9 @@
 $(document).ready(function() {
-    $(".editorles, .editphoto, .crear_usuari").hide();
+    $(".editorles, .editphoto, .crear_usuari, .notifications").hide();
 
     $("#editarUsuarioBtn").click(function() {
-        $(".editar_usuari, .crear_usuari, .editorles, .editphoto").hide();
-        $("#editorlesBtn, #editphotoBtn, #crearUsuarioBtn").removeClass("bg-gray-400").addClass(
+        $(".editar_usuari, .crear_usuari, .editorles, .editphoto, .notifications").hide();
+        $("#editorlesBtn, #editphotoBtn, #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400").addClass(
             "bg-white");
 
         $(".editar_usuari").show();
@@ -12,8 +12,8 @@ $(document).ready(function() {
     });
 
     $("#crearUsuarioBtn").click(function() {
-        $(".editar_usuari, .editorles, .editphoto").hide();
-        $("#editarUsuarioBtn, #editphotoBtn, #editorlesBtn").removeClass("bg-gray-400").addClass(
+        $(".editar_usuari, .editorles, .editphoto, .notifications").hide();
+        $("#editarUsuarioBtn, #editphotoBtn, #editorlesBtn, #notificationsBtn").removeClass("bg-gray-400").addClass(
             "bg-white");
 
         $(".crear_usuari").show();
@@ -22,8 +22,8 @@ $(document).ready(function() {
     });
 
     $("#editorlesBtn").click(function() {
-        $(".editar_usuari, .crear_usuari, .editorles, .editphoto").hide();
-        $("#editarUsuarioBtn, #editphotoBtn,  #crearUsuarioBtn").removeClass("bg-gray-400")
+        $(".editar_usuari, .crear_usuari, .editorles, .editphoto, .notifications").hide();
+        $("#editarUsuarioBtn, #editphotoBtn,  #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400")
             .addClass("bg-white");
 
         $(".editorles").show();
@@ -32,14 +32,25 @@ $(document).ready(function() {
     });
 
     $("#editphotoBtn").click(function() {
-        $(".editar_usuari, .crear_usuari, .editorles, .editphoto").hide();
-        $("#editarUsuarioBtn, #editorlesBtn,  #crearUsuarioBtn").removeClass("bg-gray-400")
+        $(".editar_usuari, .crear_usuari, .editorles, .editphoto , .notifications").hide();
+        $("#editarUsuarioBtn, #editorlesBtn,  #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400")
             .addClass("bg-white");
 
         $(".editphoto").show();
 
         $(this).removeClass("bg-white").addClass("bg-gray-400");
     });
+
+    $("#notificationsBtn").click(function() {
+        $(".editar_usuari, .crear_usuari, .editorles, .editphoto, .notifications").hide();
+        $("#editarUsuarioBtn, #editorlesBtn,  #crearUsuarioBtn, #editphotoBtn").removeClass("bg-gray-400")
+            .addClass("bg-white");
+
+        $(".notifications").show();
+
+        $(this).removeClass("bg-white").addClass("bg-gray-400");
+    });
+
 });
 
 $("#crearUsuariosBtn").click(function() {
@@ -62,6 +73,7 @@ document.getElementById('crearUsuarioPrueba').addEventListener('click', function
             document.getElementById('surname').value = data.results[0].name.last;
             document.getElementById('birth_date').value = data.results[0].dob.date.substring(0, 10);
             document.getElementById('password').value = 'testing10';
+            document.getElementById('role').value = 'Alumne';
         })
         .catch(error => console.error('Error:', error));
 });
@@ -81,8 +93,9 @@ function crearUsuarioAleatorio() {
             addHiddenField(form, 'username', data.results[0].name.first);
             addHiddenField(form, 'surname', data.results[0].name.last);
             addHiddenField(form, 'birth_date', data.results[0].dob.date.substring(0, 10));
+            addHiddenField(form, 'role', 'Alumne');
             addHiddenField(form, 'password', 'testing10');
-
+            
             // Append the form to the body
             document.body.appendChild(form);
 

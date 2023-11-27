@@ -174,11 +174,12 @@ class UserController
             $email = $_POST["mail"];
             $birthDate = $_POST["birth_date"];
             $password = $_POST["password"];
+            $role = $_POST["role"];
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $response->set("error_message_register", "La conta creada correctament");
             $response->SetTemplate("paneldecontrol.php");
-            $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
+            $usersModel->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
 
 
             return $response;
@@ -429,4 +430,49 @@ class UserController
         $response->SetTemplate("paneldecontrol.php");
         return $response;
     }
+
+  public function deleteerror($request, $response, $container){
+
+    $error_id = $_GET['id'];
+
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
+
+
+
+    $errorModel = new UsersPDO($connection);
+    $errorModel->deleteerror($error_id);
+
+    $response->SetTemplate("paneldecontrol.php");
+  return $response;
+
+  }
+
+  public function uploaderror($request, $response, $container) {
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
+
+    // Verifica si se están enviando los datos correctamente
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $status = $_POST["error_status"];
+        $error_id = $_POST["id"];  // Cambiado a $_POST["id"]
+
+        $errorModel = new UsersPDO($connection);
+
+        // Verifica si la función uploadError está implementada correctamente en UsersPDO
+        $errorModel->uploadError($error_id, $status);
+
+       
+      
+    } else {
+        echo 'error';
+
+    }
+
+    $response->SetTemplate("paneldecontrol.php");
+   return $response;
+}
+
 }
