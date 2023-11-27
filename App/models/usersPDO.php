@@ -75,6 +75,7 @@ class UsersPDO
 
         return $userId;
     }
+    
     public function assignUserToGroup($userId, $groupId)
     {
         $sql = "INSERT INTO user_groups (user_id, group_id) VALUES (?, ?)";
