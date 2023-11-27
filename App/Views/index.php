@@ -76,6 +76,9 @@
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                         </div>
                     </div>
+                    <p class="text-sm text-gray-500 mt-5">
+                        <a href="/recuperarpass" class="text-blue-500">Has oblidat la contrasenya?</a>
+                    </p>
                     <div class="flex items-center justify-between mt-10">
                         <button
                             class=" btn btn-outline ml-auto inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-gray-900 rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
