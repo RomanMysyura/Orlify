@@ -212,14 +212,18 @@ class UsersPDO
     }
     public function IdPanel($userId)
     {
-        $sql = "SELECT * FROM users WHERE id = :id";
-    
-        $stmt = $this->sql->prepare($sql);
-        $stmt->bindParam(':userId', $userId, \PDO::PARAM_INT);
+        $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, g.id AS group_id, g.name
+                                        FROM users u
+                                        JOIN user_groups ug ON u.id = ug.user_id
+                                        JOIN groups g ON ug.group_id = g.id");
+        
         $stmt->execute();
-    
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        
+        return $result;
     }
+    
     public function deleteUser($userid){
         // Primero, eliminar de la tabla user_groups
         $stm = $this->sql->prepare("DELETE FROM user_groups WHERE user_id = :user_id");
