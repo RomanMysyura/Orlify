@@ -92,9 +92,11 @@ class UserController
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
             $group = $usersModel->getGroupForUser($userId);
+            $userPhoto = $usersModel->getUserSelectedPhoto($userId);
 
             $response->set("user", $user);
             $response->set("group", $group);
+            $response->set("userPhoto", $userPhoto);
 
             $response->SetTemplate("perfil.php");
         } else {
