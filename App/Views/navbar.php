@@ -37,7 +37,7 @@
                                 <ul class="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52">
                                     <li><a href="/perfil">Editar dades</a></li>
                                     <li><a href="/carnet">Carnet</a></li>
-                                    <?php if ($_SESSION["role"] == "Proffessor"): ?>
+                                    <?php if ($_SESSION["role"] == "Professor"): ?>
                                     <li><a href="/alumnes">Els meus alumnes</a></li>
                                     <?php endif; ?>
 

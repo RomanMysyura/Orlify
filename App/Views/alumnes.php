@@ -71,6 +71,7 @@
                     <td class="text-lg"><?= $alumne['user_birth_date'] ?></td>
                     <td class="text-lg"><?= $alumne['user_phone'] ?></td>
                     <td class="text-lg"><?= $alumne['photo_url'] ?></td>
+                    <td class="text-lg"><button type="submit" class="btn btn-active btn-neutral mr-auto">Seleccionar foto</button></td>
                     <th>
                         <form action="/uploadPhotoFromFile" method="post" enctype="multipart/form-data"
                             class="flex items-center ">
