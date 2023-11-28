@@ -45,7 +45,7 @@ $app->get("photo", [UserController::class,"photoUser"]);
 $app->get("orles", [OrlesControllers::class,"orles"]);
 $app->get("contactar", [UserController::class,"contactar"]);
 $app->post("enviarcontactar", [UserController::class,"enviarcontactar"]);
-$app->get("cercador", [UserController::class,"cercador"]);
+$app->get("alumnes", [UserController::class,"alumnes"]);
 $app->get("editar-orles", [OrlesControllers::class,"editarOrles"]);
 $app->post("register", [UserController::class,"register"]);
 $app->post("randomuser", [UserController::class,"randomuser"]);
@@ -55,12 +55,14 @@ $app->get("logout", [UserController::class,"logout"]);
 $app->get("panel-de-control", [NavigationController::class,"panelDeControl"]);
 $app->post("updateUser", [UserController::class,"updateUser"]);
 $app->post("uploadPhoto", [UserController::class,"uploadPhoto"]);
+$app->post("uploadPhotoFromFile", [UserController::class,"uploadPhotoFromFile"]);
 $app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"]);
 $app->post("PanelUploadUser", [UserController::class,"PanelUploadUser"]);
 $app->get("Idpanel", [UserController::class,"Idpanel"]);
 $app->get("deleteUser", [UserController::class,"deleteUser"]);
 $app->get("carnetUser", [UserController::class,"carnetUser"]);
-
+$app->get("deleteerror", [UserController::class,"deleteerror"]);
+$app->post("uploaderror", [UserController::class,"uploaderror"]);
 $app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"]);
 $app->get("recuperarpass", [NavigationController::class,"recuperarpass"]);
 

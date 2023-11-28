@@ -65,7 +65,7 @@ class OrlesControllers
         $response->SetTemplate("editarOrles.php");
     
         return $response;
-    }
+    } 
     
     
 

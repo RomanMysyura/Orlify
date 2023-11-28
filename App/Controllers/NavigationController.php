@@ -16,10 +16,14 @@ class NavigationController
         $connection = $dbModel->getConnection();
 
         $usersModel = new UsersPDO($connection);
+        $errorModel = new UsersPDO($connection);
 
         $users = $usersModel->getAllUsers();
+        $errors = $errorModel->geterror();
 
         $response->set("users", $users);
+        $response->set("errors", $errors);
+
 
         $response->SetTemplate("paneldecontrol.php");
 
