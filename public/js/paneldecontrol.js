@@ -114,45 +114,91 @@ $(document).ready(function() {
         input.value = value;
         form.appendChild(input);
     }
-        function mostrarModalEditarUsuario(userId) {
-    
-            document.getElementById('modalEditarUsuario').classList.remove('hidden');
-            
-        }
-    
-        document.getElementById('cerrarModal').addEventListener('click', function () {
-            document.getElementById('modalEditarUsuario').classList.add('hidden');
-        });
-        function mostrarModalEditarUsuario(userId) {
-            // Establece el valor de la ID del usuario en el campo oculto
-            $("#userId").val(userId);
-    
-            // Abre el modal
-            $("#modalEditarUsuario").show();
-    
-            // Realiza una solicitud AJAX para obtener la información del usuario
-            $.ajax({
-                type: "POST",
-                url: "UserController.php", // Ruta de tu script PHP para obtener la información del usuario
-                data: { userId: userId },
-                dataType: "json",
-                success: function (response) {
-                    // Actualiza los campos del formulario con la información del usuario
-                    $("#name").val(response.name);
-                    $("#surname").val(response.surname);
-                    // Otros campos del formulario
-                },
-                error: function (error) {
-                    console.log("Error al obtener la información del usuario: ", error);
-                }
-            });
-        }
-    
-        function cerrarModalEditarUsuario() {
-            // Cierra el modal
-            $("#modalEditarUsuario").hide();
-        }
-
 });
+function openEditModal(userId, name, surname, email, phone, dni, birth_date,  role) {
+    // Obtén los datos del usuario correspondiente (puedes hacer una solicitud AJAX si es necesario)
+    var user = obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_date,  role);
+
+    // Actualiza el contenido del modal con los datos del usuario
+    document.getElementById('user_details').innerHTML = `
+        
+        
+
+        <div class="w-full max-w-md m-auto bg-gray-100 rounded-md mt-5">
+        <form action="/uploadUserAdmin" method="post">
+            <input type="hidden" name="id" value="${user.id}">
+            <div class="card-body items-center text-center">
+                
+                <h2 class="text-center text-lg font-bold mb-5">Les meves dades</h2>
+
+                <input type="text" title="name" id="name" name="name"
+                    class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                    placeholder="Nom" value="${user.name}">
+
+                <input type="text" title="surname" id="surname" name="surname"
+                    class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                    placeholder="Cognom" value="${user.surname}">
+
+                <input type="text" id="email" title="email" name="email"
+                    class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                    placeholder="email" value="${user.email}">
+
+                <input type="text" id="phone" title="phone" name="phone"
+                    class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                    placeholder="telefon" value="${user.phone}">
+
+                <input type="text" id="dni" title="dni" name="dni"
+                    class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                    placeholder="dni" value="${user.dni}">
+
+                <input type="date" id="birth_date" title="birth_date" name="birth_date"
+                    class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                    placeholder="data de naixement" value="${user.birth_date}">
+
+
+             
+                    <select id="role" title="role" name="role" class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300">
+                    <option value="Alumno" ${user.role === 'Alumne' ? 'selected' : ''}>Alumne</option>
+                    <option value="Profesor" ${user.role === 'Professor' ? 'selected' : ''}>Professor</option>
+                    <option value="Admin" ${user.role === 'Admin' ? 'selected' : ''}>Admin</option>
+                </select>
+                <div class="card-actions justify-end mt-5">
+                    <button type="submit" class="btn btn-active btn-neutral">Editar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    `;
+
+    // Abre el modal
+    document.getElementById('edit_modal').showModal();
+}
+
+// Función para cerrar el modal
+function closeEditModal() {
+    document.getElementById('edit_modal').close();
+}
+
+// Esta función es solo un ejemplo y deberías reemplazarla con la lógica real para obtener los datos del usuario
+function obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_date,  role) {
+    // Aquí puedes hacer una solicitud AJAX al servidor para obtener los datos del usuario
+    // Por ahora, devolvemos un objeto con datos de ejemplo
+    return {
+        id: userId,
+        name: name,
+        surname: surname,
+        email: email,
+        phone: phone,
+        dni: dni,
+        birth_date: birth_date,
+        role: role
+
+
+        
+        
+    };
+}
 
 // Function to create a random user
+
+ 
