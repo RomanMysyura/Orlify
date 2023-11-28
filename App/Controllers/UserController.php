@@ -172,11 +172,12 @@ class UserController
             $email = $_POST["mail"];
             $birthDate = $_POST["birth_date"];
             $password = $_POST["password"];
+            $role = $_POST["role"];
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $response->set("error_message_register", "La conta creada correctament");
             $response->SetTemplate("paneldecontrol.php");
-            $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
+            $usersModel->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
 
 
             return $response;
@@ -429,50 +430,90 @@ class UserController
         return $response;
     }
 
-    
-    public function uploadPhotoFromFile($request, $response, $container)
-    {
+  public function deleteerror($request, $response, $container){
+
+    $error_id = $_GET['id'];
+
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
+
+
+
+    $errorModel = new UsersPDO($connection);
+    $errorModel->deleteerror($error_id);
+
+    $response->SetTemplate("paneldecontrol.php");
+  return $response;
+
+  }
+
+  public function uploaderror($request, $response, $container) {
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
+
+    // Verifica si se están enviando los datos correctamente
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $status = $_POST["error_status"];
+        $error_id = $_POST["id"];  // Cambiado a $_POST["id"]
+
+        $errorModel = new UsersPDO($connection);
+
+        // Verifica si la función uploadError está implementada correctamente en UsersPDO
+        $errorModel->uploadError($error_id, $status);
+
+       
       
-        if (isset($_FILES['photo'])) {
-            $file = $_FILES['photo'];
-    
-            if ($file['error'] === UPLOAD_ERR_OK) {
-                $tmpFilePath = $file['tmp_name'];
-    
-                $newFileName = uniqid('image_') . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
-    
-                $destinationPath = "img/" . $newFileName;
-    
-                if (move_uploaded_file($tmpFilePath, $destinationPath)) {
-                    echo "La imagen se ha guardado correctamente en la ruta: " . $destinationPath;
-    
-                    $dbConfig = $container["config"]["database"];
-                    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-                    $connection = $dbModel->getConnection();
-    
-                    $usersModel = new UsersPDO($connection);
-    
-                    $user_id = $_POST['user_id']; 
-    
-                   
-                    $usersModel->uploadPhotoFromFile($user_id, $destinationPath, 'active');
-                } else {
-                    echo "Error al guardar la imagen.";
-                }
+    } else {
+        echo 'error';
+
+    }
+
+    $response->SetTemplate("paneldecontrol.php");
+   return $response;
+}
+ 
+public function uploadPhotoFromFile($request, $response, $container)
+{
+  
+    if (isset($_FILES['photo'])) {
+        $file = $_FILES['photo'];
+
+        if ($file['error'] === UPLOAD_ERR_OK) {
+            $tmpFilePath = $file['tmp_name'];
+
+            $newFileName = uniqid('image_') . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
+
+            $destinationPath = "img/" . $newFileName;
+
+            if (move_uploaded_file($tmpFilePath, $destinationPath)) {
+                echo "La imagen se ha guardado correctamente en la ruta: " . $destinationPath;
+
+                $dbConfig = $container["config"]["database"];
+                $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+                $connection = $dbModel->getConnection();
+
+                $usersModel = new UsersPDO($connection);
+
+                $user_id = $_POST['user_id']; 
+
+               
+                $usersModel->uploadPhotoFromFile($user_id, $destinationPath, 'active');
             } else {
-                echo "Error al subir la imagen.";
+                echo "Error al guardar la imagen.";
             }
         } else {
-            echo "No se ha enviado ninguna imagen.";
+            echo "Error al subir la imagen.";
         }
-    
-        $response->SetTemplate("alumnes.php");
-        return $response;
+    } else {
+        echo "No se ha enviado ninguna imagen.";
     }
-    
+
+    $response->SetTemplate("alumnes.php");
+    return $response;
+}
 
 
-    
 
-    
 }

@@ -77,6 +77,17 @@ class UsersPDO
 
         return $userId;
     }
+    public function registerRandomUser($name, $surname, $email, $birthDate, $password, $role)
+    {
+        // Puedes ajustar esta consulta según tu estructura de tabla
+        $sql = "INSERT INTO users (name, surname, email, birth_date, password, role) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([$name, $surname, $email, $birthDate, $password, $role]);
+        $userId = $this->sql->lastInsertId();
+
+        return $userId;
+    }
+
     
     public function assignUserToGroup($userId, $groupId)
     {
@@ -216,6 +227,43 @@ class UsersPDO
         $stmt = $this->sql->prepare($sql);
         $stmt->execute([$userId, $mensaje]);
     }
+
+  public function geterror()
+    {
+        $sql = "SELECT
+        errornotifications.id AS error_id,
+        errornotifications.user_id AS error_user_id,
+        errornotifications.description AS error_description,
+        errornotifications.status AS error_status,
+        errornotifications.date AS error_date,
+        users.id AS user_id,
+        users.email AS user_email
+       
+    FROM
+        errornotifications
+    JOIN
+        users ON errornotifications.user_id = users.id;)";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function deleteerror($errorId){
+        $stm = $this->sql->prepare("DELETE FROM errornotifications WHERE id = :error_id");
+        $stm->execute([':error_id' => $errorId]);
+    }
+
+    public function uploadError($errorId, $status)
+    {
+        $sql = "UPDATE errornotifications SET status = :status WHERE id = :id";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([
+            ':id' => $errorId,
+            ':status' => $status
+        ]);
+    }
+
     public function IdPanel($userId)
     {
         $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, g.id AS group_id, g.name
@@ -230,6 +278,7 @@ class UsersPDO
         return $result;
     }
     
+
     public function deleteUser($userid){
         // Primero, eliminar de la tabla user_groups
         $stm = $this->sql->prepare("DELETE FROM user_groups WHERE user_id = :user_id");
