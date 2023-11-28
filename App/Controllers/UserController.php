@@ -151,6 +151,23 @@ class UserController
 
             // Asociar el usuario al grupo en la tabla user_groups
             $usersModel->assignUserToGroup($userId, $groupId);
+              // Verifica si el usuario ya tiene un token
+              $existingToken = $usersModel->getUserToken($userId);
+    
+              // Si no tiene un token, genera uno nuevo y guárdalo
+              if (empty($existingToken)) {
+                  // Genera un token único
+                  $token = uniqid();
+      
+                  // Guarda el token en la base de datos
+                  $usersModel->saveUserToken($userId, $token);
+              } else {
+                  // Si ya tiene un token, utiliza el existente
+                  $token = $existingToken;
+              }
+      
+              // Construye la URL completa con el token como parámetro de ruta
+              $uniqueUrl = "https://tuwebapp.com/carnet/{$token}";
 
             return $response;
         }
@@ -227,37 +244,51 @@ class UserController
     {
         // Verifica si el usuario está autenticado
         if ($_SESSION["logged"]) {
-            // Obtén la conexión a la base de datos
             $dbConfig = $container["config"]["database"];
             $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
             $connection = $dbModel->getConnection();
-
-            // Crea una instancia del modelo UsersPDO
+    
             $usersModel = new UsersPDO($connection);
-
-            // Obtén los datos del usuario actual
+    
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
-
-            // Llama al método del modelo para obtener el grupo
+    
             $group = $usersModel->getGroupForUser($userId);
-
-
-
-
+    
+            // Verifica si el usuario ya tiene un token
+            $existingToken = $usersModel->getUserToken($userId);
+    
+            // Si no tiene un token, genera uno nuevo y guárdalo
+            if (empty($existingToken)) {
+                // Genera un token único
+                $token = uniqid();
+    
+                // Guarda el token en la base de datos
+                $usersModel->saveUserToken($userId, $token);
+            } else {
+                // Si ya tiene un token, utiliza el existente
+                $token = $existingToken;
+            }
+    
+            // Construye la URL completa con el token como parámetro de ruta
+            $uniqueUrl = "https://tuwebapp.com/carnet/{$token}";
+    
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
-
+            $response->set("uniqueUrl", $uniqueUrl);
+    
             // Establece la plantilla
             $response->SetTemplate("carnet.php");
         } else {
             // Si no está autenticado, redirige a la página de inicio de sesión u otra página
             $response->redirect("/login");
         }
-
+    
         return $response;
     }
+    
+
 
 
 
