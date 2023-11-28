@@ -299,5 +299,45 @@ class UsersPDO
     }
     
 
+    public function saveUserToken($userid, $token)
+    {
+        try {
+            // Prepara la consulta SQL
+            $stmt = $this->sql->prepare("UPDATE users SET token = :token WHERE id = :userId");
+            // Asigna los valores a los marcadores de posición
+            $stmt->bindParam(":token", $token, \PDO::PARAM_STR);
+            $stmt->bindParam(":userId", $userid, \PDO::PARAM_INT);  // Asegúrate de que sea "userId" en lugar de "userid"
     
+            // Ejecuta la consulta
+            $stmt->execute();
+    
+            // Devuelve true si la actualización fue exitosa
+            return true;
+        } catch (PDOException $e) {
+            // Manejo de errores: Puedes ajustar esto según tus necesidades
+            echo "Error al guardar el token: " . $e->getMessage();
+            return false;
+        }
+    }
+    
+
+    public function getUserToken($userId) {
+        try {
+            // Prepara la consulta SQL para obtener el token del usuario
+            $stmt = $this->sql->prepare("SELECT token FROM users WHERE id = :userId");
+            $stmt->bindParam(":userId", $userId, \PDO::PARAM_INT);
+            $stmt->execute();
+
+            // Obtiene el resultado de la consulta
+            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+            // Retorna el token si existe, de lo contrario, retorna null
+            return $result ? $result['token'] : null;
+        } catch (PDOException $e) {
+            // Manejo de errores: Puedes ajustar esto según tus necesidades
+            echo "Error al obtener el token del usuario: " . $e->getMessage();
+            return null;
+        }
+    }
+
 }
