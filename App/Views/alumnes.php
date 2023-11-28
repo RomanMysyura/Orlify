@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/main.css">
+    <script src="/js/bundle.js" defer> </script>
+    <script src="/js/buscarAlumnes.js" defer> </script>
 
     <title>Document</title>
 </head>
@@ -71,17 +73,13 @@
                     <td class="text-lg"><?= $alumne['user_phone'] ?></td>
                     <td class="text-lg"><?= $alumne['photo_url'] ?></td>
                     <td class="text-lg">
-                        <button class="btn" onclick="openModal('<?= $alumne['user_id'] ?>')">Seleccionar Foto</button>
+                        <button class="btn modalFoto" data-user-id="<?= $alumne['user_id'] ?>">Seleccionar Foto</button>
                     </td>
-
-
 
                 </tr>
                 <dialog id="my_modal_2" class="modal">
                     <div class="modal-box">
                         <h3 id="modalTitle" class="font-bold text-lg">Hello!</h3>
-
-
 
 
                         <form action="/uploadPhotoFromFile" method="post" enctype="multipart/form-data"
@@ -90,7 +88,8 @@
 
                             <div class="flex items-center justify-center w-full">
                                 <label for="dropzone-file"
-                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                    id="dropzone-label">
                                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                         <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -100,68 +99,31 @@
                                         </svg>
                                         <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
                                                 class="font-semibold">Clica</span> o arrastra la foto</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">JPG, JPEG i PNG</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400" id="file-name">JPG, JPEG i
+                                            PNG</p>
                                     </div>
                                     <input type="file" id="dropzone-file" name="photo"
-                                        accept="image/jpeg, image/jpg, image/png" class="">
-
-
+                                        accept="image/jpeg, image/jpg, image/png" class="hidden"
+                                        onchange="displayFileName()">
                                 </label>
+
                             </div>
                             <button type="submit" class="btn btn-active btn-neutral mr-auto mt-2">Pujar Foto</button>
-                        </form>
 
-                        <!-- Botón para cerrar el modal -->
-                        <button class="btn btn-active btn-neutral ml-auto mt-2" onclick="closeModal()" >Cancelar</button>
+                        </form>
+                        <form method="dialog" style="display: inline-block">
+                            <button class="btn btn-active btn-neutral ml-auto mt-2" id="modalCancelar">Cancelar</button>
+                        </form>
                     </div>
                 </dialog>
 
                 <?php endforeach; ?>
         </table>
-        <!-- Open the modal using ID.showModal() method -->
-
+      
 
     </div>
 
     <?php include "footer.php" ?>
-    <script>
-    function openModal(userId) {
-        // Obtener el elemento del título del modal
-        var modalTitle = document.getElementById('modalTitle');
-
-        // Actualizar el contenido del título con el valor de userId
-        modalTitle.innerText = 'User ID: ' + userId;
-
-        // Obtener el elemento de entrada oculta para el user_id en el formulario
-        var userIdInput = document.getElementById('userIdInput');
-
-        // Actualizar el valor del campo user_id en el formulario
-        userIdInput.value = userId;
-
-        // Mostrar el modal
-        document.getElementById('my_modal_2').showModal();
-    }
-
-    function closeModal() {
-        // Cerrar el modal
-        document.getElementById('my_modal_2').close();
-    }
-    // Add JavaScript to handle search functionality
-    document.getElementById('searchInput').addEventListener('input', function() {
-        var searchQuery = this.value.toLowerCase();
-        var rows = document.querySelectorAll('.table tbody tr');
-
-        rows.forEach(function(row) {
-            var textContent = row.textContent.toLowerCase();
-            if (textContent.includes(searchQuery)) {
-                row.classList.remove('hidden');
-            } else {
-                row.classList.add('hidden');
-            }
-        });
-    });
-    </script>
-
 
 </body>
 
