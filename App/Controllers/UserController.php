@@ -54,6 +54,9 @@ class UserController
             // Llama al método del modelo para obtener el grupo
             $group = $usersModel->getGroupForUser($userId);
 
+
+
+
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
@@ -87,16 +90,13 @@ class UserController
         if ($loggedInUser) {
             $_SESSION["user_id"] = $loggedInUser["id"];
             $_SESSION["group_id"] = $loggedInUser["group_id"];
-            $_SESSION["role"] = $loggedInUser["role"];
             $_SESSION["logged"] = true;
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
             $group = $usersModel->getGroupForUser($userId);
-            $userPhoto = $usersModel->getUserSelectedPhoto($userId);
 
             $response->set("user", $user);
             $response->set("group", $group);
-            $response->set("userPhoto", $userPhoto);
 
             $response->SetTemplate("perfil.php");
         } else {
@@ -151,23 +151,6 @@ class UserController
 
             // Asociar el usuario al grupo en la tabla user_groups
             $usersModel->assignUserToGroup($userId, $groupId);
-              // Verifica si el usuario ya tiene un token
-              $existingToken = $usersModel->getUserToken($userId);
-    
-              // Si no tiene un token, genera uno nuevo y guárdalo
-              if (empty($existingToken)) {
-                  // Genera un token único
-                  $token = uniqid();
-      
-                  // Guarda el token en la base de datos
-                  $usersModel->saveUserToken($userId, $token);
-              } else {
-                  // Si ya tiene un token, utiliza el existente
-                  $token = $existingToken;
-              }
-      
-              // Construye la URL completa con el token como parámetro de ruta
-              $uniqueUrl = "https://tuwebapp.com/carnet/{$token}";
 
             return $response;
         }
@@ -191,12 +174,11 @@ class UserController
             $email = $_POST["mail"];
             $birthDate = $_POST["birth_date"];
             $password = $_POST["password"];
-            $role = $_POST["role"];
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $response->set("error_message_register", "La conta creada correctament");
             $response->SetTemplate("paneldecontrol.php");
-            $usersModel->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
+            $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
 
 
             return $response;
@@ -342,7 +324,7 @@ class UserController
     }
     
 
-    public function alumnes($request, $response, $container)
+    public function cercador($request, $response, $container)
     {
         $dbConfig = $container["config"]["database"];
         $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
@@ -350,12 +332,14 @@ class UserController
 
         $userId = $_SESSION["user_id"];
 
+
         $alumnes = new UsersPDO($connection);
 
         $alumnes = $alumnes->getAlumnesByProfessor($userId);
 
+
         $response->set("alumnes", $alumnes);
-        $response->SetTemplate("alumnes.php");
+        $response->SetTemplate("cercador.php");
 
         return $response;
     }
@@ -462,91 +446,4 @@ class UserController
         $response->SetTemplate("paneldecontrol.php");
         return $response;
     }
-
-  public function deleteerror($request, $response, $container){
-
-    $error_id = $_GET['id'];
-
-    $dbConfig = $container["config"]["database"];
-    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-    $connection = $dbModel->getConnection();
-
-
-
-    $errorModel = new UsersPDO($connection);
-    $errorModel->deleteerror($error_id);
-
-    $response->SetTemplate("paneldecontrol.php");
-  return $response;
-
-  }
-
-  public function uploaderror($request, $response, $container) {
-    $dbConfig = $container["config"]["database"];
-    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-    $connection = $dbModel->getConnection();
-
-    // Verifica si se están enviando los datos correctamente
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $status = $_POST["error_status"];
-        $error_id = $_POST["id"];  // Cambiado a $_POST["id"]
-
-        $errorModel = new UsersPDO($connection);
-
-        // Verifica si la función uploadError está implementada correctamente en UsersPDO
-        $errorModel->uploadError($error_id, $status);
-
-       
-      
-    } else {
-        echo 'error';
-
-    }
-
-    $response->SetTemplate("paneldecontrol.php");
-   return $response;
-}
- 
-public function uploadPhotoFromFile($request, $response, $container)
-{
-  
-    if (isset($_FILES['photo'])) {
-        $file = $_FILES['photo'];
-
-        if ($file['error'] === UPLOAD_ERR_OK) {
-            $tmpFilePath = $file['tmp_name'];
-
-            $newFileName = uniqid('image_') . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
-
-            $destinationPath = "img/" . $newFileName;
-
-            if (move_uploaded_file($tmpFilePath, $destinationPath)) {
-                echo "La imagen se ha guardado correctamente en la ruta: " . $destinationPath;
-
-                $dbConfig = $container["config"]["database"];
-                $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-                $connection = $dbModel->getConnection();
-
-                $usersModel = new UsersPDO($connection);
-
-                $user_id = $_POST['user_id']; 
-
-               
-                $usersModel->uploadPhotoFromFile($user_id, $destinationPath, 'active');
-            } else {
-                echo "Error al guardar la imagen.";
-            }
-        } else {
-            echo "Error al subir la imagen.";
-        }
-    } else {
-        echo "No se ha enviado ninguna imagen.";
-    }
-
-    $response->SetTemplate("alumnes.php");
-    return $response;
-}
-
-
-
 }
