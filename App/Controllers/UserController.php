@@ -553,18 +553,29 @@ public function uploadPhotoFromFile($request, $response, $container)
             $destinationPath = "img/" . $newFileName;
 
             if (move_uploaded_file($tmpFilePath, $destinationPath)) {
-                echo "La imagen se ha guardado correctamente en la ruta: " . $destinationPath;
+                $successMessage = '
+                <div role="alert" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                      <span>Haz pujat i actualitzat la foto del alumne</span>
+                    </div>
+            ';
+
+            // Imprimir el mensaje de éxito
+            echo $successMessage;
 
                 $dbConfig = $container["config"]["database"];
                 $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
                 $connection = $dbModel->getConnection();
 
                 $usersModel = new UsersPDO($connection);
+                $UploadUserPhoto = new UsersPDO($connection);
 
                 $user_id = $_POST['user_id']; 
-
-               
+                $userId = $_SESSION["user_id"];
+                $UploadUserPhoto->deactivateUserPhotos($user_id);
                 $usersModel->uploadPhotoFromFile($user_id, $destinationPath, 'active');
+               
+    
             } else {
                 echo "Error al guardar la imagen.";
             }
@@ -574,7 +585,13 @@ public function uploadPhotoFromFile($request, $response, $container)
     } else {
         echo "No se ha enviado ninguna imagen.";
     }
+    $userId = $_SESSION["user_id"];
 
+    $alumnes = new UsersPDO($connection);
+
+    $alumnes = $alumnes->getAlumnesByProfessor($userId);
+
+    $response->set("alumnes", $alumnes);
     $response->SetTemplate("alumnes.php");
     return $response;
 }

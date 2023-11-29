@@ -25,40 +25,40 @@
                 <h2 class="card-title ml-auto mr-auto"><?= $orla['name_orla'] ?></h2>
 
                 <div class="card-actions justify-center">
-                    <button class="btn bg-neutral-300 w-16">
-                        <a href="/editar-orles?id=<?= $orla['orla_id'] ?>">
+
+                    <a href="/editar-orles?id=<?= $orla['orla_id'] ?>">
+                        <button class="btn bg-neutral-300 w-16">
                             <svg width="25px" height="25px" viewBox="0 0 23 23" xmlns="http://www.w3.org/2000/svg">
                                 <title>edit</title>
                                 <path
                                     d="M3,17.46 L3,20.5 C3,20.78 3.22,21 3.5,21 L6.54,21 C6.67,21 6.8,20.95 6.89,20.85 L17.81,9.94 L14.06,6.19 L3.15,17.1 C3.05,17.2 3,17.32 3,17.46 Z M20.71,7.04 C21.1,6.65 21.1,6.02 20.71,5.63 L18.37,3.29 C17.98,2.9 17.35,2.9 16.96,3.29 L15.13,5.12 L18.88,8.87 L20.71,7.04 Z"
                                     fill="#1D1D1D"></path>
                             </svg>
-                        </a>
-                    </button>
+                        </button>
+                    </a>
 
-                    <button class="btn bg-neutral-300 w-16">
-                        <a href="/eliminar-orla?id=<?= $orla['orla_id'] ?>">
+                    <a href="/eliminar-orla?id=<?= $orla['orla_id'] ?>">
+                        <button class="btn bg-neutral-300 w-16">
                             <svg width="25px" height="25px" viewBox="0 0 24 24" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M6 7V18C6 19.1046 6.89543 20 8 20H16C17.1046 20 18 19.1046 18 18V7M6 7H5M6 7H8M18 7H19M18 7H16M10 11V16M14 11V16M8 7V5C8 3.89543 8.89543 3 10 3H14C15.1046 3 16 3.89543 16 5V7M8 7H16"
                                     stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                             </svg>
-                        </a>
-                    </button>
+                        </button>
+                    </a>
 
-
-                    <button class="btn bg-neutral-300 w-16">
-                        <a href="/descarregar-orla?id=<?= $orla['orla_id'] ?>">
+                    <a href="/descarregar-orla?id=<?= $orla['orla_id'] ?>">
+                        <button class="btn bg-neutral-300 w-16">
                             <svg fill="#000000" width="25px" height="25px" viewBox="0 0 1920 1920"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="m0 1016.081 409.186 409.073 79.85-79.736-272.867-272.979h1136.415V959.611H216.169l272.866-272.866-79.85-79.85L0 1016.082ZM1465.592 305.32l315.445 315.445h-315.445V305.32Zm402.184 242.372-329.224-329.11C1507.042 187.07 1463.334 169 1418.835 169h-743.83v677.647h112.94V281.941h564.706v451.765h451.765v903.53H787.946V1185.47H675.003v564.705h1242.353V667.522c0-44.498-18.07-88.207-49.581-119.83Z"
                                     fill-rule="evenodd" />
                             </svg>
+                        </button>
 
-                        </a>
-                    </button>
+                    </a>
 
                 </div>
             </div>

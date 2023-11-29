@@ -19,14 +19,14 @@ eval("var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!\r\n * 
 
 /***/ }),
 
-/***/ "./App/js/example.ts":
-/*!***************************!*\
-  !*** ./App/js/example.ts ***!
-  \***************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./App/js/dropfile.js":
+/*!****************************!*\
+  !*** ./App/js/dropfile.js ***!
+  \****************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Example: () => (/* binding */ Example),\n/* harmony export */   obj: () => (/* binding */ obj)\n/* harmony export */ });\nvar Example = /** @class */ (function () {\n    function Example(nameBook, years) {\n        this.nameBook = nameBook;\n        this.years = years;\n    }\n    return Example;\n}());\nvar obj = new Example(\"Meditation\", 2023);\n\n\n\n//# sourceURL=webpack:///./App/js/example.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ displayFileName),\n/* harmony export */   initDropFile: () => (/* binding */ initDropFile)\n/* harmony export */ });\nfunction displayFileName() {\r\n    var dropzoneInput = document.getElementById(\"dropzone-file\");\r\n    var fileNameElement = document.getElementById(\"file-name\");\r\n\r\n    if (dropzoneInput.files.length > 0) {\r\n        fileNameElement.innerText = dropzoneInput.files[0].name;\r\n    } else {\r\n        fileNameElement.innerText = \"JPG, JPEG i PNG\";\r\n    }\r\n}\r\n\r\nfunction initDropFile() {\r\n    document.addEventListener(\"DOMContentLoaded\", function () {\r\n        var dropzoneLabel = document.getElementById(\"dropzone-label\");\r\n        var dropzoneInput = document.getElementById(\"dropzone-file\");\r\n    \r\n        dropzoneLabel.addEventListener(\"dragover\", function (e) {\r\n            e.preventDefault();\r\n            dropzoneLabel.classList.add(\"border-blue-500\");\r\n        });\r\n    \r\n        dropzoneLabel.addEventListener(\"dragleave\", function () {\r\n            dropzoneLabel.classList.remove(\"border-blue-500\");\r\n        });\r\n    \r\n        dropzoneLabel.addEventListener(\"drop\", function (e) {\r\n            e.preventDefault();\r\n    \r\n            dropzoneLabel.classList.remove(\"border-blue-500\");\r\n    \r\n            var files = e.dataTransfer.files;\r\n    \r\n            if (files.length > 0) {\r\n                dropzoneInput.files = files;\r\n                displayFileName();\r\n            }\r\n        });\r\n    });\r\n}\r\n\r\n\n\n//# sourceURL=webpack:///./App/js/dropfile.js?");
 
 /***/ }),
 
@@ -37,7 +37,18 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n/* harmony import */ var _scripts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts.js */ \"./App/js/scripts.js\");\n/* harmony import */ var _password_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./password.js */ \"./App/js/password.js\");\n/* harmony import */ var _example_ts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./example.ts */ \"./App/js/example.ts\");\n\r\n\r\n\r\n\r\n\r\n\r\n(0,_password_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\r\njquery__WEBPACK_IMPORTED_MODULE_0__(function() {\r\n    console.log('Hello World');\r\n    (0,_scripts_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])();\r\n    console.log(\"Example\", _example_ts__WEBPACK_IMPORTED_MODULE_3__.obj);\r\n});\r\n\r\n\n\n//# sourceURL=webpack:///./App/js/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n/* harmony import */ var _scripts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts.js */ \"./App/js/scripts.js\");\n/* harmony import */ var _password_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./password.js */ \"./App/js/password.js\");\n/* harmony import */ var _dropfile_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dropfile.js */ \"./App/js/dropfile.js\");\n/* harmony import */ var _openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./openmodalalumnes.js */ \"./App/js/openmodalalumnes.js\");\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__.openModal)();\r\n(0,_dropfile_js__WEBPACK_IMPORTED_MODULE_3__.initDropFile)();\r\n(0,_password_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\r\n(0,_dropfile_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])();\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__.closeModal)();\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__.searchAlumne)();\r\n\n\n//# sourceURL=webpack:///./App/js/index.js?");
+
+/***/ }),
+
+/***/ "./App/js/openmodalalumnes.js":
+/*!************************************!*\
+  !*** ./App/js/openmodalalumnes.js ***!
+  \************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   closeModal: () => (/* binding */ closeModal),\n/* harmony export */   openModal: () => (/* binding */ openModal),\n/* harmony export */   searchAlumne: () => (/* binding */ searchAlumne)\n/* harmony export */ });\nfunction openModal() {\r\n\r\n    console.log(\"hola\")\r\n\r\n\r\n    const modalsFotos = document.querySelectorAll('.modalFoto');\r\n\r\n    modalsFotos.forEach(modal => {\r\n\r\n        modal.addEventListener(\"click\", () => {\r\n            const userId = modal.getAttribute('data-user-id');\r\n            // Obtener el elemento del título del modal\r\n            var modalTitle = document.getElementById('modalTitle');\r\n    \r\n            // Actualizar el contenido del título con el valor de userId\r\n            modalTitle.innerText = 'User ID: ' + userId;\r\n    \r\n            // Obtener el elemento de entrada oculta para el user_id en el formulario\r\n            var userIdInput = document.getElementById('userIdInput');\r\n    \r\n            // Actualizar el valor del campo user_id en el formulario\r\n            userIdInput.value = userId;\r\n    \r\n            // Mostrar el modal\r\n            document.getElementById('my_modal_2').showModal();\r\n        })\r\n    })\r\n}\r\n\r\nfunction closeModal() {\r\n    console.log(\"holasds\");\r\n    // Cerrar el modal\r\n    document.getElementById(\"modalCancelar\").addEventListener(() => {\r\n\r\n    })\r\n\r\n}\r\n\r\n\r\n\r\nfunction searchAlumne() {\r\n    \r\n};\n\n//# sourceURL=webpack:///./App/js/openmodalalumnes.js?");
 
 /***/ }),
 
