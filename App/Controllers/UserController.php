@@ -241,8 +241,7 @@ class UserController
     }
     public function carnetUser($request, $response, $container)
     {
-        // Obtén el token de la URL o, si no está presente, utiliza el token del usuario actual
-        $id = $request->getParam("token") ?? $_SESSION["token"];
+        $id = $request->getParam("token");
     
         // Verifica si el token está presente en la base de datos
         $dbConfig = $container["config"]["database"];
@@ -254,21 +253,27 @@ class UserController
         // Busca el usuario por el token
         $user = $usersModel->getUserByToken($id);
     
-        if ($user) {
-            // Si el usuario existe, obtén la información
+        if ($user || $userId = $_SESSION["user_id"]) {
+            // Si el usuario existe o hay un token en la sesión, obtén la información
+            if (!$user) {
+                // Si no hay usuario pero hay un token en la sesión, obtén la información del usuario loggeado
+                $user = $usersModel->getUserById($userId);
+            }
+        
             $group = $usersModel->getGroupForUser($user["id"]);
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
             $response->set("uniqueUrl", "http://localhost:8080/carnet/{$user["id"]}");
-    
+        
             // Establece la plantilla
             $response->setTemplate("carnet.php");
         } else {
-            // Si el token no coincide con ningún usuario, muestra un mensaje de error
+            // Si el token no coincide con ningún usuario y no hay token en la sesión, muestra un mensaje de error
             $response->set("error", "Usuario no encontrado");
             $response->setTemplate("error.php"); // Asegúrate de tener una plantilla para mostrar errores
         }
+        
     
         return $response;
     }
