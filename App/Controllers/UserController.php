@@ -92,10 +92,9 @@ class UserController
             $_SESSION["group_id"] = $loggedInUser["group_id"];
             $_SESSION["logged"] = true;
             $userId = $_SESSION["user_id"];
-            $user = $usersModel->getUserById($userId);
             $group = $usersModel->getGroupForUser($userId);
 
-            $response->set("user", $user);
+            $response->set("user", $loggedInUser);
             $response->set("group", $group);
 
             $response->SetTemplate("perfil.php");
@@ -151,6 +150,23 @@ class UserController
 
             // Asociar el usuario al grupo en la tabla user_groups
             $usersModel->assignUserToGroup($userId, $groupId);
+              // Verifica si el usuario ya tiene un token
+              $existingToken = $usersModel->getUserToken($userId);
+    
+              // Si no tiene un token, genera uno nuevo y guárdalo
+              if (empty($existingToken)) {
+                  // Genera un token único
+                  $token = uniqid();
+      
+                  // Guarda el token en la base de datos
+                  $usersModel->saveUserToken($userId, $token);
+              } else {
+                  // Si ya tiene un token, utiliza el existente
+                  $token = $existingToken;
+              }
+      
+              // Construye la URL completa con el token como parámetro de ruta
+              $uniqueUrl = "https://tuwebapp.com/carnet/{$token}";
 
             return $response;
         }
@@ -225,51 +241,39 @@ class UserController
     }
     public function carnetUser($request, $response, $container)
     {
-        // Verifica si el usuario está autenticado
-        if ($_SESSION["logged"]) {
-            $dbConfig = $container["config"]["database"];
-            $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-            $connection = $dbModel->getConnection();
+        // Obtén el token de la URL o, si no está presente, utiliza el token del usuario actual
+        $id = $request->getParam("token") ?? $_SESSION["token"];
     
-            $usersModel = new UsersPDO($connection);
+        // Verifica si el token está presente en la base de datos
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
     
-            $userId = $_SESSION["user_id"];
-            $user = $usersModel->getUserById($userId);
+        $usersModel = new UsersPDO($connection);
     
-            $group = $usersModel->getGroupForUser($userId);
+        // Busca el usuario por el token
+        $user = $usersModel->getUserByToken($id);
     
-            // Verifica si el usuario ya tiene un token
-            $existingToken = $usersModel->getUserToken($userId);
-    
-            // Si no tiene un token, genera uno nuevo y guárdalo
-            if (empty($existingToken)) {
-                // Genera un token único
-                $token = uniqid();
-    
-                // Guarda el token en la base de datos
-                $usersModel->saveUserToken($userId, $token);
-            } else {
-                // Si ya tiene un token, utiliza el existente
-                $token = $existingToken;
-            }
-    
-            // Construye la URL completa con el token como parámetro de ruta
-            $uniqueUrl = "https://tuwebapp.com/carnet/{$token}";
-    
+        if ($user) {
+            // Si el usuario existe, obtén la información
+            $group = $usersModel->getGroupForUser($user["id"]);
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
-            $response->set("uniqueUrl", $uniqueUrl);
+            $response->set("uniqueUrl", "http://localhost:8080/carnet/{$user["id"]}");
     
             // Establece la plantilla
-            $response->SetTemplate("carnet.php");
+            $response->setTemplate("carnet.php");
         } else {
-            // Si no está autenticado, redirige a la página de inicio de sesión u otra página
-            $response->redirect("/login");
+            // Si el token no coincide con ningún usuario, muestra un mensaje de error
+            $response->set("error", "Usuario no encontrado");
+            $response->setTemplate("error.php"); // Asegúrate de tener una plantilla para mostrar errores
         }
     
         return $response;
     }
+    
+    
     
 
 

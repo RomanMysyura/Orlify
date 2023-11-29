@@ -105,7 +105,7 @@ class UsersPDO
         $stmt = $this->sql->prepare($sql);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function getAllGroups()
@@ -358,4 +358,14 @@ class UsersPDO
             return false;
         }
     }
+    public function getUserByToken($token)
+{
+    $query = "SELECT * FROM users WHERE token = :token";
+    $stmt = $this->sql->prepare($query);
+    $stmt->bindParam(":token", $token, \PDO::PARAM_STR);
+    $stmt->execute();
+
+    // Devuelve el usuario si se encuentra, o false si no se encuentra
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
 }
