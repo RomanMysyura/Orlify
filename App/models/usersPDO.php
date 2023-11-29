@@ -143,6 +143,23 @@ class UsersPDO
             ':phone' => $phone
         ]);
     }
+
+    public function editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $role)
+    {
+
+        $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email, phone = :phone, dni = :dni, birth_date = :birth_date, role = :role WHERE id = :id");
+        $stmt->execute([
+            ':id' => $id,
+            ':name' => $name,
+            ':surname' => $surname,
+            ':email' => $email,
+            ':phone' => $phone,
+            ':dni' => $dni,
+            ':birth_date' => $birth_date,
+            ':role' => $role
+        ]);
+    }
+
     public function PaneleditUser($id, $name, $surname, $email, $phone,$dni,$birth_date,$role)
     {
 
@@ -280,6 +297,15 @@ class UsersPDO
     
 
     public function deleteUser($userid){
+
+        // Primero, eliminar de la tabla photo
+        $stm = $this->sql->prepare("DELETE FROM photo WHERE user_id = :user_id");
+        $stm->execute([':user_id' => $userid]);
+
+        // Primero, eliminar de la tabla orla_users
+        $stm = $this->sql->prepare("DELETE FROM orla_users WHERE user_id = :user_id");
+        $stm->execute([':user_id' => $userid]);
+
         // Primero, eliminar de la tabla user_groups
         $stm = $this->sql->prepare("DELETE FROM user_groups WHERE user_id = :user_id");
         $stm->execute([':user_id' => $userid]);
@@ -289,6 +315,7 @@ class UsersPDO
         $stm->execute([':id' => $userid]);
     }
 
+   
 
 
     public function uploadPhotoFromFile($userId, $photoUrl, $selectedPhoto)

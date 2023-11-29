@@ -54,6 +54,7 @@ $app->post("uploadUser", [UserController::class,"uploadUser"]);
 $app->get("logout", [UserController::class,"logout"]);
 $app->get("panel-de-control", [NavigationController::class,"panelDeControl"]);
 $app->post("updateUser", [UserController::class,"updateUser"]);
+$app->post("uploadUserAdmin", [UserController::class,"uploadUserAdmin"]);
 $app->post("uploadPhoto", [UserController::class,"uploadPhoto"]);
 $app->post("uploadPhotoFromFile", [UserController::class,"uploadPhotoFromFile"]);
 $app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"]);
@@ -65,6 +66,7 @@ $app->get("deleteerror", [UserController::class,"deleteerror"]);
 $app->post("uploaderror", [UserController::class,"uploaderror"]);
 $app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"]);
 $app->get("recuperarpass", [NavigationController::class,"recuperarpass"]);
+
 
 
 

@@ -241,6 +241,38 @@ class UserController
         $response->SetTemplate("perfil.php", ["user" => $user]);
         return $response;
     }
+
+    public function uploadUserAdmin($request, $response, $container)
+    {
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+
+        $usersModel = new UsersPDO($connection);
+
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $id = $_POST["id"];
+            $name = $_POST["name"];
+            $surname = $_POST["surname"];
+            $email = $_POST["email"];
+            $phone = $_POST["phone"];
+            $dni = $_POST["dni"];
+            $birth_date = $_POST["birth_date"];
+            $role = $_POST["role"];
+            
+
+            $usersModel->editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $role);
+
+       
+        }
+
+        $id = $_POST["id"];
+        $user = $usersModel->getUserById($id);
+
+        $response->SetTemplate("paneldecontrol.php", ["user" => $user]);
+        return $response;
+
+    }
     public function carnetUser($request, $response, $container)
     {
         // Verifica si el usuario está autenticado
