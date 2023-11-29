@@ -27,30 +27,32 @@
 
         <div class="ml-0 w-full">
             <div class="editar_usuari">
-                <div class='flex items-center justify-center min-h-screen bg-transparent'>
-    <div class="flex rounded-full bg-black px-2 w-full max-w-md">
+                <div class='flex items-center justify-center '>
+                    <div class="flex rounded-full bg-white px-2 mt-2 mb-2 w-full max-w-md">
 
-        <input type="text" class="w-full  flex bg-transparent pl-5 text-white outline-0 border-0"
-            placeholder="Buscar usuaris..." />
+                        <input type="text" id="searchInput"
+                            class="w-full  flex bg-transparent pl-5 text-black outline-0 border-0"
+                            placeholder="Buscar usuaris..." />
 
-        <button type="submit" class="relative p-2 bg-[#0d1829] rounded-full">
-            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
 
-                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                        <button type="submit" class="relative p-2 bg-white rounded-full">
+                            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
 
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+                                <g id="SVGRepo_bgCarrier" stroke-width="0" />
 
-                <g id="SVGRepo_iconCarrier">
-                    <path
-                        d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
-                        stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
 
-            </svg>
-        </button>
-    </div>
-</div>
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                        stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </g>
+
+                            </svg>
+                        </button>
+                    </div>
+                </div>
                 <table class=" bg-white border border-gray-300 w-full">
                     <thead>
                         <tr>
@@ -68,7 +70,7 @@
 
                     <tbody>
                         <?php foreach ($users as $user): ?>
-                        <tr>
+                        <tr class="userRow hover:bg-gray-300">
                             <td class="py-2 px-4 border-b">
                                 <?= $user['id'] ?>
                             </td>
@@ -126,6 +128,7 @@
 
                     </div>
                 </dialog>
+
             </div>
 
 
@@ -204,7 +207,7 @@
                     <div class="mt-5 flex items-center justify-center">
                         <button id="crearUsuariosBtn"
                             class="btn btn-outline inline-flex mt-2 items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
-                            type="submit">
+                            type="button">
                             Crear
                         </button>
                     </div>
@@ -220,9 +223,36 @@
             </div>
 
             <div class="notifications">
+            <div class='flex items-center justify-center '>
+                    <div class="flex rounded-full bg-white px-2 mt-2 mb-2 w-full max-w-md">
+
+                        <input type="text" id="searchInput2"
+                            class="w-full  flex bg-transparent pl-5 text-black outline-0 border-0"
+                            placeholder="Buscar usuaris..." />
+
+
+                        <button type="submit" class="relative p-2 bg-white rounded-full">
+                            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+
+                                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                        stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </g>
+
+                            </svg>
+                        </button>
+                    </div>
+                </div>
                 <table class=" bg-white border border-gray-300 w-full">
                     <thead>
                         <tr>
+                            <th class="py-2 px-4 border-b">Id </th>
                             <th class="py-2 px-4 border-b">Id Usuari</th>
                             <th class="py-2 px-4 border-b">Email</th>
                             <th class="py-2 px-4 border-b">Descripció</th>
@@ -236,7 +266,10 @@
                     <tbody>
                         <?php foreach ($errors as $error): ?>
                         <input type="hidden" name="id" value="<?= $error['error_id'] ?>">
-                        <tr>
+                        <tr class="userRow hover:bg-gray-300">
+                            <td class=" py-2 px-4 border-b">
+                            <?= $error['error_id'] ?>
+                            </td>
                             <td class="py-2 px-4 border-b">
                                 <?= $error['user_id'] ?>
                             </td>
@@ -244,7 +277,18 @@
                                 <?= $error['user_email'] ?>
                             </td>
                             <td class="py-2 px-4 border-b">
-                                <?= $error['error_description'] ?>
+                                <div class="truncate max-w-xs overflow-hidden">
+                                    <?= $error['error_description'] ?>
+                                </div>
+                                <?php if (strlen($error['error_description']) > 30): ?>
+                                <div class="description hidden">
+                                    <?= $error['error_description'] ?>
+                                </div>
+                                <button class="text-blue-500 hover:underline focus:outline-none"
+                                    onclick="toggleDescription(this)">
+                                    Mostrar más
+                                </button>
+                                <?php endif; ?>
                             </td>
                             <td class="py-2 px-4 border-b">
                                 <?= $error['error_date'] ?>
@@ -284,6 +328,7 @@
     </div>
 
     <?php include "footer.php" ?>
+
 
     <script src="../js/paneldecontrol.js"></script>
 

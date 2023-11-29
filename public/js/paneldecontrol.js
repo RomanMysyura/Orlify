@@ -1,3 +1,13 @@
+function toggleDescription(button) {
+    var description = button.previousElementSibling; // Assuming the description is the previous sibling
+    description.classList.toggle('hidden');
+    button.classList.toggle('bg-gray-400');
+
+    // Toggle button text between "Mostrar más" and "Mostrar menos"
+    var buttonText = button.textContent.trim();
+    button.textContent = buttonText === 'Mostrar más' ? 'Mostrar menos' : 'Mostrar más';
+}
+
 $(document).ready(function() {
     $(".editorles, .editphoto, .crear_usuari, .notifications").hide();
 
@@ -51,18 +61,7 @@ $(document).ready(function() {
         $(this).removeClass("bg-white").addClass("bg-gray-400");
     });
 
-
-    $("#crearUsuariosBtn").click(function() {
-        var numUsuarios = $("#numUsuarios").val();
-
-        if (numUsuarios && !isNaN(numUsuarios) && numUsuarios > 0) {
-            for (var i = 0; i < numUsuarios; i++) {
-                crearUsuarioAleatorio();
-            }
-        } else {
-            alert("Please enter a valid number of users.");
-        }
-    });
+   
 
     $("#crearUsuarioPrueba").click(function() {
         fetch('https://randomuser.me/api/')
@@ -77,43 +76,28 @@ $(document).ready(function() {
             })
             .catch(error => console.error('Error:', error));
     });
-    function crearUsuarioAleatorio() {
-        fetch('https://randomuser.me/api/')
-            .then(response => response.json())
-            .then(data => {
-                // Create a new form for each user
-                var form = document.createElement('form');
-                form.setAttribute('method', 'post');
-                form.setAttribute('action', '/randomuser');
-    
-                // Create hidden input fields for user data
-                addHiddenField(form, 'mail', data.results[0].email);
-                addHiddenField(form, 'username', data.results[0].name.first);
-                addHiddenField(form, 'surname', data.results[0].name.last);
-                addHiddenField(form, 'birth_date', data.results[0].dob.date.substring(0, 10));
-                addHiddenField(form, 'role', 'Alumne');
-                addHiddenField(form, 'password', 'testing10');
-                
-                // Append the form to the body
-                document.body.appendChild(form);
-    
-                // Submit the form
-                form.submit();
-    
-                // Remove the form from the body
-                document.body.removeChild(form);
-            })
-            .catch(error => console.error('Error:', error));
-    }
-    
-    // Function to add hidden input field to a form
-    function addHiddenField(form, name, value) {
-        var input = document.createElement('input');
-        input.setAttribute('type', 'hidden');
-        input.setAttribute('name', name);
-        input.value = value;
-        form.appendChild(input);
-    }
+
+    $("#searchInput").on("keyup", function () {
+        var searchTerm = $(this).val().toLowerCase();
+
+        $(".userRow").each(function () {
+            var currentRowText = $(this).text().toLowerCase();
+            var showRow = currentRowText.indexOf(searchTerm) > -1;
+            $(this).toggle(showRow);
+        });
+    });
+
+    $("#searchInput2").on("keyup", function () {
+        var searchTerm = $(this).val().toLowerCase();
+
+        $(".userRow").each(function () {
+            var currentRowText = $(this).text().toLowerCase();
+            var showRow = currentRowText.indexOf(searchTerm) > -1;
+            $(this).toggle(showRow);
+        });
+    });
+
+ 
 });
 function openEditModal(userId, name, surname, email, phone, dni, birth_date,  role) {
     // Obtén los datos del usuario correspondiente (puedes hacer una solicitud AJAX si es necesario)
@@ -201,4 +185,77 @@ function obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_dat
 
 // Function to create a random user
 
- 
+$("#crearUsuariosBtn").click(async function () {
+    var numUsuarios = $("#numUsuarios").val();
+
+    if (numUsuarios && !isNaN(numUsuarios) && numUsuarios > 0) {
+        // Disable the button and show a loading indicator
+        $(this).prop('disabled', true).text('Creating Users...');
+
+        try {
+            // Wrap the loop in an async function
+            for (var i = 0; i < numUsuarios; i++) {
+                await crearUsuarioAleatorio(); // Wait for the asynchronous function to complete
+
+            }
+
+            // Enable the button and reset its text
+            $(this).prop('disabled', false).text('Crear');
+            window.location.href = "/panel-de-control";
+        } catch (error) {
+            // Enable the button and reset its text in case of an error
+            $(this).prop('disabled', false).text('Crear');
+            console.error('Error creating users:', error);
+        }
+    } else {
+        alert("Please enter a valid number of users.");
+    }
+});
+
+async function crearUsuarioAleatorio() {
+    try {
+        // Fetch random user data
+        const response = await fetch('https://randomuser.me/api/');
+        const data = await response.json();
+
+        // Create a new form for each user
+        var form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', '/randomuser');
+
+        // Create hidden input fields for user data
+        addHiddenField(form, 'mail', data.results[0].email);
+        addHiddenField(form, 'username', data.results[0].name.first);
+        addHiddenField(form, 'surname', data.results[0].name.last);
+        addHiddenField(form, 'birth_date', data.results[0].dob.date.substring(0, 10));
+        addHiddenField(form, 'role', 'Alumne');
+        addHiddenField(form, 'password', 'testing10');
+
+        // Append the form to the body
+        document.body.appendChild(form);
+
+        // Submit the form using fetch
+        const formResponse = await fetch('/randomuser', {
+            method: 'POST',
+            body: new FormData(form),
+        });
+
+        // Handle the form submission response if needed
+        console.log('Form submitted successfully');
+
+        // Remove the form from the body
+        document.body.removeChild(form);
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+// Function to add hidden input field to a form
+function addHiddenField(form, name, value) { 
+    var input = document.createElement('input');
+    input.setAttribute('type', 'hidden');
+    input.setAttribute('name', name);
+    input.value = value;
+    form.appendChild(input);
+}
