@@ -16,7 +16,7 @@
     <?php include "navbar.php" ?>
 
     <div class="flex">
-        <div class="flex flex-col w-48">
+        <div class="flex flex-col w-52">
             <a href="#" class="p-4 bg-white hover:bg-gray-400" id="editarUsuarioBtn">Editar Usuaris</a>
             <a href="#" class="p-4 bg-white hover:bg-gray-400" id="crearUsuarioBtn">Afegir Usuari</a>
             <a href="#" class="p-4 bg-white hover:bg-gray-400" id="editorlesBtn">Editar Orles</a>
@@ -24,26 +24,53 @@
             <a href="#" class="p-4 bg-white hover:bg-gray-400" id="notificationsBtn">Notificacions d'error</a>
         </div>
 
+
         <div class="ml-0 w-full">
             <div class="editar_usuari">
+                <div class='flex items-center justify-center '>
+                    <div class="flex rounded-full bg-white px-2 mt-2 mb-2 w-full max-w-md">
+
+                        <input type="text" id="searchInput"
+                            class="w-full  flex bg-transparent pl-5 text-black outline-0 border-0"
+                            placeholder="Buscar usuaris..." />
+
+
+                        <button type="submit" class="relative p-2 bg-white rounded-full">
+                            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+
+                                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                        stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </g>
+
+                            </svg>
+                        </button>
+                    </div>
+                </div>
                 <table class=" bg-white border border-gray-300 w-full">
                     <thead>
                         <tr>
                             <th class="py-2 px-4 border-b">ID</th>
-                            <th class="py-2 px-4 border-b">Nombre</th>
-                            <th class="py-2 px-4 border-b">Apellido</th>
-                            <th class="py-2 px-4 border-b">Correo Electrónico</th>
-                            <th class="py-2 px-4 border-b">Teléfono</th>
+                            <th class="py-2 px-4 border-b">Nom</th>
+                            <th class="py-2 px-4 border-b">Cognom</th>
+                            <th class="py-2 px-4 border-b">Correu electronic</th>
+                            <th class="py-2 px-4 border-b">Teléfon</th>
                             <th class="py-2 px-4 border-b">DNI</th>
-                            <th class="py-2 px-4 border-b">Fecha de Nacimiento</th>
+                            <th class="py-2 px-4 border-b">Data de naixement</th>
                             <th class="py-2 px-4 border-b">Rol</th>
-                            <th class="py-2 px-4 border-b">Acciones</th> <!-- Nueva columna para el botón de editar -->
+                            <th class="py-2 px-4 border-b">Accions</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <?php foreach ($users as $user): ?>
-                        <tr>
+                        <tr class="userRow hover:bg-gray-300">
                             <td class="py-2 px-4 border-b">
                                 <?= $user['id'] ?>
                             </td>
@@ -69,7 +96,8 @@
                                 <?= $user['role'] ?>
                             </td>
                             <td class="py-2 px-4 border-b">
-                                <button class="btn" onclick="mostrarModalEditarUsuario(<?= $user['id'] ?>)">Editar
+                                <button class="btn"
+                                    onclick="openEditModal('<?= $user['id'] ?>', '<?= $user['name'] ?>', '<?= $user['surname'] ?>', '<?= $user['email'] ?>', '<?= $user['phone'] ?>', '<?= $user['dni'] ?>', '<?= $user['birth_date'] ?>',  '<?= $user['role'] ?>')">Editar
                                     usuari</button>
                             </td>
                             <td>
@@ -85,27 +113,25 @@
                         <?php endforeach; ?>
                     </tbody>
                 </table>
-                <div id="modalEditarUsuario" class="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 hidden">
-                    <div class="flex justify-center items-center h-full">
-                        <div class="bg-white p-8 rounded-lg shadow-md w-96">
-                            <form id="editarUsuarioForm" action="/Idpanel" method="get"
-                                class="p-4 bg-white rounded-md shadow-md">
-                                <!-- Campo oculto para almacenar la ID del usuario -->
-                                <input type="hidden" id="userId" name="userId" value="">
-                                <!-- Otros campos del formulario -->
-
-                                <td class="py-2 px-4 border-b">
-                                    <button type="submit" class="btn">Editar usuari</button>
-                                </td>
-                            </form>
-                            <button id="cerrarModal" class="btn bg-gray-400 hover:bg-gray-500"
-                                onclick="cerrarModalEditarUsuario()">Cerrar</button>
+                <dialog id="edit_modal" class="modal">
+                    <div class="modal-box">
+                        <form method="dialog">
+                            <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                onclick="closeEditModal()">✕
+                            </button>
+                        </form>
+                        <div class="text-center">
+                            <h3 class="font-bold text-lg">Editar usuari</h3>
                         </div>
-                    </div>
-                </div>
+                        <div id="user_details">
+                        </div>
 
+                    </div>
+                </dialog>
 
             </div>
+
+
 
             <div class="crear_usuari ">
 
@@ -181,12 +207,11 @@
                     <div class="mt-5 flex items-center justify-center">
                         <button id="crearUsuariosBtn"
                             class="btn btn-outline inline-flex mt-2 items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
-                            type="submit">
+                            type="button">
                             Crear
                         </button>
                     </div>
                 </form>
-
             </div>
 
 
@@ -198,14 +223,41 @@
             </div>
 
             <div class="notifications">
+            <div class='flex items-center justify-center '>
+                    <div class="flex rounded-full bg-white px-2 mt-2 mb-2 w-full max-w-md">
+
+                        <input type="text" id="searchInput2"
+                            class="w-full  flex bg-transparent pl-5 text-black outline-0 border-0"
+                            placeholder="Buscar usuaris..." />
+
+
+                        <button type="submit" class="relative p-2 bg-white rounded-full">
+                            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+
+                                <g id="SVGRepo_bgCarrier" stroke-width="0" />
+
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
+
+                                <g id="SVGRepo_iconCarrier">
+                                    <path
+                                        d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                        stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </g>
+
+                            </svg>
+                        </button>
+                    </div>
+                </div>
                 <table class=" bg-white border border-gray-300 w-full">
                     <thead>
                         <tr>
+                            <th class="py-2 px-4 border-b">Id </th>
                             <th class="py-2 px-4 border-b">Id Usuari</th>
                             <th class="py-2 px-4 border-b">Email</th>
                             <th class="py-2 px-4 border-b">Descripció</th>
-                            <th class="py-2 px-4 border-b">Estat</th>
                             <th class="py-2 px-4 border-b">Data</th>
+                            <th class="py-2 px-4 border-b">Estat</th>
                             <th class="py-2 px-4 border-b">Acciones</th>
 
                         </tr>
@@ -214,7 +266,10 @@
                     <tbody>
                         <?php foreach ($errors as $error): ?>
                         <input type="hidden" name="id" value="<?= $error['error_id'] ?>">
-                        <tr>
+                        <tr class="userRow hover:bg-gray-300">
+                            <td class=" py-2 px-4 border-b">
+                            <?= $error['error_id'] ?>
+                            </td>
                             <td class="py-2 px-4 border-b">
                                 <?= $error['user_id'] ?>
                             </td>
@@ -222,7 +277,18 @@
                                 <?= $error['user_email'] ?>
                             </td>
                             <td class="py-2 px-4 border-b">
-                                <?= $error['error_description'] ?>
+                                <div class="truncate max-w-xs overflow-hidden">
+                                    <?= $error['error_description'] ?>
+                                </div>
+                                <?php if (strlen($error['error_description']) > 30): ?>
+                                <div class="description hidden">
+                                    <?= $error['error_description'] ?>
+                                </div>
+                                <button class="text-blue-500 hover:underline focus:outline-none"
+                                    onclick="toggleDescription(this)">
+                                    Mostrar más
+                                </button>
+                                <?php endif; ?>
                             </td>
                             <td class="py-2 px-4 border-b">
                                 <?= $error['error_date'] ?>
@@ -262,6 +328,7 @@
     </div>
 
     <?php include "footer.php" ?>
+
 
     <script src="../js/paneldecontrol.js"></script>
 
