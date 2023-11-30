@@ -192,7 +192,8 @@ public function publish_orla($request, $response, $container)
     $dbConfig = $container["config"]["database"];
     $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
     $connection = $dbModel->getConnection();
-    
+
+    $OrlaModel = new Orles($connection);
 
     $orlaId = 1;
     $isPublished = 'isPublished';
