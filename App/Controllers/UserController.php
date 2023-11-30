@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Db;
 use App\Models\UsersPDO;
+use App\Models\Orles;
 
 class UserController
 {
@@ -385,6 +386,24 @@ class UserController
         return $response;
     }
 
+    public function alumnes($request, $response, $container)
+    {
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+
+        $userId = $_SESSION["user_id"];
+
+        $alumnes = new UsersPDO($connection);
+
+        $alumnes = $alumnes->getAlumnesByProfessor($userId);
+
+        $response->set("alumnes", $alumnes);
+        $response->SetTemplate("alumnes.php");
+
+        return $response;
+    }
+    
     public function contactar($request, $response, $container)
     {
 
@@ -451,6 +470,8 @@ class UserController
         $response->SetTemplate("paneldecontrol.php", ["user" => $user]);
         return $response;
     }
+
+    
     public function Idpanel($request, $response, $container)
     {
 
