@@ -27,6 +27,14 @@ class Orles
     
         return $result;
     }
+    public function getOrlaName($orla_id)
+    {
+        $stmt = $this->sql->prepare("SELECT name_orla FROM orla WHERE id = :orla_id");
+        $stmt->bindParam(":orla_id", $orla_id);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result["name_orla"];
+    }
     
 
     public function createNewOrla()
