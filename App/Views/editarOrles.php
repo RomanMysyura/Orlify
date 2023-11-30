@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/main.css">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </head>
 
 <body>
@@ -147,16 +149,16 @@
                             <span class="badge badge-sm badge-error">PDF</span>
                         </a>
                     </li>
-                    <li>
+                    <li class="ml-auto">
                         <a>
                             Publicar
-                            <input type="checkbox" class="toggle toggle-success" checked />
+                            <input type="checkbox" class="toggle toggle-success" id="checkboxToggle" />
                         </a>
                     </li>
 
+
                 </ul>
             </div>
-
 
 
 
@@ -184,9 +186,9 @@
 
     <?php include "footer.php" ?>
 
-    <script src="/js/editarOrles.js">
-
-    </script>
+    <script src="/js/editarOrles.js"></script>
+    <script src ="/js/publishOrla.js" ></script>
+   
 
 </body>
 

@@ -142,7 +142,7 @@ public function add_users_to_orla($request, $response, $container)
     $orlaName = $OrlaModel->getOrlaName($orla_id);
     $response->set("orlaName", $orlaName);
     // Obtener la lista de usuarios y grupos
-    $usersModel = new \App\Models\UsersPDO($connection);
+    $usersModel = new UsersPDO($connection);
     $users = $usersModel->getAllUsers();
     $groups = $usersModel->getAllGroups();
 
@@ -168,8 +168,22 @@ public function add_users_to_orla($request, $response, $container)
     return $response;
 }
 
+public function publish_orla($request, $response, $container)
+{
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
 
+    $OrlaModel = new Orles($connection);
 
+    $orlaId = 1;
+    $isPublished = 'isPublished';
+
+    $OrlaModel->publishOrla($orlaId, $isPublished);
+
+    $response->SetTemplate("vieworles.php");
+    return $response;
+}
 
 
 

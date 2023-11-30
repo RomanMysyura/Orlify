@@ -66,6 +66,7 @@ $app->get("deleteerror", [UserController::class,"deleteerror"]);
 $app->post("uploaderror", [UserController::class,"uploaderror"]);
 $app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"]);
 $app->get("recuperarpass", [NavigationController::class,"recuperarpass"]);
+$app->post("publish-orla", [OrlesControllers::class,"publish_orla"]);
 
 
 

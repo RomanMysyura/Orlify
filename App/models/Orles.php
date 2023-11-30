@@ -36,12 +36,22 @@ class Orles
         return $result["name_orla"];
     }
     
+    public function publishOrla($orlaId, $isPublished)
+    {
+        // Define el estado en función del valor del checkbox
+        $status = ($isPublished) ? 'Public' : 'Privat';
+    
+        // Actualiza el estado en la base de datos
+        $stmt = $this->sql->prepare("UPDATE orla SET status = :status WHERE id = :orlaId");
+        $stmt->bindParam(":status", $status);
+        $stmt->bindParam(":orlaId", $orlaId);
+        $stmt->execute();
+    }
+    
 
     public function createNewOrla()
     {
        
-    
-    
         if (isset($_SESSION["group_id"])) {
             $group_id = $_SESSION["group_id"];
     
@@ -106,7 +116,7 @@ class Orles
     }
     
     
-    
+   
     
 
 
