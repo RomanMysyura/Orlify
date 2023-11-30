@@ -110,6 +110,24 @@ public function eliminarOrla($request, $response, $container)
     return $response;
 }
 
+public function eliminarOrlaPanel($request, $response, $container)
+{
+    $orla_id = $_GET['id']; // Obtener el ID de la orla desde la URL
+
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
+
+    $OrlaModel = new Orles($connection);
+    $OrlaModel->eliminarOrla($orla_id);
+    $userId = $_SESSION["user_id"];
+
+    $response->SetTemplate("paneldecontrol.php");
+    return $response;
+}
+
+
+
 
 public function add_users_to_orla($request, $response, $container)
 {
@@ -135,8 +153,43 @@ public function add_users_to_orla($request, $response, $container)
 }
 
 
+public function UploadOrla($request, $response, $container)
+{
+    $orla_id = $_POST['id'];
+    $name_orla = $_POST['name'];
+    $status = $_POST['status'];
+    $url = $_POST['url'];
+    $group_id = $_POST['group_id'];
+    $group_name = $_POST['group_name'];
+
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
+
+    $OrlaModel = new Orles($connection);
+    $OrlaModel->UploadOrla($orla_id, $name_orla, $status, $url, $group_name);
+
+    $response->SetTemplate("paneldecontrol.php");
+
+    return $response;
 
 
+}
 
+public function eliminarPhoto($request, $response, $container)
+{
+    $photo_id = $_GET['id']; // Obtener el ID de la orla desde la URL
+
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
+
+    $OrlaModel = new Orles($connection);
+    $OrlaModel->eliminarPhoto($photo_id);
+    $userId = $_SESSION["user_id"];
+
+    $response->SetTemplate("paneldecontrol.php");
+    return $response;
+}
 
 }

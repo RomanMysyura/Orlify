@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Db;
 use App\Models\UsersPDO;
+use App\Models\Orles;
 
 class UserController
 {
@@ -451,6 +452,8 @@ class UserController
         $response->SetTemplate("paneldecontrol.php", ["user" => $user]);
         return $response;
     }
+
+    
     public function Idpanel($request, $response, $container)
     {
 
