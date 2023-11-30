@@ -588,7 +588,4 @@ public function uploadPhotoFromFile($request, $response, $container)
     $response->SetTemplate("alumnes.php");
     return $response;
 }
-
-
-
 }
