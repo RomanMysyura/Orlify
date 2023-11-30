@@ -296,7 +296,7 @@ class UserController
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
-            $response->set("uniqueUrl", "http://localhost:8080/carnet/{$user["id"]}");
+            $response->set("uniqueUrl", "localhost:8080/carnet/{$user["id"]}");
         
             // Establece la plantilla
             $response->setTemplate("carnet.php");

@@ -8,7 +8,85 @@
     <title>
         <?= $app_config["app"]["name"] ?>
     </title>
+
 </head>
+
+
+<!-- Contenedor del banner de cookies -->
+<div id="cookie-banner" class="fixed bottom-0 left-0 w-full bg-gray-200 p-4 text-center shadow-md">
+    <p class="text-sm text-gray-700">
+        Utilizamos cookies para mejorar tu experiencia en el sitio. Al continuar, aceptas el uso de cookies.
+    </p>
+    <button id="accept-cookies" class="mt-2 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        Aceptar
+    </button>
+</div>
+
+<script>
+    // Function to set a cookie
+// Function to set a cookie with SameSite=None and Secure
+function setCookie(name, value, days) {
+    var expires = "";
+    var sameSite = "; SameSite=None ;Secure"; 
+
+    // Añade Secure si estás utilizando HTTPS
+    var secureFlag = location.protocol === "https:" ? "; Secure" : "";
+
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+
+    document.cookie = name + "=" + value + expires + sameSite + secureFlag + "; path=/";
+}
+
+    function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+}
+
+// Verificar si la cookie de aceptación de cookies está presente
+var cookieAccepted = getCookie('cookieAccepted');
+
+if (cookieAccepted) {
+    // El usuario ha aceptado las cookies
+    console.log('El usuario ha aceptado las cookies.');
+} else {
+    // El usuario aún no ha aceptado las cookies
+    console.log('El usuario aún no ha aceptado las cookies.');
+}
+    // Cuando el DOM esté cargado
+    document.addEventListener("DOMContentLoaded", function() {
+        // Verificar si ya se aceptaron las cookies utilizando sessionStorage
+        if (sessionStorage.getItem("cookiesAccepted") === null) {
+            // Mostrar el banner de cookies solo si la cookie no está presente
+            if (!getCookie('cookieAccepted')) {
+                document.getElementById("cookie-banner").classList.remove("hidden");
+            }
+        }
+
+        // Manejar clic en el botón de aceptar cookies
+        document.getElementById("accept-cookies").addEventListener("click", function() {
+            // Eliminar el banner de cookies
+            document.getElementById("cookie-banner").classList.add("hidden");
+
+            // Marcar que las cookies fueron aceptadas (almacenar en sessionStorage)
+            sessionStorage.setItem("cookiesAccepted", "true");
+
+            // Setear la cookie
+            setCookie('cookieAccepted', 'true', 365);
+        });
+    });
+</script>
+
+
 
 <body class="bg-gray-200 ">
     <?php include "navbar.php" ?>
@@ -44,12 +122,6 @@
             <p class="text-xl text-center mt-10 text-black">No necessites instal·lar ni descarregar res i la pots fer
                 des de qualsevol ordinador. I podràs descarregar una prova en PDF!</p>
         </div>
-
-
-
-
-
-
         <div class="flex-1  p-4 m-2">
             <div class="w-full max-w-md  m-auto">
                 <?php if (isset($error_message_login)): ?>
@@ -230,10 +302,6 @@
             </div>
         </div>
     </div>
-
-
-
-
     </div>
     <script>
     const slider = document.getElementById('slider');
@@ -258,8 +326,6 @@
     // Inicia el slider automáticamente
     setInterval(moverSlider, intervaloTiempo);
     </script>
-
-
     <?php include "footer.php" ?>
     <script src="/js/bundle.js"></script>
 </body>
