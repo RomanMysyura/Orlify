@@ -216,39 +216,109 @@
 
 
             <div class="editorles">
-                <h1>Editar Orles</h1>
+
+                <table class="bg-white border border-gray-300 w-full">
+                    <table class="bg-white border border-gray-300 w-full">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b">ID</th>
+                                <th class="py-2 px-4 border-b">Estat</th>
+                                <th class="py-2 px-4 border-b">Enllaç</th>
+                                <th class="py-2 px-4 border-b">Nom</th>
+                                <th class="py-2 px-4 border-b">Grup</th>
+                                <th class="py-2 px-4 border-b">Accions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php foreach ($orles as $orla): ?>
+                            <tr class="userRow hover:bg-gray-300 group">
+                                <td class="py-2 px-4 border-b">
+                                    <?= $orla['orla_id'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $orla['status'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <a href="<?= $orla['url'] ?>" target="_blank"><?= $orla['url'] ?></a>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $orla['name_orla'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $orla['group_name'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b items-center justify-center">
+                                    <button
+                                        class="group-hover:inline-flex items-center bg-blue-500 text-white py-2 px-4 rounded transition ease-in-out duration-300"
+                                        onclick="toggleCollapse('collapse<?= $orla['orla_id'] ?>')">
+                                        Ver detalles
+                                    </button>
+                                    <button>
+                                        <a href="/eliminarOrlaPanel?id=<?= $orla['orla_id']; ?>"
+                                            class="bg-red-500 text-white py-2 px-4 rounded"
+                                            onclick="return confirm('Estas segur que vols eliminar aquesta orla?')">
+                                            Eliminar <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </button>
+                                    <button class="btn"
+                                        onclick="openEditModal2('<?= $orla['orla_id'] ?>', '<?= $orla['name_orla'] ?>', '<?= $orla['status']?>', '<?= $orla['url']?>', '<?= $orla['group_id']?>', '<?= $orla['group_name']?>')">Editar
+                                        orla</button>
+                                </td>
+                            </tr>
+                            <!-- Detalles colapsables -->
+                            <tr id="collapse<?= $orla['orla_id'] ?>" class="hidden">
+                                <td colspan="8">
+                                    <div class="collapse bg-white transition ease-in-out duration-300 overflow-x-auto">
+                                        <div
+                                            class="collapse-title text-md font-medium flex justify-center items-center">
+                                            <?php foreach ($orla['photos'] as $photo): ?>
+                                            <div class="flex-shrink-0 items-center justify-center mx-5">
+                                                <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>"
+                                                    class="w-32 h-32 object-cover rounded-lg">
+                                                <div class="flex flex-col items-center">
+                                                    <!-- Added div for vertical centering -->
+                                                    <p class="mt-2"><?= $photo['name'] ?></p>
+                                                    <!-- Added margin-top for spacing -->
+                                                    <button class="btn btn-outline btn-error btn-xs mt-2"><a
+                                                            href="/eliminarPhoto?id=<?= $photo['photo_id']; ?>">Eliminar</a></button>
+                                                </div>
+                                            </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <dialog id="edit_modal2" class="modal">
+                        <div class="modal-box">
+                            <form method="dialog">
+                                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                    onclick="closeEditModal2()">✕
+                                </button>
+                            </form>
+                            <div class="text-center">
+                                <h3 class="font-bold text-lg">Editar orla</h3>
+                            </div>
+                            <div id="user_details2">
+                            </div>
+
+                        </div>
+                    </dialog>
             </div>
             <div class="editphoto">
                 <h1>Editar Photos</h1>
             </div>
 
+
+
+
+
             <div class="notifications">
-            <div class='flex items-center justify-center '>
-                    <div class="flex rounded-full bg-white px-2 mt-2 mb-2 w-full max-w-md">
-
-                        <input type="text" id="searchInput2"
-                            class="w-full  flex bg-transparent pl-5 text-black outline-0 border-0"
-                            placeholder="Buscar usuaris..." />
 
 
-                        <button type="submit" class="relative p-2 bg-white rounded-full">
-                            <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-
-                                <g id="SVGRepo_bgCarrier" stroke-width="0" />
-
-                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" />
-
-                                <g id="SVGRepo_iconCarrier">
-                                    <path
-                                        d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
-                                        stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                </g>
-
-                            </svg>
-                        </button>
-                    </div>
-                </div>
                 <table class=" bg-white border border-gray-300 w-full">
                     <thead>
                         <tr>
@@ -268,7 +338,7 @@
                         <input type="hidden" name="id" value="<?= $error['error_id'] ?>">
                         <tr class="userRow hover:bg-gray-300">
                             <td class=" py-2 px-4 border-b">
-                            <?= $error['error_id'] ?>
+                                <?= $error['error_id'] ?>
                             </td>
                             <td class="py-2 px-4 border-b">
                                 <?= $error['user_id'] ?>
@@ -281,11 +351,10 @@
                                     <?= $error['error_description'] ?>
                                 </div>
                                 <?php if (strlen($error['error_description']) > 30): ?>
-                                <div class="description hidden">
+                                <div class="description hidden ">
                                     <?= $error['error_description'] ?>
                                 </div>
-                                <button class="text-blue-500 hover:underline focus:outline-none"
-                                    onclick="toggleDescription(this)">
+                                <button class="text-blue-500 " onclick="toggleDescription(this)">
                                     Mostrar más
                                 </button>
                                 <?php endif; ?>

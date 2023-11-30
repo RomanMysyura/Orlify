@@ -27,6 +27,30 @@ class Orles
     
         return $result;
     }
+
+    public function getAllOrles()
+    {
+        $stmt = $this->sql->prepare("SELECT o.id AS orla_id, o.status, o.url, o.name_orla, g.name AS group_name, g.id AS group_id
+                                    FROM orla o
+                                    JOIN groups g ON o.group_id = g.id");
+        $stmt->execute();
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+   public function getAllPhotosOrla($orla_id)
+    {
+        $stmt = $this->sql->prepare("SELECT p.id AS photo_id, p.name, p.url
+                                    FROM photo p
+                                    JOIN users u ON p.user_id = u.id
+                                    JOIN orla_users ou ON u.id = ou.user_id
+                                    JOIN orla o ON ou.orla_id = o.id
+                                    WHERE o.id = :orla_id");
+        $stmt->bindParam(":orla_id", $orla_id);
+        $stmt->execute();
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
     
 
     public function createNewOrla()
@@ -76,7 +100,24 @@ class Orles
     
         // Redireccionar o retornar según sea necesario
     }
+
+public function eliminarPhoto($photo_id){
+        
+        $stmt = $this->sql->prepare("DELETE FROM photo WHERE id = :photo_id");
+        $stmt->bindParam(":photo_id", $photo_id);
+        $stmt->execute();
+}
     
+   public function UploadOrla($orla_id, $name_orla, $status, $url, $group_name)
+    {
+        $stmt = $this->sql->prepare("UPDATE orla SET name_orla = :name_orla, status = :status, url = :url, group_id  = (SELECT id FROM groups WHERE name = :group_name) WHERE id = :orla_id");
+        $stmt->bindParam(":orla_id", $orla_id);
+        $stmt->bindParam(":name_orla", $name_orla);
+        $stmt->bindParam(":status", $status);
+        $stmt->bindParam(":url", $url);
+        $stmt->bindParam(":group_name", $group_name);
+        $stmt->execute();
+    }
 
     
 
