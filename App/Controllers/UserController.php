@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Db;
 use App\Models\UsersPDO;
+use App\Models\Orles;
 
 class UserController
 {
@@ -54,6 +55,9 @@ class UserController
             // Llama al método del modelo para obtener el grupo
             $group = $usersModel->getGroupForUser($userId);
 
+
+
+
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
@@ -87,16 +91,12 @@ class UserController
         if ($loggedInUser) {
             $_SESSION["user_id"] = $loggedInUser["id"];
             $_SESSION["group_id"] = $loggedInUser["group_id"];
-            $_SESSION["role"] = $loggedInUser["role"];
             $_SESSION["logged"] = true;
             $userId = $_SESSION["user_id"];
-            $user = $usersModel->getUserById($userId);
             $group = $usersModel->getGroupForUser($userId);
-            $userPhoto = $usersModel->getUserSelectedPhoto($userId);
 
-            $response->set("user", $user);
+            $response->set("user", $loggedInUser);
             $response->set("group", $group);
-            $response->set("userPhoto", $userPhoto);
 
             $response->SetTemplate("perfil.php");
         } else {
@@ -191,12 +191,11 @@ class UserController
             $email = $_POST["mail"];
             $birthDate = $_POST["birth_date"];
             $password = $_POST["password"];
-            $role = $_POST["role"];
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $response->set("error_message_register", "La conta creada correctament");
             $response->SetTemplate("paneldecontrol.php");
-            $usersModel->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
+            $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
 
 
             return $response;
@@ -275,51 +274,44 @@ class UserController
     }
     public function carnetUser($request, $response, $container)
     {
-        // Verifica si el usuario está autenticado
-        if ($_SESSION["logged"]) {
-            $dbConfig = $container["config"]["database"];
-            $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-            $connection = $dbModel->getConnection();
+        $id = $request->getParam("token");
     
-            $usersModel = new UsersPDO($connection);
+        // Verifica si el token está presente en la base de datos
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
     
-            $userId = $_SESSION["user_id"];
-            $user = $usersModel->getUserById($userId);
+        $usersModel = new UsersPDO($connection);
     
-            $group = $usersModel->getGroupForUser($userId);
+        // Busca el usuario por el token
+        $user = $usersModel->getUserByToken($id);
     
-            // Verifica si el usuario ya tiene un token
-            $existingToken = $usersModel->getUserToken($userId);
-    
-            // Si no tiene un token, genera uno nuevo y guárdalo
-            if (empty($existingToken)) {
-                // Genera un token único
-                $token = uniqid();
-    
-                // Guarda el token en la base de datos
-                $usersModel->saveUserToken($userId, $token);
-            } else {
-                // Si ya tiene un token, utiliza el existente
-                $token = $existingToken;
+        if ($user || $userId = $_SESSION["user_id"]) {
+            // Si el usuario existe o hay un token en la sesión, obtén la información
+            if (!$user) {
+                // Si no hay usuario pero hay un token en la sesión, obtén la información del usuario loggeado
+                $user = $usersModel->getUserById($userId);
             }
-    
-            // Construye la URL completa con el token como parámetro de ruta
-            $uniqueUrl = "https://tuwebapp.com/carnet/{$token}";
-    
+        
+            $group = $usersModel->getGroupForUser($user["id"]);
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
-            $response->set("uniqueUrl", $uniqueUrl);
-    
+            $response->set("uniqueUrl", "/carnet/{$user["id"]}");
+        
             // Establece la plantilla
-            $response->SetTemplate("carnet.php");
+            $response->setTemplate("carnet.php");
         } else {
-            // Si no está autenticado, redirige a la página de inicio de sesión u otra página
-            $response->redirect("/login");
+            // Si el token no coincide con ningún usuario y no hay token en la sesión, muestra un mensaje de error
+            $response->set("error", "Usuario no encontrado");
+            $response->setTemplate("error.php"); // Asegúrate de tener una plantilla para mostrar errores
         }
+        
     
         return $response;
     }
+    
+    
     
 
 
@@ -374,6 +366,26 @@ class UserController
     }
     
 
+    public function cercador($request, $response, $container)
+    {
+        $dbConfig = $container["config"]["database"];
+        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+        $connection = $dbModel->getConnection();
+
+        $userId = $_SESSION["user_id"];
+
+
+        $alumnes = new UsersPDO($connection);
+
+        $alumnes = $alumnes->getAlumnesByProfessor($userId);
+
+
+        $response->set("alumnes", $alumnes);
+        $response->SetTemplate("cercador.php");
+
+        return $response;
+    }
+
     public function alumnes($request, $response, $container)
     {
         $dbConfig = $container["config"]["database"];
@@ -391,7 +403,7 @@ class UserController
 
         return $response;
     }
-
+    
     public function contactar($request, $response, $container)
     {
 
@@ -458,6 +470,8 @@ class UserController
         $response->SetTemplate("paneldecontrol.php", ["user" => $user]);
         return $response;
     }
+
+    
     public function Idpanel($request, $response, $container)
     {
 
@@ -595,7 +609,4 @@ public function uploadPhotoFromFile($request, $response, $container)
     $response->SetTemplate("alumnes.php");
     return $response;
 }
-
-
-
 }

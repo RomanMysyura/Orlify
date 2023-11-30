@@ -61,11 +61,15 @@ $app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"]);
 $app->post("PanelUploadUser", [UserController::class,"PanelUploadUser"]);
 $app->get("Idpanel", [UserController::class,"Idpanel"]);
 $app->get("deleteUser", [UserController::class,"deleteUser"]);
-$app->get("carnetUser", [UserController::class,"carnetUser"]);
+$app->get("/carnet/{token}", [UserController::class, "carnetUser"]);
 $app->get("deleteerror", [UserController::class,"deleteerror"]);
 $app->post("uploaderror", [UserController::class,"uploaderror"]);
 $app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"]);
+$app->post("UploadOrla", [OrlesControllers::class,"UploadOrla"]);
+$app->get("eliminarOrlaPanel", [OrlesControllers::class,"eliminarOrlaPanel"]);
+$app->get("eliminarPhoto", [OrlesControllers::class,"eliminarPhoto"]);
 $app->get("recuperarpass", [NavigationController::class,"recuperarpass"]);
+
 
 
 

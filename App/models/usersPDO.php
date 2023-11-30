@@ -105,7 +105,7 @@ class UsersPDO
         $stmt = $this->sql->prepare($sql);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function getAllGroups()
@@ -366,5 +366,33 @@ class UsersPDO
             return null;
         }
     }
+    public function isValidToken($userId, $token)
+    {
+        try {
+            // Prepara la consulta SQL para obtener el token del usuario
+            $stmt = $this->sql->prepare("SELECT token FROM users WHERE id = :userId");
+            $stmt->bindParam(":userId", $userId, \PDO::PARAM_INT);
+            $stmt->execute();
+    
+            // Obtiene el token almacenado en la base de datos
+            $storedToken = $stmt->fetchColumn();
+    
+            // Compara el token proporcionado con el almacenado en la base de datos
+            return ($token === $storedToken);
+        } catch (PDOException $e) {
+            // Manejo de errores: Puedes ajustar esto según tus necesidades
+            echo "Error al verificar el token: " . $e->getMessage();
+            return false;
+        }
+    }
+    public function getUserByToken($token)
+{
+    $query = "SELECT * FROM users WHERE token = :token";
+    $stmt = $this->sql->prepare($query);
+    $stmt->bindParam(":token", $token, \PDO::PARAM_STR);
+    $stmt->execute();
 
+    // Devuelve el usuario si se encuentra, o false si no se encuentra
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
 }

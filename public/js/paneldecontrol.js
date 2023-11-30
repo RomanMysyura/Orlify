@@ -47,6 +47,7 @@ $(document).ready(function() {
             .addClass("bg-white");
 
         $(".editphoto").show();
+      
 
         $(this).removeClass("bg-white").addClass("bg-gray-400");
     });
@@ -60,6 +61,7 @@ $(document).ready(function() {
 
         $(this).removeClass("bg-white").addClass("bg-gray-400");
     });
+    
 
    
 
@@ -142,8 +144,8 @@ function openEditModal(userId, name, surname, email, phone, dni, birth_date,  ro
 
              
                     <select id="role" title="role" name="role" class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300">
-                    <option value="Alumno" ${user.role === 'Alumne' ? 'selected' : ''}>Alumne</option>
-                    <option value="Profesor" ${user.role === 'Professor' ? 'selected' : ''}>Professor</option>
+                    <option value="Alumne" ${user.role === 'Alumne' ? 'selected' : ''}>Alumne</option>
+                    <option value="Professor" ${user.role === 'Professor' ? 'selected' : ''}>Professor</option>
                     <option value="Admin" ${user.role === 'Admin' ? 'selected' : ''}>Admin</option>
                 </select>
                 <div class="card-actions justify-end mt-5">
@@ -176,10 +178,6 @@ function obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_dat
         dni: dni,
         birth_date: birth_date,
         role: role
-
-
-        
-        
     };
 }
 
@@ -258,4 +256,109 @@ function addHiddenField(form, name, value) {
     input.setAttribute('name', name);
     input.value = value;
     form.appendChild(input);
+}
+
+function toggleCollapse(id) {
+    console.log("Toggle collapse for ID:", id); // Verifica si se llama correctamente
+
+    const collapseElement = document.getElementById(id);
+    if (collapseElement) {
+        collapseElement.classList.toggle('hidden');
+
+        if (!collapseElement.classList.contains('hidden')) {
+            const orlaId = id.replace('collapse', '');
+            const photosContainer = collapseElement.querySelector('.collapse-title');
+            const photos = orles[orlaIndex].photos;
+
+            photosContainer.innerHTML = '';
+
+            // Agregar las fotos al contenedor
+            photos.forEach(photo => {
+                const photoContainer = document.createElement('div');
+                photoContainer.classList.add('flex-shrink-0', 'items-center', 'justify-center', 'mx-5');
+
+                const img = document.createElement('img');
+                img.src = photo.url;
+                img.alt = photo.name;
+                img.classList.add('w-32', 'h-32', 'object-cover', 'rounded-lg');
+
+                const p = document.createElement('p');
+                p.textContent = photo.name;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('btn', 'btn-outline', 'btn-error', 'btn-xs');
+                deleteButton.innerHTML = '<a href="/eliminarPhoto?id=' + photo.photo_id + '">Eliminar</a>';
+
+                photoContainer.appendChild(img);
+                photoContainer.appendChild(p);
+                photoContainer.appendChild(deleteButton);
+                photosContainer.appendChild(photoContainer);
+            });
+        }
+    }
+}
+
+function openEditModal2(orlaid, name, status, url, group_id, group_name) {
+    // Obtén los datos del usuario correspondiente (puedes hacer una solicitud AJAX si es necesario)
+    var orla = obtenerDatosOrla(orlaid, name, status, url, group_id, group_name);
+
+    // Actualiza el contenido del modal con los datos del usuario
+    document.getElementById('user_details2').innerHTML = `
+    <div class="w-full max-w-md m-auto bg-gray-100 rounded-md mt-5">
+    <form action="/UploadOrla" method="post">
+        <input type="hidden" name="id" value="${orla.orlaid}">
+        <div class="card-body items-center text-center">
+            
+            <h2 class="text-center text-lg font-bold mb-5">Les meves dades</h2>
+
+            <input type="text" title="name" id="name" name="name"
+                class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                placeholder="Nom" value="${orla.name}">
+
+                <select id="status" title="status" name="status" class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300">
+                <option value="Publica" ${orla.status === 'Publica' ? 'selected' : ''}>Publica</option>
+                <option value="Privada" ${orla.status === 'Privada' ? 'selected' : ''}>Privada</option>
+            </select>
+
+            <input type="text" id="url" title="url" name="url"
+                class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                placeholder="Enllaç" value="${orla.url}">
+
+            <input type="text" id="group_name" title="group_name" name="group_name"
+                class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                placeholder="Grup" value="${orla.group_name}">
+
+         
+               
+            <div class="card-actions justify-end mt-5">
+                <button type="submit" class="btn btn-active btn-neutral">Editar</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+        
+    `;
+
+    // Abre el modal
+    document.getElementById('edit_modal2').showModal();
+}
+
+// Función para cerrar el modal
+function closeEditModal2() {
+    document.getElementById('edit_modal2').close();
+}
+
+// Esta función es solo un ejemplo y deberías reemplazarla con la lógica real para obtener los datos del usuario
+function obtenerDatosOrla(orlaid, name, status, url, group_id, group_name) {
+    // Aquí puedes hacer una solicitud AJAX al servidor para obtener los datos del usuario
+    // Por ahora, devolvemos un objeto con datos de ejemplo
+    return {
+        orlaid: orlaid,
+        name: name,
+        status: status,
+        url: url,
+        group_id: group_id,
+        group_name: group_name
+    };
 }
