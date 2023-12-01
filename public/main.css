@@ -2856,6 +2856,10 @@ details.collapse summary::-webkit-details-marker {
   margin-left: 1rem;
   margin-right: 1rem;
 }
+.mx-5 {
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
+}
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -2863,10 +2867,6 @@ details.collapse summary::-webkit-details-marker {
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
-}
-.mx-5 {
-  margin-left: 1.25rem;
-  margin-right: 1.25rem;
 }
 .mb-10 {
   margin-bottom: 2.5rem;
@@ -3435,6 +3435,10 @@ details.collapse summary::-webkit-details-marker {
   font-size: 4.5rem;
   line-height: 1;
 }
+.text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
 .text-lg {
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -3450,10 +3454,6 @@ details.collapse summary::-webkit-details-marker {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-.text-base {
-  font-size: 1rem;
-  line-height: 1.5rem;
 }
 .font-bold {
   font-weight: 700;
@@ -3717,9 +3717,6 @@ details.collapse summary::-webkit-details-marker {
 .hover\:text-white:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-.hover\:underline:hover {
-  text-decoration-line: underline;
 }
 .focus\:border-b-2:focus {
   border-bottom-width: 2px;
