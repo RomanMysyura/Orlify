@@ -125,8 +125,7 @@
                                                 class="w-32 h-32 object-cover rounded-lg">
                                             <div class="flex flex-col items-center">
                                                 <p class="mt-2"><?= $photo['name'] ?></p>
-                                                <button class="btn btn-outline btn-xs mt-2"><a
-                                                        href="/eliminarPhoto?id=<?= $photo['photo_id']; ?>">Eliminar</a></button>
+                                                <button class="btn btn-outline btn-xs mt-2"><a href="/eliminarPhoto?id=<?= $photo['id']; ?>" >Eliminar</a></button>
                                             </div>
                                         </div>
                                         <?php endforeach; ?>
