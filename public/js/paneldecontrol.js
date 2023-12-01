@@ -9,11 +9,11 @@ function toggleDescription(button) {
 }
 
 $(document).ready(function() {
-    $(".editorles, .editphoto, .crear_usuari, .notifications").hide();
+    $(".editorles,  .crear_usuari, .notifications").hide();
 
     $("#editarUsuarioBtn").click(function() {
-        $(".editar_usuari, .crear_usuari, .editorles, .editphoto, .notifications").hide();
-        $("#editorlesBtn, #editphotoBtn, #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400").addClass(
+        $(".editar_usuari, .crear_usuari, .editorles,  .notifications").hide();
+        $("#editorlesBtn,  #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400").addClass(
             "bg-white");
 
         $(".editar_usuari").show();
@@ -22,8 +22,8 @@ $(document).ready(function() {
     });
 
     $("#crearUsuarioBtn").click(function() {
-        $(".editar_usuari, .editorles, .editphoto, .notifications").hide();
-        $("#editarUsuarioBtn, #editphotoBtn, #editorlesBtn, #notificationsBtn").removeClass("bg-gray-400").addClass(
+        $(".editar_usuari, .editorles,  .notifications").hide();
+        $("#editarUsuarioBtn,  #editorlesBtn, #notificationsBtn").removeClass("bg-gray-400").addClass(
             "bg-white");
 
         $(".crear_usuari").show();
@@ -32,8 +32,8 @@ $(document).ready(function() {
     });
 
     $("#editorlesBtn").click(function() {
-        $(".editar_usuari, .crear_usuari, .editorles, .editphoto, .notifications").hide();
-        $("#editarUsuarioBtn, #editphotoBtn,  #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400")
+        $(".editar_usuari, .crear_usuari, .editorles,  .notifications").hide();
+        $("#editarUsuarioBtn,   #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400")
             .addClass("bg-white");
 
         $(".editorles").show();
@@ -41,20 +41,10 @@ $(document).ready(function() {
         $(this).removeClass("bg-white").addClass("bg-gray-400");
     });
 
-    $("#editphotoBtn").click(function() {
-        $(".editar_usuari, .crear_usuari, .editorles, .editphoto , .notifications").hide();
-        $("#editarUsuarioBtn, #editorlesBtn,  #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400")
-            .addClass("bg-white");
-
-        $(".editphoto").show();
-      
-
-        $(this).removeClass("bg-white").addClass("bg-gray-400");
-    });
-
+  
     $("#notificationsBtn").click(function() {
-        $(".editar_usuari, .crear_usuari, .editorles, .editphoto, .notifications").hide();
-        $("#editarUsuarioBtn, #editorlesBtn,  #crearUsuarioBtn, #editphotoBtn").removeClass("bg-gray-400")
+        $(".editar_usuari, .crear_usuari, .editorles,  .notifications").hide();
+        $("#editarUsuarioBtn, #editorlesBtn,  #crearUsuarioBtn").removeClass("bg-gray-400")
             .addClass("bg-white");
 
         $(".notifications").show();
@@ -110,13 +100,10 @@ function openEditModal(userId, name, surname, email, phone, dni, birth_date,  ro
         
         
 
-        <div class="w-full max-w-md m-auto bg-gray-100 rounded-md mt-5">
+        <div class="w-full max-w-md m-auto bg-white rounded-md mt-5">
         <form action="/uploadUserAdmin" method="post">
             <input type="hidden" name="id" value="${user.id}">
             <div class="card-body items-center text-center">
-                
-                <h2 class="text-center text-lg font-bold mb-5">Les meves dades</h2>
-
                 <input type="text" title="name" id="name" name="name"
                     class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
                     placeholder="Nom" value="${user.name}">
@@ -182,28 +169,26 @@ function obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_dat
 }
 
 // Function to create a random user
-
 $("#crearUsuariosBtn").click(async function () {
     var numUsuarios = $("#numUsuarios").val();
 
     if (numUsuarios && !isNaN(numUsuarios) && numUsuarios > 0) {
-        // Disable the button and show a loading indicator
-        $(this).prop('disabled', true).text('Creating Users...');
+        // Show the loader
+        $("#loader").removeClass("hidden");
 
         try {
             // Wrap the loop in an async function
             for (var i = 0; i < numUsuarios; i++) {
                 await crearUsuarioAleatorio(); // Wait for the asynchronous function to complete
-
             }
 
-            // Enable the button and reset its text
-            $(this).prop('disabled', false).text('Crear');
+            // Redirect after creating users
             window.location.href = "/panel-de-control";
         } catch (error) {
-            // Enable the button and reset its text in case of an error
-            $(this).prop('disabled', false).text('Crear');
             console.error('Error creating users:', error);
+        } finally {
+            // Hide the loader
+            $("#loader").addClass("hidden");
         }
     } else {
         alert("Please enter a valid number of users.");
@@ -269,11 +254,54 @@ function toggleCollapse(id) {
             const orlaId = id.replace('collapse', '');
             const photosContainer = collapseElement.querySelector('.collapse-title');
             const photos = orles[orlaIndex].photos;
+            console.log(photos);
 
             photosContainer.innerHTML = '';
 
             // Agregar las fotos al contenedor
             photos.forEach(photo => {
+                const photoContainer = document.createElement('div');
+                photoContainer.classList.add('flex-shrink-0', 'items-center', 'justify-center', 'mx-5');
+
+                const img = document.createElement('img');
+                img.src = photo.url;
+                img.alt = photo.name;
+                img.classList.add('w-32', 'h-32', 'object-cover', 'rounded-lg');
+
+                const p = document.createElement('p');
+                p.textContent = photo.name;
+
+                const deleteButton = document.createElement('button');
+                deleteButton.classList.add('btn', 'btn-outline', 'btn-error', 'btn-xs');
+                deleteButton.innerHTML = '<a href="/eliminarPhoto?id=' + photo.photo_id + '">Eliminar</a>';
+
+                photoContainer.appendChild(img);
+                photoContainer.appendChild(p);
+                photoContainer.appendChild(deleteButton);
+                photosContainer.appendChild(photoContainer);
+            });
+        } 
+        
+    }
+}
+
+
+function toggleCollapse2(id) {
+    console.log("Toggle collapse for ID:", id); // Verifica si se llama correctamente
+
+    const collapseElement = document.getElementById(id);
+    if (collapseElement) {
+        collapseElement.classList.toggle('hidden');
+
+        if (!collapseElement.classList.contains('hidden')) {
+            const userId = id.replace('collapse', '');
+            const photosContainer = collapseElement.querySelector('.collapse-title');
+            const photod = users[userIndex].photos;
+
+            photosContainer.innerHTML = '';
+
+            // Agregar las fotos al contenedor
+            photod.forEach(photo => {
                 const photoContainer = document.createElement('div');
                 photoContainer.classList.add('flex-shrink-0', 'items-center', 'justify-center', 'mx-5');
 
@@ -304,13 +332,10 @@ function openEditModal2(orlaid, name, status, url, group_id, group_name) {
 
     // Actualiza el contenido del modal con los datos del usuario
     document.getElementById('user_details2').innerHTML = `
-    <div class="w-full max-w-md m-auto bg-gray-100 rounded-md mt-5">
+    <div class="w-full max-w-md m-auto bg-white rounded-md mt-5">
     <form action="/UploadOrla" method="post">
         <input type="hidden" name="id" value="${orla.orlaid}">
         <div class="card-body items-center text-center">
-            
-            <h2 class="text-center text-lg font-bold mb-5">Les meves dades</h2>
-
             <input type="text" title="name" id="name" name="name"
                 class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
                 placeholder="Nom" value="${orla.name}">
