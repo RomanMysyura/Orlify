@@ -34,11 +34,7 @@
                             class="w-full h-full object-cover transition-opacity duration-500 "></div>
                     <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img6.png" alt="Imagen 6"
                             class="w-full h-full object-cover transition-opacity duration-500 "></div>
-                    <!-- <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img7.png" alt="Imagen 7" class="w-full h-full object-cover transition-opacity duration-500 "></div>
-                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img8.png" alt="Imagen 8" class="w-full h-full object-cover transition-opacity duration-500 "></div>
-                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img9.png" alt="Imagen 9" class="w-full h-full object-cover transition-opacity duration-500 "></div>
-                    <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img10.png" alt="Imagen 10" class="w-full h-full object-cover transition-opacity duration-500 "></div> -->
-
+                   
                 </div>
             </div>
             <p class="text-xl text-center mt-10 text-black">No necessites instal·lar ni descarregar res i la pots fer

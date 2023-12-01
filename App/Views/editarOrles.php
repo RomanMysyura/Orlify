@@ -6,14 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/main.css">
     <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </head>
 
 <body>
     <?php include "navbar.php" ?>
+    <div class=" flex items-center justify-center">
+        <form action="/updateNameOrla" method="POST">
+            <input type="text" name="id" value="<?= $orla['orla_id'] ?>" style="display: none;">
+            <input type="text" placeholder="<?= $orlaName ?>"
+                class="input w-auto text-4xl text-center bg-slate-100 font-bold shadow-inner"
+                value="<?= $orlaName ?>" />
+
+        </form>
+
+    </div>
+
+
 
     <div class="flex text-center">
 
         <div class="w-full max-w-xs md:w-1/3 m-auto mt-5 ml-20 mr-20">
+
+
 
 
 
@@ -34,7 +50,7 @@
 
         if (isset($usersInGroups[$group['id']])) {
             foreach ($usersInGroups[$group['id']] as $user) {
-                echo '<li><label><input type="checkbox" name="selected_users[]" value=' . $user['id'] . ' />' . $user['name'] . '</label></li>';
+                echo '<li><label><input type="checkbox" name="selected_users[]" value=' . $user['id'] . ' />' . $user['name'] .' '. $user['surname'] . '</label></li>';
             }
         }
 
@@ -45,12 +61,10 @@
     echo '</ul>';
     ?>
 
-                    <button type="submit" class="btn btn-active btn-neutral">Seleccionar</button>
+                    <button type="submit" class="btn btn-active btn-neutral mt-5 mb-10">Seleccionar</button>
                 </form>
 
             </div>
-
-
 
 
 
@@ -106,32 +120,75 @@
                 </div>
 
             </form>
+
         </div>
 
-        <div class=" w-1/2 m-auto mt-5  rounded-md border-2 border-inherit p-2 shadow-xl">
+        <div class=" w-1/2 m-auto mt-5  ">
+
             <div class="">
-                <h1 class="font-bold text-xl mb-3">Usuaris seleccionats</h1>
+                <ul class="menu bg-slate-200 lg:menu-horizontal rounded-t-lg  w-full">
+                    <li>
+                        <a>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                            Alumnes
+                            <span class="badge badge-sm">99+</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Exportar
+                            <span class="badge badge-sm badge-error">PDF</span>
+                        </a>
+                    </li>
+                    <li class="ml-auto">
+                        <a>
+                            Publicar
+                            <input type="checkbox" class="toggle toggle-success" id="checkboxToggle" />
+                        </a>
+                    </li>
+
+
+                </ul>
             </div>
-            <div class="flex flex-wrap mt-2 ">
-                <?php foreach ($photos as $photo) : ?>
-                <div
-                    class="photo-container relative overflow-hidden transform transition-transform duration-300 hover:scale-110 mb-5  rounded-md ml-auto mr-auto">
-                    <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>" class="w-36 h-44 m-1 rounded-md ">
-                    <p class="font-bold"><?= $photo['name'] ?> </p>
+
+
+
+
+            <div class=" bg-slate-200 rounded-b-lg border-2 border-inherit  p-2">
+
+                <div class="flex flex-wrap mt-2 ">
+                    <?php foreach ($photos as $photo) : ?>
+                    <div
+                        class="photo-container relative overflow-hidden transform transition-transform duration-300 hover:scale-110 mb-5  rounded ml-auto mr-auto">
+                        <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>" class="w-36 h-44 m-1 rounded-md ">
+                        <p class="font-bold "><?= $photo['name'] ?> </p>
+                    </div>
+                    <?php endforeach; ?>
 
                 </div>
-                <?php endforeach; ?>
             </div>
 
         </div>
+
+
+
     </div>
 
 
     <?php include "footer.php" ?>
 
-    <script src="/js/editarOrles.js">
-
-    </script>
+    <script src="/js/editarOrles.js"></script>
+    <script src ="/js/publishOrla.js" ></script>
+   
 
 </body>
 

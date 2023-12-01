@@ -23,6 +23,10 @@ class NavigationController
         $users = $usersModel->getAllUsers();
         $errors = $errorModel->geterror();
         $orles = $orlaModel->getAllOrles();
+        
+        foreach ($users as &$user) {
+            $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+        }
     
         foreach ($orles as &$orla) {
             $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);

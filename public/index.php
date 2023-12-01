@@ -69,6 +69,7 @@ $app->post("UploadOrla", [OrlesControllers::class,"UploadOrla"]);
 $app->get("eliminarOrlaPanel", [OrlesControllers::class,"eliminarOrlaPanel"]);
 $app->get("eliminarPhoto", [OrlesControllers::class,"eliminarPhoto"]);
 $app->get("recuperarpass", [NavigationController::class,"recuperarpass"]);
+$app->post("publish-orla", [OrlesControllers::class,"publish_orla"]);
 
 
 

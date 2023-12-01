@@ -51,13 +51,31 @@ class Orles
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }
+    public function getOrlaName($orla_id)
+    {
+        $stmt = $this->sql->prepare("SELECT name_orla FROM orla WHERE id = :orla_id");
+        $stmt->bindParam(":orla_id", $orla_id);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result["name_orla"];
+    }
+    
+    public function publishOrla($orlaId, $isPublished)
+    {
+        // Define el estado en función del valor del checkbox
+        $status = ($isPublished) ? 'Public' : 'Privat';
+    
+        // Actualiza el estado en la base de datos
+        $stmt = $this->sql->prepare("UPDATE orla SET status = :status WHERE id = :orlaId");
+        $stmt->bindParam(":status", $status);
+        $stmt->bindParam(":orlaId", $orlaId);
+        $stmt->execute();
+    }
     
 
     public function createNewOrla()
     {
        
-    
-    
         if (isset($_SESSION["group_id"])) {
             $group_id = $_SESSION["group_id"];
     
@@ -139,7 +157,7 @@ public function eliminarPhoto($photo_id){
     }
     
     
-    
+   
     
 
 

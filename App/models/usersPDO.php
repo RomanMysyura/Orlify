@@ -67,12 +67,12 @@ class UsersPDO
         
     }
 
-    public function registerUser($name, $surname, $email, $phone, $dni, $birthDate, $password)
+    public function registerUser($name, $surname, $email, $phone, $dni, $birthDate, $role, $password)
     {
         // Puedes ajustar esta consulta según tu estructura de tabla
-        $sql = "INSERT INTO users (name, surname, email, phone, dni, birth_date, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO users (name, surname, email, phone, dni, birth_date, role, password) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->sql->prepare($sql);
-        $stmt->execute([$name, $surname, $email, $phone, $dni, $birthDate, $password]);
+        $stmt->execute([$name, $surname, $email, $phone, $dni, $birthDate, $role, $password]);
         $userId = $this->sql->lastInsertId();
 
         return $userId;
@@ -207,6 +207,15 @@ class UsersPDO
         $sql = "UPDATE photo SET selected_photo = 'active' WHERE user_id = ? AND id = ?";
         $stmt = $this->sql->prepare($sql);
         $stmt->execute([$userId, $selectedPhoto]);
+    }
+
+    public function getAllPhotos()
+    {
+        $sql = "SELECT * FROM photo";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
     
 
