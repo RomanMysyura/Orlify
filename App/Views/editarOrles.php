@@ -11,7 +11,9 @@
 </head>
 
 <body>
+
     <?php include "navbar.php" ?>
+
     <div class=" flex items-center justify-center">
         <form action="/updateNameOrla" method="POST">
             <input type="text" name="id" value="<?= $orla['orla_id'] ?>" style="display: none;">
@@ -61,7 +63,7 @@
     echo '</ul>';
     ?>
 
-                    <button type="submit" class="btn btn-active btn-neutral mt-5 mb-10">Seleccionar</button>
+                    <button type="submit" class="btnseleccionar btn btn-active btn-neutral mt-5 mb-10">Seleccionar</button>
                 </form>
 
             </div>
@@ -151,13 +153,24 @@
                     </li>
                     <li class="ml-auto">
                         <a>
-                            Publicar
-                            <input type="checkbox" class="toggle toggle-success" id="checkboxToggle" />
+                            <?php echo $orlaStatus; ?>
+                            <input type="checkbox" class="toggle toggle-success" id="checkboxToggle"
+                                value="<?php echo $orla_id; ?>"
+                                <?php echo ($orlaStatus === 'Public') ? 'checked' : ''; ?> />
                         </a>
+
+
+
+
                     </li>
 
-
                 </ul>
+            </div>
+
+            <div class="loading-indicator fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-500 bg-opacity-75 z-50"
+                style="display: none;">
+                <span class="loading loading-spinner loading-lg text-white"></span>
+
             </div>
 
 
@@ -187,8 +200,8 @@
     <?php include "footer.php" ?>
 
     <script src="/js/editarOrles.js"></script>
-    <script src ="/js/publishOrla.js" ></script>
-   
+    <script src="/js/publishOrla.js"></script>
+
 
 </body>
 

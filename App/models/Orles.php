@@ -59,18 +59,39 @@ class Orles
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result["name_orla"];
     }
+    public function getStatusOrla($orla_id)
+{
+    $stmt = $this->sql->prepare("SELECT status FROM orla WHERE id = :orla_id");
+    $stmt->bindParam(":orla_id", $orla_id);
+    $stmt->execute();
+    $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+    return $result["status"]; // Corregido: "status" en lugar de "orlaStatus"
+}
+
+
+
+
+
+public function publishOrla($orlaId)
+{
+    $stmtSelect = $this->sql->prepare("SELECT status FROM orla WHERE id = :orlaId");
+    $stmtSelect->bindParam(":orlaId", $orlaId);
+    $stmtSelect->execute();
     
-    public function publishOrla($orlaId, $isPublished)
-    {
-        // Define el estado en función del valor del checkbox
-        $status = ($isPublished) ? 'Public' : 'Privat';
+   
+    $currentStatus = $stmtSelect->fetchColumn();
+
+    $newStatus = ($currentStatus === 'Privat') ? 'Public' : 'Privat';
+
+    $stmtUpdate = $this->sql->prepare("UPDATE orla SET status = :status WHERE id = :orlaId");
+    $stmtUpdate->bindParam(":status", $newStatus);
+    $stmtUpdate->bindParam(":orlaId", $orlaId);
+    $stmtUpdate->execute();
+}
+
+
+
     
-        // Actualiza el estado en la base de datos
-        $stmt = $this->sql->prepare("UPDATE orla SET status = :status WHERE id = :orlaId");
-        $stmt->bindParam(":status", $status);
-        $stmt->bindParam(":orlaId", $orlaId);
-        $stmt->execute();
-    }
     
 
     public function createNewOrla()

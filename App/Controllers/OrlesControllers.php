@@ -20,6 +20,7 @@ class OrlesControllers
         $userId = $_SESSION["user_id"];
 
 
+        
         $orla = $OrlaModel->getOrles($userId);
 
         $response->set("orles", $orla);
@@ -45,6 +46,8 @@ class OrlesControllers
         $response->set("orla_id", $orla_id);
         $orlaName = $OrlaModel->getOrlaName($orla_id);
         $response->set("orlaName", $orlaName);
+        $orlaStatus = $OrlaModel->getStatusOrla($orla_id);
+        $response->set("orlaStatus", $orlaStatus);
         // Obtener la lista de usuarios y grupos
         $usersModel = new UsersPDO($connection);
         $users = $usersModel->getAllUsers();
@@ -64,6 +67,8 @@ class OrlesControllers
     
         // Pasar la lista de usuarios en grupos a la vista
         $response->set("usersInGroups", $usersInGroups);
+
+        $_SESSION["orla_id"] = $orla_id;
     
         $response->SetTemplate("editarOrles.php");
     
@@ -168,6 +173,8 @@ public function add_users_to_orla($request, $response, $container)
     // Pasar la lista de usuarios y grupos a la vista
     $response->set("users", $users);
     $response->set("groups", $groups);
+    $orlaStatus = $OrlaModel->getStatusOrla($orla_id);
+        $response->set("orlaStatus", $orlaStatus);
 
     // Para cada grupo, obtener los usuarios del grupo
     $usersInGroups = [];
@@ -195,7 +202,7 @@ public function publish_orla($request, $response, $container)
 
     $OrlaModel = new Orles($connection);
 
-    $orlaId = 1;
+    $orlaId = $_SESSION["orla_id"] ;
     $isPublished = 'isPublished';
 
     $OrlaModel->publishOrla($orlaId, $isPublished);
@@ -203,6 +210,11 @@ public function publish_orla($request, $response, $container)
     $response->SetTemplate("vieworles.php");
     return $response;
 }
+
+
+
+
+
 public function UploadOrla($request, $response, $container)
 {
     $orla_id = $_POST['id'];

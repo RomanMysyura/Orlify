@@ -92,6 +92,7 @@ class UserController
             $_SESSION["user_id"] = $loggedInUser["id"];
             $_SESSION["group_id"] = $loggedInUser["group_id"];
             $_SESSION["logged"] = true;
+            $_SESSION["role"] = $loggedInUser["role"];
             $userId = $_SESSION["user_id"];
             $group = $usersModel->getGroupForUser($userId);
 
