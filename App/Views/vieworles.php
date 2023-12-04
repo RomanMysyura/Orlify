@@ -113,9 +113,14 @@
 
 
 
+        <div class="card w-96 h-96 bg-base-100 shadow-xl m-4 border-2 transform transition-transform hover:scale-105">
 
-        <a href="/create-new-orla" class="mt-32 w-10 h-10 transform transition-transform hover:scale-125">
-            <svg width="80px" height="80px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
+
+           
+
+            <div class="card-body">
+            <a href="/create-new-orla" class="mt-20 ml-24 ">
+            <svg width="160px" height="160px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"
                 xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
                 <defs></defs>
                 <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
@@ -127,6 +132,18 @@
                 </g>
             </svg>
         </a>
+
+                <div class="card-actions justify-center">
+
+                 
+                </div>
+            </div>
+        </div>
+
+
+
+
+        
 
 
 
