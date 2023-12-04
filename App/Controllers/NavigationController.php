@@ -12,7 +12,7 @@ class NavigationController
         $usersModel = $container["\App\Models\usersPDO"];
         $errorModel = $container["\App\Models\usersPDO"];
         $orlaModel = $container["\App\Models\Orles"];
-    
+        $grupsModel = $container["\App\Models\usersPDO"];
         $users = $usersModel->getAllUsers();
         $errors = $errorModel->geterror();
         $orles = $orlaModel->getAllOrles();
