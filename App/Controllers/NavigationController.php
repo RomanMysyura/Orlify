@@ -2,23 +2,16 @@
 
 namespace App\Controllers;
 
-use App\Models\Db;
-use App\Models\UsersPDO;
-use App\Models\Orles;
 
 class NavigationController 
 {
    
-
     public function panelDeControl($request, $response, $container)
     {
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-    
-        $usersModel = new UsersPDO($connection);
-        $errorModel = new UsersPDO($connection);
-        $orlaModel = new Orles($connection);
+       
+        $usersModel = $container["\App\Models\usersPDO"];
+        $errorModel = $container["\App\Models\usersPDO"];
+        $orlaModel = $container["\App\Models\Orles"];
     
         $users = $usersModel->getAllUsers();
         $errors = $errorModel->geterror();
@@ -45,11 +38,7 @@ class NavigationController
    
     public function recuperarpass($request, $response, $container)
     {
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
-        $usersModel = new UsersPDO($connection);
+        $usersModel = $container["\App\Models\usersPDO"];
         $response->SetTemplate("recuperarpass.php");
         return $response;
     }

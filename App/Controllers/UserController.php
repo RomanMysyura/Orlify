@@ -2,27 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Models\Db;
-use App\Models\UsersPDO;
-use App\Models\Orles;
-
 class UserController
 {
 
     public function index($request, $response, $container)
     {
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
-        $usersModel = new UsersPDO($connection);
-
+        $usersModel = $container["\App\Models\usersPDO"];
         $users = $usersModel->getAllUsers();
-
         $response->set("users", $users);
-
         $response->SetTemplate("index.php");
-
         return $response;
     }
 
@@ -34,14 +22,10 @@ class UserController
     {
         // Verifica si el usuario está autenticado
         if ($_SESSION["logged"]) {
-            // Obtén la conexión a la base de datos
-            $dbConfig = $container["config"]["database"];
-            $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-            $connection = $dbModel->getConnection();
-
+            
             // Crea una instancia del modelo UsersPDO
-            $usersModel = new UsersPDO($connection);
-            $userPhoto = new UsersPDO($connection);
+            $usersModel = $container["\App\Models\usersPDO"];
+            $userPhoto = $container["\App\Models\usersPDO"];
 
             // Obtén los datos del usuario actual
             $userId = $_SESSION["user_id"];
@@ -54,9 +38,6 @@ class UserController
 
             // Llama al método del modelo para obtener el grupo
             $group = $usersModel->getGroupForUser($userId);
-
-
-
 
             // Pasa los datos a la vista
             $response->set("user", $user);
@@ -80,11 +61,7 @@ class UserController
         $email = $_POST["email"];
         $password = $_POST["password"];
 
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
-        $usersModel = new UsersPDO($connection);
+        $usersModel = $container["\App\Models\usersPDO"];
 
         $loggedInUser = $usersModel->login($email, $password);
 
@@ -111,9 +88,6 @@ class UserController
     }
 
 
-
-
-
     public function logout($request, $response, $container)
     {
 
@@ -123,16 +97,9 @@ class UserController
     }
 
 
-
-
     public function register($request, $response, $container)
     {
-        // Obtén la conexión a la base de datos
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
-        $usersModel = new UsersPDO($connection);
+        $usersModel = $container["\App\Models\usersPDO"];
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $name = $_POST["username"];
@@ -180,12 +147,8 @@ class UserController
 
     public function randomuser($request, $response, $container)
     {
-        // Obtén la conexión a la base de datos
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
 
-        $usersModel = new UsersPDO($connection);
+        $usersModel = $container["\App\Models\usersPDO"];
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $name = $_POST["username"];
@@ -210,19 +173,13 @@ class UserController
 
     public function updateUser($request, $response, $container)
     {
-
-
         $response->SetTemplate("index.php");
         return $response;
     }
 
     public function uploadUser($request, $response, $container)
     {
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
-        $usersModel = new UsersPDO($connection);
+        $usersModel = $container["\App\Models\usersPDO"];
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $id = $_POST["id"];
@@ -246,11 +203,7 @@ class UserController
 
     public function uploadUserAdmin($request, $response, $container)
     {
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
-        $usersModel = new UsersPDO($connection);
+        $usersModel = $container["\App\Models\usersPDO"];
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $id = $_POST["id"];
@@ -262,10 +215,7 @@ class UserController
             $birth_date = $_POST["birth_date"];
             $role = $_POST["role"];
             
-
-            $usersModel->editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $role);
-
-       
+            $usersModel->editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $role);       
         }
 
         $id = $_POST["id"];
@@ -279,14 +229,10 @@ class UserController
     {
         $id = $request->getParam("token");
 
-        // Verifica si el token está presente en la base de datos
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
-        $usersModel = new UsersPDO($connection);
-        $photoModel = new UsersPDO($connection);
-
+        $usersModel = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($_SESSION["user_id"]);
+        $response->set("photo", $photo);
         // Busca el usuario por el token
         $user = $usersModel->getUserByToken($id);
 
@@ -296,15 +242,16 @@ class UserController
                 // Si no hay usuario pero hay un token en la sesión, obtén la información del usuario loggeado
                 $user = $usersModel->getUserById($userId);
             }
-
+            
             $group = $usersModel->getGroupForUser($user["id"]);
-            $photo = $photoModel->getUserSelectedPhoto($user["id"]);
+            
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
             $response->set("uniqueUrl", "/carnet/{$user["id"]}");
-            $response->set("photo", $photo);
-
+            
+            echo $_SESSION["user_id"];
+           
             // Establece la plantilla
             $response->setTemplate("carnet.php");
         } else {
@@ -326,13 +273,9 @@ class UserController
     public function photoUser($request, $response, $container)
     {
 
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
         $userId = $_SESSION["user_id"];
 
-        $usersModel = new UsersPDO($connection);
+        $usersModel = $container["\App\Models\usersPDO"];
 
         $photos = $usersModel->getUserPhotos($userId);
 
@@ -345,13 +288,9 @@ class UserController
 
     public function uploadPhoto($request, $response, $container)
     {
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-    
         $userId = $_SESSION["user_id"];
     
-        $UploadUserPhoto = new UsersPDO($connection);
+        $UploadUserPhoto = $container["\App\Models\usersPDO"];
     
         if (isset($_POST["selectedPhoto"])) {
             $selectedPhoto = $_POST["selectedPhoto"];
@@ -374,36 +313,19 @@ class UserController
 
     public function cercador($request, $response, $container)
     {
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
         $userId = $_SESSION["user_id"];
-
-
-        $alumnes = new UsersPDO($connection);
-
+        $alumnes = $container["\App\Models\usersPDO"];
         $alumnes = $alumnes->getAlumnesByProfessor($userId);
-
-
         $response->set("alumnes", $alumnes);
         $response->SetTemplate("cercador.php");
-
         return $response;
     }
 
     public function alumnes($request, $response, $container)
     {
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
         $userId = $_SESSION["user_id"];
-
-        $alumnes = new UsersPDO($connection);
-
+        $alumnes = $container["\App\Models\usersPDO"];
         $alumnes = $alumnes->getAlumnesByProfessor($userId);
-
         $response->set("alumnes", $alumnes);
         $response->SetTemplate("alumnes.php");
 
@@ -412,10 +334,6 @@ class UserController
     
     public function contactar($request, $response, $container)
     {
-
-      
-        
-        
          $response->SetTemplate("contactar.php");
         return $response;
  
@@ -423,17 +341,13 @@ class UserController
 
     public function enviarcontactar($request, $response, $container)
     {
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
         $userId = $_SESSION["user_id"];
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         $mensaje = $_POST["mensaje"];
         $email = $_POST["email"];
 
-        $errorModel = new UsersPDO($connection);
+        $errorModel = $container["\App\Models\usersPDO"];
         $Createerror = $errorModel->createerror($userId, $mensaje);
 
         $response->SetTemplate("contactar.php");
@@ -448,11 +362,7 @@ class UserController
 
     public function PanelUploadUser($request, $response, $container)
     {
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
-        $usersModel = new UsersPDO($connection);
+        $usersModel = $container["\App\Models\usersPDO"];
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $id = $_POST["id"];
@@ -480,14 +390,8 @@ class UserController
     
     public function Idpanel($request, $response, $container)
     {
-
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
         $userId = $_SESSION["user_id"];
-
-        $usersModel = new UsersPDO($connection);
+        $usersModel = $container["\App\Models\usersPDO"];
 
         $users = $usersModel->Idpanel($userId);
 
@@ -500,11 +404,7 @@ class UserController
     {
         $user_id = $_GET['id'];
 
-        $dbConfig = $container["config"]["database"];
-        $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-        $connection = $dbModel->getConnection();
-
-        $usersModel = new UsersPDO($connection);
+        $usersModel = $container["\App\Models\usersPDO"];
         $usersModel->deleteUser($user_id);
         $userId = $_SESSION["user_id"];
         $users = $usersModel->Idpanel($userId);
@@ -516,16 +416,8 @@ class UserController
     }
 
   public function deleteerror($request, $response, $container){
-
     $error_id = $_GET['id'];
-
-    $dbConfig = $container["config"]["database"];
-    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-    $connection = $dbModel->getConnection();
-
-
-
-    $errorModel = new UsersPDO($connection);
+    $errorModel = $container["\App\Models\usersPDO"];
     $errorModel->deleteerror($error_id);
 
     $response->SetTemplate("paneldecontrol.php");
@@ -534,22 +426,15 @@ class UserController
   }
 
   public function uploaderror($request, $response, $container) {
-    $dbConfig = $container["config"]["database"];
-    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-    $connection = $dbModel->getConnection();
-
     // Verifica si se están enviando los datos correctamente
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $status = $_POST["error_status"];
         $error_id = $_POST["id"];  // Cambiado a $_POST["id"]
 
-        $errorModel = new UsersPDO($connection);
+        $errorModel = $container["\App\Models\usersPDO"];
 
         // Verifica si la función uploadError está implementada correctamente en UsersPDO
         $errorModel->uploadError($error_id, $status);
-
-       
-      
     } else {
         echo 'error';
 
@@ -583,12 +468,8 @@ public function uploadPhotoFromFile($request, $response, $container)
             // Imprimir el mensaje de éxito
             echo $successMessage;
 
-                $dbConfig = $container["config"]["database"];
-                $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-                $connection = $dbModel->getConnection();
-
-                $usersModel = new UsersPDO($connection);
-                $UploadUserPhoto = new UsersPDO($connection);
+                $usersModel = $container["\App\Models\usersPDO"];
+                $UploadUserPhoto = $container["\App\Models\usersPDO"];
 
                 $user_id = $_POST['user_id']; 
                 $userId = $_SESSION["user_id"];
@@ -607,7 +488,7 @@ public function uploadPhotoFromFile($request, $response, $container)
     }
     $userId = $_SESSION["user_id"];
 
-    $alumnes = new UsersPDO($connection);
+    $alumnes = new $container["\App\Models\usersPDO"];
 
     $alumnes = $alumnes->getAlumnesByProfessor($userId);
 

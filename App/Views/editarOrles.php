@@ -63,12 +63,11 @@
     echo '</ul>';
     ?>
 
-                    <button type="submit" class="btnseleccionar btn btn-active btn-neutral mt-5 mb-10">Seleccionar</button>
+                    <button type="submit"
+                        class="btnseleccionar btn btn-active btn-neutral mt-5 mb-10">Seleccionar</button>
                 </form>
 
             </div>
-
-
 
 
             <div class="border-b border-black">
@@ -131,21 +130,35 @@
                 <ul class="menu bg-slate-200 lg:menu-horizontal rounded-t-lg  w-full">
                     <li>
                         <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            <!-- Reemplaza el siguiente código con tu ícono de perfil SVG -->
+                            <svg enable-background="new 0 0 500 500" id="Layer_1" version="1.1" viewBox="0 0 500 500"
+                                xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
+                                xmlns:xlink="http://www.w3.org/1999/xlink" class="h-8 w-8">
+                                <g>
+                                    <g>
+                                        <path
+                                            d="M250,291.6c-52.8,0-95.8-43-95.8-95.8s43-95.8,95.8-95.8s95.8,43,95.8,95.8S302.8,291.6,250,291.6z M250,127.3    c-37.7,0-68.4,30.7-68.4,68.4s30.7,68.4,68.4,68.4s68.4-30.7,68.4-68.4S287.7,127.3,250,127.3z" />
+                                    </g>
+                                    <g>
+                                        <path
+                                            d="M386.9,401.1h-27.4c0-60.4-49.1-109.5-109.5-109.5s-109.5,49.1-109.5,109.5h-27.4c0-75.5,61.4-136.9,136.9-136.9    S386.9,325.6,386.9,401.1z" />
+                                    </g>
+                                </g>
                             </svg>
                             Alumnes
-                            <span class="badge badge-sm">99+</span>
+                            <span
+                                class="badge badge-sm text-base"><?php $numeroDeFotos = count($photos); echo $numeroDeFotos;?></span>
                         </a>
                     </li>
+
                     <li>
-                        <a>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        <!-- <a href="/descarregar-orla?id=<?= $_SESSION["orla_id"] ?>"> -->
+                        <a href="/descarregar-orla/<?= $_SESSION["orla_id"] ?>" id="downloadPDF">
+                            <svg fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg"
+                                class="h-8 w-8">
+                                <path
+                                    d="m0 1016.081 409.186 409.073 79.85-79.736-272.867-272.979h1136.415V959.611H216.169l272.866-272.866-79.85-79.85L0 1016.082ZM1465.592 305.32l315.445 315.445h-315.445V305.32Zm402.184 242.372-329.224-329.11C1507.042 187.07 1463.334 169 1418.835 169h-743.83v677.647h112.94V281.941h564.706v451.765h451.765v903.53H787.946V1185.47H675.003v564.705h1242.353V667.522c0-44.498-18.07-88.207-49.581-119.83Z"
+                                    fill-rule="evenodd" />
                             </svg>
                             Exportar
                             <span class="badge badge-sm badge-error">PDF</span>
@@ -179,6 +192,7 @@
             <div class=" bg-slate-200 rounded-b-lg border-2 border-inherit  p-2">
 
                 <div class="flex flex-wrap mt-2 ">
+
                     <?php foreach ($photos as $photo) : ?>
                     <div
                         class="photo-container relative overflow-hidden transform transition-transform duration-300 hover:scale-110 mb-5  rounded ml-auto mr-auto">
@@ -197,7 +211,14 @@
     </div>
 
 
+    <script>
+
+
+
+    </script>
+
     <?php include "footer.php" ?>
+    <script src="/js/downloadPDF.js"></script>
 
     <script src="/js/editarOrles.js"></script>
     <script src="/js/publishOrla.js"></script>

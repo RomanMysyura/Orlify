@@ -26,7 +26,3 @@ return [
         "database" => "orles"
     ]
 ];
-include "../src/models/Users.php";
-include "../src/models/usersPDO.php";
-include "../src/models/Db.php";
-include "../src/models/session.php";

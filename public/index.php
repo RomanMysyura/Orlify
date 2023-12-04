@@ -23,10 +23,7 @@ use App\Controllers\OrlesControllers;
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../vendor/autoload.php";
-include "../App/Controllers/error.php";
-include "../App/Controllers/login.php";
-include "../App/Controllers/validarLogin.php";
-include "../App/Controllers/tancarSessio.php";
+
 
 
 include "../App/Middleware/auth.php";
@@ -70,11 +67,7 @@ $app->get("eliminarOrlaPanel", [OrlesControllers::class,"eliminarOrlaPanel"]);
 $app->get("eliminarPhoto", [OrlesControllers::class,"eliminarPhoto"]);
 $app->get("recuperarpass", [NavigationController::class,"recuperarpass"]);
 $app->post("publish-orla", [OrlesControllers::class,"publish_orla"]);
-
-
-
-
-
+$app->get("descarregar-orla/{id}", [OrlesControllers::class,"descarregarOrla"]);
 $app->get("eliminar-orla", [OrlesControllers::class,"eliminarOrla"]);
 
 

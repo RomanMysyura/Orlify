@@ -16,7 +16,7 @@
         <div class="flex items-center p-3 h-40 bg-white rounded-md mr-5">
             <section
                 class="flex justify-center items-center w-24 h-24 rounded-full  shadow-md bg-gradient-to-r from-[#141313] to-[#999999 ] hover:from-[#C9A9E9] hover:to-[#7EE7FC] hover:cursor-pointer hover:scale-110 duration-300">
-                <img src="<?php $photo['url']?>" alt="">
+                <img src="../img/4.jpeg" alt="">
 
             </section>
 

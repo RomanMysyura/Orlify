@@ -28,6 +28,17 @@ class Orles
         return $result;
     }
 
+    public function getOrlaById($orla_id)
+{
+    $stmt = $this->sql->prepare("SELECT * FROM orla WHERE id = :orla_id");
+    $stmt->bindParam(":orla_id", $orla_id);
+    $stmt->execute();
+    
+    $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+    return $result;
+}
+
+
     public function getAllOrles()
     {
         $stmt = $this->sql->prepare("SELECT o.id AS orla_id, o.status, o.url, o.name_orla, g.name AS group_name, g.id AS group_id
