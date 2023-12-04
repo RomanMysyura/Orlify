@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/main.css">
     <link href="https://cdn.jsdelivr.net/npm/ldrs/dist/auto/newtonsCradle.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    
+
     <script src="../js/paneldecontrol.js"></script>
     <title>
         <?= $app_config["app"]["name"] ?>
@@ -22,7 +22,9 @@
             <a href="#" class="p-4 bg-white hover:bg-gray-200" id="editarUsuarioBtn">Editar Usuaris</a>
             <a href="#" class="p-4 bg-white hover:bg-gray-200" id="crearUsuarioBtn">Afegir Usuari</a>
             <a href="#" class="p-4 bg-white hover:bg-gray-200" id="editorlesBtn">Editar Orles</a>
+            <a href="#" class="p-4 bg-white hover:bg-gray-200" id="editarGrupsBtn">Editar Grups</a>
             <a href="#" class="p-4 bg-white hover:bg-gray-200" id="notificationsBtn">Notificacions d'error</a>
+
         </div>
 
 
@@ -49,96 +51,111 @@
                                         d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
                                         stroke="#999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                                 </g>
-<!-- a -->
+                                <!-- a -->
                             </svg>
                         </button>
                     </div>
                 </div>
-                <table class=" bg-white border border-gray-300 w-full">
-                    <thead>
-                        <tr>
-                            <th class="py-2 px-4 border-b text-gray-700">ID</th>
-                            <th class="py-2 px-4 border-b text-gray-700">Nom</th>
-                            <th class="py-2 px-4 border-b text-gray-700">Cognom</th>
-                            <th class="py-2 px-4 border-b text-gray-700">Correu electronic</th>
-                            <th class="py-2 px-4 border-b text-gray-700">Teléfon</th>
-                            <th class="py-2 px-4 border-b text-gray-700">DNI</th>
-                            <th class="py-2 px-4 border-b text-gray-700">Data de naixement</th>
-                            <th class="py-2 px-4 border-b text-gray-700">Rol</th>
-                            <th class="py-2 px-4 border-b text-gray-700">Accions</th>
-                        </tr>
-                    </thead>
+                <div class="overflow-x-auto">
+                    <table class="table table-zebra bg-white border border-gray-300 w-full">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b text-gray-700">ID</th>
+                                <th class="py-2 px-4 border-b text-gray-700">Nom</th>
+                                <th class="py-2 px-4 border-b text-gray-700">Cognom</th>
+                                <th class="py-2 px-4 border-b text-gray-700">Correu electronic</th>
+                                <th class="py-2 px-4 border-b text-gray-700">Teléfon</th>
+                                <th class="py-2 px-4 border-b text-gray-700">DNI</th>
+                                <th class="py-2 px-4 border-b text-gray-700">Data de naixement</th>
+                                <th class="py-2 px-4 border-b text-gray-700">Grup</th>
+                                <th class="py-2 px-4 border-b text-gray-700">Rol</th>
+                                <th class="py-2 px-4 border-b text-gray-700">Accions</th>
+                            </tr>
+                        </thead>
 
-                    <tbody>
-                        <?php foreach ($users as $user): ?>
-                        <tr class="userRow hover:bg-gray-200 ">
-                            <td class="py-2 px-4 border-b">
-                                <?= $user['id'] ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <?= $user['name'] ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <?= $user['surname'] ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <?= $user['email'] ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <?= $user['phone'] ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <?= $user['dni'] ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <?= $user['birth_date'] ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <?= $user['role'] ?>
-                            </td>
-                            <td class="py-2 px-2 border-b">
-                                <button class="btn bg-white w-16"
-                                    onclick="toggleCollapse2('collapse<?= $user['id'] ?>')">
-                                    <img src="../img/foto3.png" alt="expand" class="w-6 h-6 object-cover rounded-lg">
-                                </button>
-                                <button class="btn bg-white w-16"
-                                    onclick="openEditModal('<?= $user['id'] ?>', '<?= $user['name'] ?>', '<?= $user['surname'] ?>', '<?= $user['email'] ?>', '<?= $user['phone'] ?>', '<?= $user['dni'] ?>', '<?= $user['birth_date'] ?>',  '<?= $user['role'] ?>')">
-                                    <img src="../img/editar.png" alt="edit" class="w-6 h-6 object-cover rounded-lg">
-                                </button>
-                                <button class="btn bg-white w-16">
-                                    <a href="/deleteUser?id=<?= $user['id']; ?>"
-                                        onclick="return confirm('Estas segur que vols eliminar aquest usuari?')">
-                                        <img src="../img/eliminar2.png" alt="delete"
+                        <tbody>
+                            <?php foreach ($users as $user): ?>
+                            <tr class="userRow hover:bg-gray-200 ">
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['id'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['name'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['surname'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['email'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['phone'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['dni'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['birth_date'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?php if (isset($user['groups']) && is_array($user['groups'])): ?>
+                                    <?= implode(', ', $user['groups']); ?>
+                                    <?php elseif (isset($user['groups'])): ?>
+                                    <?= $user['groups']; ?>
+                                    <?php else: ?>
+                                    Sin grupo asignado
+                                    <?php endif; ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $user['role'] ?>
+                                </td>
+                                <td class="py-2 px-2 border-b">
+                                    <button class="btn bg-white w-16"
+                                        onclick="toggleCollapse2('collapse<?= $user['id'] ?>')">
+                                        <img src="../img/foto3.png" alt="expand"
                                             class="w-6 h-6 object-cover rounded-lg">
-                                        <i class="fa-solid fa-trash"></i>
-                                    </a>
-                                </button>
-                            </td>
-                        <tr id="collapse<?= $user['id'] ?>" class="hidden">
-                            <td colspan="9">
-                                <div class="collapse bg-white transition ease-in-out duration-300 overflow-x-auto">
-                                    <div class="collapse-title text-md font-medium flex justify-center items-center">
-                                        <?php if (!empty($user['photos'])): ?>
-                                        <?php foreach ($user['photos'] as $photo): ?>
-                                        <div class="flex-shrink-0 items-center justify-center mx-5">
-                                            <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>"
-                                                class="w-32 h-32 object-cover rounded-lg">
-                                            <div class="flex flex-col items-center">
-                                                <p class="mt-2"><?= $photo['name'] ?></p>
-                                                <button class="btn btn-outline btn-xs mt-2"><a href="/eliminarPhoto?id=<?= $photo['id']; ?>" >Eliminar</a></button>
+                                    </button>
+                                    <button class="btn bg-white w-16"
+                                        onclick="openEditModal('<?= $user['id'] ?>', '<?= $user['name'] ?>', '<?= $user['surname'] ?>', '<?= $user['email'] ?>', '<?= $user['phone'] ?>', '<?= $user['dni'] ?>', '<?= $user['birth_date'] ?>', '<?= $user['role'] ?>', '<?= $user['groups'] ?>')">
+                                        <img src="../img/editar.png" alt="edit" class="w-6 h-6 object-cover rounded-lg">
+                                    </button>
+                                    <button class="btn bg-white w-16">
+                                        <a href="/deleteUser?id=<?= $user['id']; ?>"
+                                            onclick="return confirm('Estas segur que vols eliminar aquest usuari?')">
+                                            <img src="../img/eliminar2.png" alt="delete"
+                                                class="w-6 h-6 object-cover rounded-lg">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    </button>
+                                </td>
+                            <tr id="collapse<?= $user['id'] ?>" class="hidden">
+                                <td colspan="10">
+                                    <div class="collapse bg-white transition ease-in-out duration-300 overflow-x-auto">
+                                        <div
+                                            class="collapse-title text-md font-medium flex justify-center items-center">
+                                            <?php if (!empty($user['photos'])): ?>
+                                            <?php foreach ($user['photos'] as $photo): ?>
+                                            <div class="flex-shrink-0 items-center justify-center mx-5">
+                                                <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>"
+                                                    class="w-32 h-32 object-cover rounded-lg">
+                                                <div class="flex flex-col items-center">
+                                                    <p class="mt-2"><?= $photo['name'] ?></p>
+                                                    <button class="btn btn-outline btn-xs mt-2"><a
+                                                            href="/eliminarPhoto?id=<?= $photo['id']; ?>">Eliminar</a></button>
+                                                </div>
                                             </div>
+                                            <?php endforeach; ?>
+                                            <?php else: ?>
+                                            <p>Encara no hi ha fotografies.</p>
+                                            <?php endif; ?>
                                         </div>
-                                        <?php endforeach; ?>
-                                        <?php else: ?>
-                                        <p>Encara no hi ha fotografies.</p>
-                                        <?php endif; ?>
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
                 <dialog id="edit_modal" class="modal">
                     <div class="modal-box">
                         <form method="dialog">
@@ -196,15 +213,16 @@
                     </div>
                     <div class="mt-5">
                         <div class="relative">
-                            <input id="role" name="role" type="text" placeholder="Rol" title="rol" autocomplete="username"
+                            <input id="role" name="role" type="text" placeholder="Rol" title="rol"
+                                autocomplete="username"
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
 
                         </div>
                     </div>
                     <div class="mt-5">
                         <div class="relative">
-                            <input id="password" name="password" type="password" title="password" placeholder="Contraseña"
-                                autocomplete="current-password"
+                            <input id="password" name="password" type="password" title="password"
+                                placeholder="Contraseña" autocomplete="current-password"
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
 
                         </div>
@@ -248,8 +266,8 @@
 
             <div class="editorles">
 
-                <table class="bg-white border border-gray-300 w-full">
-                    <table class="bg-white border border-gray-300 w-full">
+                <table class="bg-white border border-gray-300 w-full overflow-x-auto">
+                    <table class="bg-white border border-gray-300 w-full table table-zebra">
                         <thead>
                             <tr>
                                 <th class="py-2 px-4 border-b  text-gray-700">ID</th>
@@ -347,89 +365,152 @@
                             </div>
                             <div id="user_details2">
                             </div>
-
                         </div>
                     </dialog>
+                </table>
             </div>
+            <div class="editar_grups">
+                <div class="flex justify-end items-center mb-4 mt-5">
+                    <button id="crearGrupBtn" type="button" onclick="openEditModal3()"
+                        class="btn btn-outline items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none">
+                        + Afegir Grup
+                    </button>
+                    <!-- Agregamos un espacio entre el botón y el borde derecho del contenedor -->
+                    <div class="w-16"></div>
+                </div>
+                <div class="overflow-x-auto bg-white border border-gray-300 w-full mx-auto">
+                    <table class="table table-zebra bg-white border border-gray-300 w-full ">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b text-left text-gray-700 text-lg">Nom</th>
+                                <th class="py-2 px-4 border-b text-right text-gray-700 text-lg">ID</th>
+                                <th class="py-2 px-4 border-b text-right text-gray-700 text-lg mx-10">Eliminar</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <?php foreach ($grups as $grup): ?>
+                            <tr class="userRow group">
+                                <td class="py-2 px-4 border-b">
+                                    <?= $grup['name'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b text-right">
+                                    <?= $grup['id'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b text-right w-32">
+                                    <div class="flex items-center justify-end">
+                                        <button class="btn bg-white w-16">
+                                            <a href="/DeleteGrup?id=<?= $grup['id']; ?>" class=""
+                                                onclick="return confirm('Estas segur que vols eliminar aquest grup?')">
+                                                <img src="../img/eliminar2.png" alt="delete"
+                                                    class="w-6 h-6 object-cover rounded-lg">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+
+                    </table>
+                    <dialog id="edit_modal3" class="modal">
+                        <div class="modal-box">
+                            <form method="dialog">
+                                <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+                                    onclick="closeEditModal3()">✕
+                                </button>
+                            </form>
+                            <div class="text-center">
+                                <h3 class="font-bold text-lg">Crear Grup</h3>
+                            </div>
+                            <div id="user_details3">
+                            </div>
+                        </div>
+                    </dialog>
+                </div>
+            </div>
+
 
             <div class="notifications">
 
+                <div class="overflow-x-auto bg-white">
+                    <table class="table table-zebra bg-white border border-gray-300 w-full">
+                        <thead>
+                            <tr>
+                                <th class="py-2 px-4 border-b  text-gray-700">Id </th>
+                                <th class="py-2 px-4 border-b  text-gray-700">Id Usuari</th>
+                                <th class="py-2 px-4 border-b  text-gray-700">Email</th>
+                                <th class="py-2 px-4 border-b  text-gray-700">Descripció</th>
+                                <th class="py-2 px-4 border-b  text-gray-700">Data</th>
+                                <th class="py-2 px-4 border-b  text-gray-700">Estat</th>
+                                <th class="py-2 px-4 border-b  text-gray-700">Actualitzar</th>
+                                <th class="py-2 px-4 border-b  text-gray-700">Acciones</th>
 
-                <table class=" bg-white border border-gray-300 w-full">
-                    <thead>
-                        <tr>
-                            <th class="py-2 px-4 border-b  text-gray-700">Id </th>
-                            <th class="py-2 px-4 border-b  text-gray-700">Id Usuari</th>
-                            <th class="py-2 px-4 border-b  text-gray-700">Email</th>
-                            <th class="py-2 px-4 border-b  text-gray-700">Descripció</th>
-                            <th class="py-2 px-4 border-b  text-gray-700">Data</th>
-                            <th class="py-2 px-4 border-b  text-gray-700">Estat</th>
-                            <th class="py-2 px-4 border-b  text-gray-700">Actualitzar</th>
-                            <th class="py-2 px-4 border-b  text-gray-700">Acciones</th>
+                            </tr>
+                        </thead>
 
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <?php foreach ($errors as $error): ?>
-                        <input type="hidden" name="id" value="<?= $error['error_id'] ?>">
-                        <tr class="userRow hover:bg-gray-200">
-                            <td class=" py-2 px-4 border-b">
-                                <?= $error['error_id'] ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <?= $error['user_id'] ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <?= $error['user_email'] ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <div class="truncate max-w-xs overflow-hidden">
-                                    <?= $error['error_description'] ?>
-                                </div>
-                                <?php if (strlen($error['error_description']) > 30): ?>
-                                <div class="description hidden ">
-                                    <?= $error['error_description'] ?>
-                                </div>
-                                <button class="text-blue-500 " onclick="toggleDescription(this)">
-                                    Mostrar más
-                                </button>
-                                <?php endif; ?>
-                            </td>
-                            <td class="py-2 px-4 border-b">
-                                <?= $error['error_date'] ?>
-                            </td>
-                            <form method="POST" action="/uploaderror">
-                                <input type="hidden" name="id" value="<?= $error['error_id'] ?>">
-                                <td class="py-2 px-4 border-b">
-                                    <select name="error_status" class="select select-bordered w-full max-w-xs">
-                                        <?php foreach (['Pending', 'Resuelta', 'Rechazada'] as $status): ?>
-                                        <option <?= ($error['error_status'] === $status) ? 'selected' : '' ?>>
-                                            <?= $status ?>
-                                        </option>
-                                        <?php endforeach; ?>
-                                    </select>
+                        <tbody class="bg-white">
+                            <?php foreach ($errors as $error): ?>
+                            <input type="hidden" name="id" value="<?= $error['error_id'] ?>">
+                            <tr class="userRow hover:bg-gray-200">
+                                <td class=" py-2 px-4 border-b">
+                                    <?= $error['error_id'] ?>
                                 </td>
                                 <td class="py-2 px-4 border-b">
-                                    <button type="submit" class="btn bg-white w-16">
-                                        <img src="../img/actualizar.png" alt="update"
-                                            class="w-6 h-6 object-cover rounded-lg">
+                                    <?= $error['user_id'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $error['user_email'] ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <div class="truncate max-w-xs overflow-hidden">
+                                        <?= $error['error_description'] ?>
+                                    </div>
+                                    <?php if (strlen($error['error_description']) > 30): ?>
+                                    <div class="description hidden ">
+                                        <?= $error['error_description'] ?>
+                                    </div>
+                                    <button class="text-blue-500 " onclick="toggleDescription(this)">
+                                        Mostrar más
+                                    </button>
+                                    <?php endif; ?>
+                                </td>
+                                <td class="py-2 px-4 border-b">
+                                    <?= $error['error_date'] ?>
+                                </td>
+                                <form method="POST" action="/uploaderror">
+                                    <input type="hidden" name="id" value="<?= $error['error_id'] ?>">
+                                    <td class="py-2 px-4 border-b">
+                                        <select name="error_status" class="select select-bordered w-full max-w-xs">
+                                            <?php foreach (['Pending', 'Resuelta', 'Rechazada'] as $status): ?>
+                                            <option <?= ($error['error_status'] === $status) ? 'selected' : '' ?>>
+                                                <?= $status ?>
+                                            </option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                    <td class="py-2 px-4 border-b">
+                                        <button type="submit" class="btn bg-white w-16">
+                                            <img src="../img/actualizar.png" alt="update"
+                                                class="w-6 h-6 object-cover rounded-lg">
+                                        </button>
+                                    </td>
+                                </form>
+
+                                <td class="py-2 px-4 border-b">
+                                    <button class="btn bg-white w-16">
+                                        <a href="/deleteerror?id=<?= $error['error_id']; ?>" class="">
+                                            <img src="../img/eliminar2.png" alt="delete"
+                                                class="w-6 h-6 object-cover rounded-lg">
+                                        </a>
                                     </button>
                                 </td>
-                            </form>
-
-                            <td class="py-2 px-4 border-b">
-                                <button class="btn bg-white w-16">
-                                    <a href="/deleteerror?id=<?= $error['error_id']; ?>" class="">
-                                        <img src="../img/eliminar2.png" alt="delete"
-                                            class="w-6 h-6 object-cover rounded-lg">
-                                    </a>
-                                </button>
-                            </td>
-                        </tr>
-                        <?php endforeach; ?>
-                    </tbody>
-                </table>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

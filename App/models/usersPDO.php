@@ -67,6 +67,22 @@ class UsersPDO
         
     }
 
+    public function getGroupByUserId($userId)
+    {
+        // Consulta para obtener el grupo del usuario
+        $query = "SELECT groups.name AS group_name, groups.id  AS group_id
+              FROM user_groups
+              JOIN groups ON user_groups.group_id = groups.id
+              WHERE user_groups.user_id = :user_id";
+
+        $statement = $this->sql->prepare($query);
+        $statement->bindParam(':user_id', $userId, \PDO::PARAM_INT);
+        $statement->execute();
+        $group = $statement->fetch(\PDO::FETCH_ASSOC);
+        
+        return $group['group_name'] ?? null;
+        
+    }
     public function registerUser($name, $surname, $email, $phone, $dni, $birthDate, $role, $password)
     {
         // Puedes ajustar esta consulta según tu estructura de tabla
@@ -130,6 +146,37 @@ class UsersPDO
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 
+    public function getAllUsersGrup($groupId)
+    {
+        $sql = "SELECT users.* FROM users
+                JOIN user_groups ON users.id = user_groups.user_id
+                WHERE user_groups.group_id = :group_id";
+    
+        $stmt = $this->sql->prepare($sql);
+        $stmt->bindParam(':group_id', $groupId, \PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function deleteGrup($groupId){
+
+        // Primero, eliminar de la tabla user_groups
+        $stm = $this->sql->prepare("DELETE FROM user_groups WHERE group_id = :group_id");
+        $stm->execute([':group_id' => $groupId]);
+    
+        // Luego, eliminar de la tabla groups
+        $stm = $this->sql->prepare("DELETE FROM groups WHERE id = :id");
+        $stm->execute([':id' => $groupId]);
+    }
+
+    public function crearGrup($name)
+    {
+        $sql = "INSERT INTO groups (name) VALUES (?)";
+        $stmt = $this->sql->prepare($sql);
+        $stmt->execute([$name]);
+    }   
+
 
     public function editUser($id, $name, $surname, $email, $phone)
     {
@@ -144,21 +191,28 @@ class UsersPDO
         ]);
     }
 
-    public function editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $role)
+    public function editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $group_name, $role)
     {
-
-        $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email, phone = :phone, dni = :dni, birth_date = :birth_date, role = :role WHERE id = :id");
+        $stmt = $this->sql->prepare("UPDATE user_groups SET group_id = (SELECT id FROM groups WHERE name = :group_name) WHERE user_id = :id");
         $stmt->execute([
             ':id' => $id,
-            ':name' => $name,
-            ':surname' => $surname,
-            ':email' => $email,
-            ':phone' => $phone,
-            ':dni' => $dni,
-            ':birth_date' => $birth_date,
-            ':role' => $role
+            ':group_name' => $group_name
         ]);
-    }
+            
+            $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email, phone = :phone, dni = :dni, birth_date = :birth_date, role = :role WHERE id = :id");
+            $stmt->execute([
+                ':id' => $id,
+                ':name' => $name,
+                ':surname' => $surname,
+                ':email' => $email,
+                ':phone' => $phone,
+                ':dni' => $dni,
+                ':birth_date' => $birth_date,
+                ':role' => $role
+            ]);
+        }
+
+
 
     public function PaneleditUser($id, $name, $surname, $email, $phone,$dni,$birth_date,$role)
     {
