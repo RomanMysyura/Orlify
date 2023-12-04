@@ -152,7 +152,7 @@
                     </li>
 
                     <li>
-                        <!-- <a href="/descarregar-orla?id=<?= $_SESSION["orla_id"] ?>"> -->
+                       
                         <a href="/descarregar-orla/<?= $_SESSION["orla_id"] ?>" id="downloadPDF">
                             <svg fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg"
                                 class="h-8 w-8">
