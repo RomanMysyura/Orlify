@@ -23,10 +23,7 @@ use App\Controllers\OrlesControllers;
 
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../vendor/autoload.php";
-include "../App/Controllers/error.php";
-include "../App/Controllers/login.php";
-include "../App/Controllers/validarLogin.php";
-include "../App/Controllers/tancarSessio.php";
+
 
 
 include "../App/Middleware/auth.php";
@@ -61,6 +58,8 @@ $app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"]);
 $app->post("PanelUploadUser", [UserController::class,"PanelUploadUser"]);
 $app->get("Idpanel", [UserController::class,"Idpanel"]);
 $app->get("deleteUser", [UserController::class,"deleteUser"]);
+$app->get("DeleteGrup", [UserController::class,"DeleteGrup"]);
+$app->post("crearGrup", [UserController::class,"crearGrup"]);
 $app->get("/carnet/{token}", [UserController::class, "carnetUser"]);
 $app->get("deleteerror", [UserController::class,"deleteerror"]);
 $app->post("uploaderror", [UserController::class,"uploaderror"]);
@@ -70,11 +69,7 @@ $app->get("eliminarOrlaPanel", [OrlesControllers::class,"eliminarOrlaPanel"]);
 $app->get("eliminarPhoto", [OrlesControllers::class,"eliminarPhoto"]);
 $app->get("recuperarpass", [NavigationController::class,"recuperarpass"]);
 $app->post("publish-orla", [OrlesControllers::class,"publish_orla"]);
-
-
-
-
-
+$app->get("descarregar-orla/{id}", [OrlesControllers::class,"descarregarOrla"]);
 $app->get("eliminar-orla", [OrlesControllers::class,"eliminarOrla"]);
 
 

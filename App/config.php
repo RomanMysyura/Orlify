@@ -22,11 +22,7 @@ return [
     "database" => [
         "server" => "localhost",
         "username" => "root",
-        "password" => "1234",
-        "database" => "orlify"
+        "password" => "",
+        "database" => "orles"
     ]
 ];
-include "../src/models/Users.php";
-include "../src/models/usersPDO.php";
-include "../src/models/Db.php";
-include "../src/models/session.php";
