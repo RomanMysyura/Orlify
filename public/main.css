@@ -3048,9 +3048,6 @@ details.collapse summary::-webkit-details-marker {
 .h-44 {
   height: 11rem;
 }
-.h-5 {
-  height: 1.25rem;
-}
 .h-56 {
   height: 14rem;
 }
@@ -3104,9 +3101,6 @@ details.collapse summary::-webkit-details-marker {
 }
 .w-40 {
   width: 10rem;
-}
-.w-5 {
-  width: 1.25rem;
 }
 .w-52 {
   width: 13rem;
