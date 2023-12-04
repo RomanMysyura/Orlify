@@ -19,6 +19,17 @@ eval("var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!\r\n * 
 
 /***/ }),
 
+/***/ "./App/js/cookie.js":
+/*!**************************!*\
+  !*** ./App/js/cookie.js ***!
+  \**************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ setCookie),\n/* harmony export */   getCookie: () => (/* binding */ getCookie),\n/* harmony export */   initializeCookieBanner: () => (/* binding */ initializeCookieBanner)\n/* harmony export */ });\n    // Function to set a cookie\r\n// Function to set a cookie with SameSite=None and Secure\r\nfunction setCookie(name, value, days) {\r\n    var expires = \"\";\r\n    var sameSite = \"; SameSite=None ;Secure\"; \r\n\r\n    // Añade Secure si estás utilizando HTTPS\r\n    var secureFlag = location.protocol === \"https:\" ? \"; Secure\" : \"\";\r\n\r\n    if (days) {\r\n        var date = new Date();\r\n        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));\r\n        expires = \"; expires=\" + date.toUTCString();\r\n    }\r\n\r\n    document.cookie = name + \"=\" + value + expires + sameSite + secureFlag + \"; path=/\";\r\n}\r\n\r\nfunction getCookie(name) {\r\n    var nameEQ = name + \"=\";\r\n    var ca = document.cookie.split(';');\r\n    for (var i = 0; i < ca.length; i++) {\r\n        var c = ca[i];\r\n        while (c.charAt(0) == ' ') c = c.substring(1);\r\n        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);\r\n    }\r\n    return null;\r\n}\r\n\r\n// Verificar si la cookie de aceptación de cookies está presente\r\nvar cookieAccepted = getCookie('cookieAccepted');\r\nconsole.log('cookieAccepted');\r\nif (cookieAccepted) {\r\n    // El usuario ha aceptado las cookies\r\n    console.log('El usuario ha aceptado las cookies.');\r\n} else {\r\n    // El usuario aún no ha aceptado las cookies\r\n    console.log('El usuario aún no ha aceptado las cookies.');\r\n}\r\nfunction initializeCookieBanner() {\r\n    // Verificar si ya se aceptaron las cookies utilizando sessionStorage o la cookie directamente\r\n    if (sessionStorage.getItem(\"cookiesAccepted\") || getCookie('cookieAccepted')) {\r\n        document.getElementById(\"cookie-banner\").classList.add(\"hidden\");\r\n    } else {\r\n        // Cuando el DOM esté cargado\r\n        document.addEventListener(\"DOMContentLoaded\", function() {\r\n            // Manejar clic en el botón de aceptar cookies\r\n            document.getElementById(\"accept-cookies\").addEventListener(\"click\", function() {\r\n                // Eliminar el banner de cookies\r\n                document.getElementById(\"cookie-banner\").classList.add(\"hidden\");\r\n\r\n                // Marcar que las cookies fueron aceptadas (almacenar en sessionStorage)\r\n                sessionStorage.setItem(\"cookiesAccepted\", \"true\");\r\n\r\n                // Setear la cookie\r\n                setCookie('cookieAccepted', 'true', 365);\r\n            });\r\n        });\r\n    }\r\n}\r\n\r\n// Llamar a la función para iniciar el banner de cookies\r\ninitializeCookieBanner();\r\n\n\n//# sourceURL=webpack:///./App/js/cookie.js?");
+
+/***/ }),
+
 /***/ "./App/js/dropfile.js":
 /*!****************************!*\
   !*** ./App/js/dropfile.js ***!
@@ -37,7 +48,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n/* harmony import */ var _scripts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts.js */ \"./App/js/scripts.js\");\n/* harmony import */ var _password_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./password.js */ \"./App/js/password.js\");\n/* harmony import */ var _dropfile_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dropfile.js */ \"./App/js/dropfile.js\");\n/* harmony import */ var _openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./openmodalalumnes.js */ \"./App/js/openmodalalumnes.js\");\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__.openModal)();\r\n(0,_dropfile_js__WEBPACK_IMPORTED_MODULE_3__.initDropFile)();\r\n(0,_password_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\r\n(0,_dropfile_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])();\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__.closeModal)();\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__.searchAlumne)();\r\n\n\n//# sourceURL=webpack:///./App/js/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n/* harmony import */ var _scripts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts.js */ \"./App/js/scripts.js\");\n/* harmony import */ var _password_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./password.js */ \"./App/js/password.js\");\n/* harmony import */ var _dropfile_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./dropfile.js */ \"./App/js/dropfile.js\");\n/* harmony import */ var _openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./openmodalalumnes.js */ \"./App/js/openmodalalumnes.js\");\n/* harmony import */ var _cookie_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./cookie.js */ \"./App/js/cookie.js\");\n/* harmony import */ var _slider_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./slider.js */ \"./App/js/slider.js\");\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__.openModal)();\r\n(0,_dropfile_js__WEBPACK_IMPORTED_MODULE_3__.initDropFile)();\r\n(0,_password_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\r\n(0,_dropfile_js__WEBPACK_IMPORTED_MODULE_3__[\"default\"])();\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__.closeModal)();\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_4__.searchAlumne)();\r\n(0,_cookie_js__WEBPACK_IMPORTED_MODULE_5__[\"default\"])();\r\n(0,_cookie_js__WEBPACK_IMPORTED_MODULE_5__.getCookie)();\r\n(0,_cookie_js__WEBPACK_IMPORTED_MODULE_5__.initializeCookieBanner)();\r\n(0,_slider_js__WEBPACK_IMPORTED_MODULE_6__[\"default\"])();\r\n\n\n//# sourceURL=webpack:///./App/js/index.js?");
 
 /***/ }),
 
@@ -71,6 +82,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\r\nwindow.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0__;\r\n\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack:///./App/js/scripts.js?");
+
+/***/ }),
+
+/***/ "./App/js/slider.js":
+/*!**************************!*\
+  !*** ./App/js/slider.js ***!
+  \**************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ moverSlider)\n/* harmony export */ });\nconst slider = document.getElementById('slider');\r\n\r\n// Configuración del slider\r\nconst intervaloTiempo = 2000; // Intervalo de tiempo en milisegundos (2 segundos en este caso)\r\n\r\nfunction moverSlider() {\r\n    const anchoSlide = document.querySelector('.slide').offsetWidth;\r\n    slider.style.transition = 'transform 0.8s ease-in-out';\r\n    slider.style.transform = `translateX(-${anchoSlide}px)`;\r\n\r\n    // Cuando la animación de transición ha terminado, mueve el primer slide al final\r\n    setTimeout(() => {\r\n        const primerSlide = slider.firstElementChild;\r\n        slider.appendChild(primerSlide);\r\n        slider.style.transition = 'none';\r\n        slider.style.transform = 'translateX(0)';\r\n    }, 800); // Ajusta el tiempo de espera a la duración de la transición\r\n}\r\n\r\n// Inicia el slider automáticamente\r\nsetInterval(moverSlider, intervaloTiempo);\r\n\n\n//# sourceURL=webpack:///./App/js/slider.js?");
 
 /***/ })
 
