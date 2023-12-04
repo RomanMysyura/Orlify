@@ -1,8 +1,8 @@
-    // Function to set a cookie
+// Function to set a cookie
 // Function to set a cookie with SameSite=None and Secure
 export default function setCookie(name, value, days) {
     var expires = "";
-    var sameSite = "; SameSite=None ;Secure"; 
+    var sameSite = "; SameSite=None ;Secure";
 
     // Añade Secure si estás utilizando HTTPS
     var secureFlag = location.protocol === "https:" ? "; Secure" : "";
@@ -27,37 +27,38 @@ export function getCookie(name) {
     return null;
 }
 
-// Verificar si la cookie de aceptación de cookies está presente
-var cookieAccepted = getCookie('cookieAccepted');
-console.log('cookieAccepted');
-if (cookieAccepted) {
-    // El usuario ha aceptado las cookies
-    console.log('El usuario ha aceptado las cookies.');
-} else {
-    // El usuario aún no ha aceptado las cookies
-    console.log('El usuario aún no ha aceptado las cookies.');
-}
 export function initializeCookieBanner() {
     // Verificar si ya se aceptaron las cookies utilizando sessionStorage o la cookie directamente
     if (sessionStorage.getItem("cookiesAccepted") || getCookie('cookieAccepted')) {
-        document.getElementById("cookie-banner").classList.add("hidden");
+        var cookieBannerElement = document.getElementById("cookie-banner");
+        if (cookieBannerElement) {
+            cookieBannerElement.classList.add("hidden");
+        }
     } else {
         // Cuando el DOM esté cargado
-        document.addEventListener("DOMContentLoaded", function() {
-            // Manejar clic en el botón de aceptar cookies
-            document.getElementById("accept-cookies").addEventListener("click", function() {
-                // Eliminar el banner de cookies
-                document.getElementById("cookie-banner").classList.add("hidden");
+        document.addEventListener("DOMContentLoaded", function () {
+            var acceptCookiesButton = document.getElementById("accept-cookies");
+            var cookieBannerElement = document.getElementById("cookie-banner");
 
-                // Marcar que las cookies fueron aceptadas (almacenar en sessionStorage)
-                sessionStorage.setItem("cookiesAccepted", "true");
+            if (acceptCookiesButton && cookieBannerElement) {
+                // Manejar clic en el botón de aceptar cookies
+                acceptCookiesButton.addEventListener("click", function () {
+                    // Eliminar el banner de cookies
+                    cookieBannerElement.classList.add("hidden");
 
-                // Setear la cookie
-                setCookie('cookieAccepted', 'true', 365);
-            });
+                    // Marcar que las cookies fueron aceptadas (almacenar en sessionStorage)
+                    sessionStorage.setItem("cookiesAccepted", "true");
+
+                    // Setear la cookie
+                    setCookie('cookieAccepted', 'true', 365);
+                });
+            }
         });
     }
 }
 
-// Llamar a la función para iniciar el banner de cookies
-initializeCookieBanner();
+// Encapsula la lógica de inicialización en una función autoejecutable
+(function () {
+    initializeCookieBanner();
+})();
+
