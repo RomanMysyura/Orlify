@@ -505,11 +505,8 @@ public function DeleteGrup($request, $response, $container)
 {
     $grup_id = $_GET['id'];
 
-    $dbConfig = $container["config"]["database"];
-    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-    $connection = $dbModel->getConnection();
 
-    $usersModel = new UsersPDO($connection);
+    $usersModel = $container["\App\Models\usersPDO"];
     $usersModel->DeleteGrup($grup_id);
     $userId = $_SESSION["user_id"];
     $users = $usersModel->Idpanel($userId);
@@ -525,11 +522,9 @@ public function crearGrup($request, $response, $container)
   
     $name = $_POST["name"];
 
-    $dbConfig = $container["config"]["database"];
-    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-    $connection = $dbModel->getConnection();
+   
 
-    $usersModel = new UsersPDO($connection);
+    $usersModel = $container["\App\Models\usersPDO"];
     $usersModel->crearGrup($name);
     $userId = $_SESSION["user_id"];
     $users = $usersModel->Idpanel($userId);
