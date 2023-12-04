@@ -9,6 +9,15 @@
         <?= $app_config["app"]["name"] ?>
     </title>
 </head>
+<!-- Contenedor del banner de cookies -->
+<div id="cookie-banner" class="fixed bottom-0 w-full bg-gray-800 p-4 text-center shadow-md opacity-100 z-50">
+    <p class="text-sm text-white">
+        Utilitzem cookies per millorar la teva experiència al lloc. En continuar, acceptes l'ús de galetes.
+    </p>
+    <button id="accept-cookies" class="mt-2 bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+        Aceptar
+    </button>
+</div>
 
 <body class="bg-gray-200 ">
     <?php include "navbar.php" ?>
@@ -49,16 +58,16 @@
         <div class="flex-1  p-4 m-2">
             <div class="w-full max-w-md  m-auto">
                 <?php if (isset($error_message_login)): ?>
-                <div role="alert" class="alert alert-error mb-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>
-                        <?php echo $error_message_login; ?>
-                    </span>
-                </div>
+                    <div role="alert" class="alert alert-error mb-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <?php echo $error_message_login; ?>
+                        </span>
+                    </div>
                 <?php endif; ?>
 
 
@@ -98,16 +107,16 @@
 
 
                 <?php if (isset($error_message_register)): ?>
-                <div role="alert" class="alert alert-success mb-5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
-                        viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <span>
-                        <?php echo $error_message_register; ?>
-                    </span>
-                </div>
+                    <div role="alert" class="alert alert-success mb-5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none"
+                            viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>
+                            <?php echo $error_message_register; ?>
+                        </span>
+                    </div>
                 <?php endif; ?>
                 <form class="bg-white shadow-md w-full max-w-md m-auto rounded px-8 pt-6 pb-8 mb-4" action="/register"
                     method="post">
@@ -179,17 +188,17 @@
                     </div>
                     <div id="mss"></div>
                     <script>
-                    // Agregar evento al pasar el ratón sobre el botón
-                    document.getElementById('infoButton').addEventListener('mouseover', function() {
-                        // Mostrar el contenedor de información
-                        document.getElementById('infoContainer').classList.remove('invisible');
-                    });
+                        // Agregar evento al pasar el ratón sobre el botón
+                        document.getElementById('infoButton').addEventListener('mouseover', function () {
+                            // Mostrar el contenedor de información
+                            document.getElementById('infoContainer').classList.remove('invisible');
+                        });
 
-                    // Agregar evento al quitar el ratón del botón
-                    document.getElementById('infoButton').addEventListener('mouseout', function() {
-                        // Ocultar el contenedor de información
-                        document.getElementById('infoContainer').classList.add('invisible');
-                    });
+                        // Agregar evento al quitar el ratón del botón
+                        document.getElementById('infoButton').addEventListener('mouseout', function () {
+                            // Ocultar el contenedor de información
+                            document.getElementById('infoContainer').classList.add('invisible');
+                        });
                     </script>
 
 
@@ -226,35 +235,7 @@
             </div>
         </div>
     </div>
-
-
-
-
     </div>
-    <script>
-    const slider = document.getElementById('slider');
-
-    // Configuración del slider
-    const intervaloTiempo = 2000; // Intervalo de tiempo en milisegundos (2 segundos en este caso)
-
-    function moverSlider() {
-        const anchoSlide = document.querySelector('.slide').offsetWidth;
-        slider.style.transition = 'transform 0.8s ease-in-out';
-        slider.style.transform = `translateX(-${anchoSlide}px)`;
-
-        // Cuando la animación de transición ha terminado, mueve el primer slide al final
-        setTimeout(() => {
-            const primerSlide = slider.firstElementChild;
-            slider.appendChild(primerSlide);
-            slider.style.transition = 'none';
-            slider.style.transform = 'translateX(0)';
-        }, 800); // Ajusta el tiempo de espera a la duración de la transición
-    }
-
-    // Inicia el slider automáticamente
-    setInterval(moverSlider, intervaloTiempo);
-    </script>
-
 
     <?php include "footer.php" ?>
     <script src="/js/bundle.js"></script>
