@@ -63,6 +63,14 @@ class UserController
 
         $usersModel = $container["\App\Models\usersPDO"];
 
+        $userPhoto = $container["\App\Models\usersPDO"];
+
+        // Obtén los datos del usuario actual
+        $userId = $_SESSION["user_id"];
+        $userPhoto = $usersModel->getUserSelectedPhoto($userId);
+
+        $response->set("userPhoto", $userPhoto);
+
         $loggedInUser = $usersModel->login($email, $password);
 
         if ($loggedInUser) {
@@ -86,7 +94,6 @@ class UserController
 
         return $response;
     }
-
 
     public function logout($request, $response, $container)
     {
@@ -203,7 +210,39 @@ class UserController
 
     public function uploadUserAdmin($request, $response, $container)
     {
+        
         $usersModel = $container["\App\Models\usersPDO"];
+        
+        $errorModel = $container["\App\Models\usersPDO"];
+        $orlaModel = $container["\App\Models\Orles"];
+        $grupsModel = $container["\App\Models\usersPDO"];
+        $users = $usersModel->getAllUsers();
+        $errors = $errorModel->geterror();
+        $orles = $orlaModel->getAllOrles();
+        $grups = $grupsModel->getAllGroups();
+        foreach ($users as &$user) {
+            $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+            $groups = $usersModel->getGroupByUserId($user["id"]);
+        
+            if ($groups !== null) {
+                $user["groups"] = $groups;
+            } else {
+                $user["groups"] = 'Sense grup';
+            }
+        }
+    
+        foreach ($orles as &$orla) {
+            $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
+        }
+
+        foreach ($grups as &$grup) {
+            $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
+        }
+    
+        $response->set("users", $users);
+        $response->set("errors", $errors);
+        $response->set("orles", $orles);
+        $response->set("grups", $grups);
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $id = $_POST["id"];
@@ -444,6 +483,42 @@ class UserController
 
     }
 
+
+
+    $usersModel = $container["\App\Models\usersPDO"];
+    $errorModel = $container["\App\Models\usersPDO"];
+    $orlaModel = $container["\App\Models\Orles"];
+    $grupsModel = $container["\App\Models\usersPDO"];
+    $users = $usersModel->getAllUsers();
+    $errors = $errorModel->geterror();
+    $orles = $orlaModel->getAllOrles();
+    $grups = $grupsModel->getAllGroups();
+    
+    
+    foreach ($users as &$user) {
+        $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+        $groups = $usersModel->getGroupByUserId($user["id"]);
+    
+        if ($groups !== null) {
+            $user["groups"] = $groups;
+        } else {
+            $user["groups"] = 'Sense grup';
+        }
+    }
+
+    foreach ($orles as &$orla) {
+        $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
+    }
+
+    foreach ($grups as &$grup) {
+        $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
+    }
+
+    $response->set("users", $users);
+    $response->set("errors", $errors);
+    $response->set("orles", $orles);
+    $response->set("grups", $grups);
+
     $response->SetTemplate("paneldecontrol.php");
    return $response;
 }
@@ -524,6 +599,40 @@ public function crearGrup($request, $response, $container)
     $usersModel->crearGrup($name);
     $userId = $_SESSION["user_id"];
     $users = $usersModel->Idpanel($userId);
+
+   
+    $errorModel = $container["\App\Models\usersPDO"];
+    $orlaModel = $container["\App\Models\Orles"];
+    $grupsModel = $container["\App\Models\usersPDO"];
+    $users = $usersModel->getAllUsers();
+    $errors = $errorModel->geterror();
+    $orles = $orlaModel->getAllOrles();
+    $grups = $grupsModel->getAllGroups();
+    
+    
+    foreach ($users as &$user) {
+        $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+        $groups = $usersModel->getGroupByUserId($user["id"]);
+    
+        if ($groups !== null) {
+            $user["groups"] = $groups;
+        } else {
+            $user["groups"] = 'Sense grup';
+        }
+    }
+
+    foreach ($orles as &$orla) {
+        $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
+    }
+
+    foreach ($grups as &$grup) {
+        $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
+    }
+
+    $response->set("users", $users);
+    $response->set("errors", $errors);
+    $response->set("orles", $orles);
+    $response->set("grups", $grups);
 
     $response->set("users", $users);
 

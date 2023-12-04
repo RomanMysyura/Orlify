@@ -164,11 +164,47 @@ public function UploadOrla($request, $response, $container)
     $name_orla = $_POST['name'];
     $status = $_POST['status'];
     $url = $_POST['url'];
-    $group_id = $_POST['group_id'];
+
     $group_name = $_POST['group_name'];
 
     $OrlaModel = $container["\App\Models\Orles"];
+    $usersModel = $container["\App\Models\usersPDO"];
+    $errorModel = $container["\App\Models\usersPDO"];
+
+    $grupsModel = $container["\App\Models\usersPDO"];
+    $users = $usersModel->getAllUsers();
+    $errors = $errorModel->geterror();
+    $orles = $OrlaModel->getAllOrles();
+    $grups = $grupsModel->getAllGroups();
+
     $OrlaModel->UploadOrla($orla_id, $name_orla, $status, $url, $group_name);
+    
+    
+
+
+
+    foreach ($users as &$user) {
+        $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+        $groups = $usersModel->getGroupByUserId($user["id"]);
+    
+        if ($groups !== null) {
+            $user["groups"] = $groups;
+        } else {
+            $user["groups"] = 'Sense grup';
+        }
+    }
+
+    
+    foreach ($grups as &$grup) {
+        $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
+    }
+
+    $response->set("users", $users);
+    $response->set("errors", $errors);
+    $response->set("orles", $orles);
+    $response->set("grups", $grups);
+
+    
 
     $response->SetTemplate("paneldecontrol.php");
     return $response;
