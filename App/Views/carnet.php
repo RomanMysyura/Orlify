@@ -10,30 +10,31 @@
 
 <body class="bg-gray-200">
     <?php include "navbar.php" ?>
+    
+    <div class="flex items-center card  w-1/3 h-40 bg-white shadow-lg mx-auto mt-20 overflow-hidden rounded-md text-center relative">
+    <div class="flex items-center p-3 h-40 bg-white rounded-md mr-5">
+  <section class="flex justify-center items-center w-24 h-24 rounded-full  shadow-md bg-gradient-to-r from-[#141313] to-[#999999 ] hover:from-[#C9A9E9] hover:to-[#7EE7FC] hover:cursor-pointer hover:scale-110 duration-300">
+    <img src="<?= $photo['url']?>" alt="Imagen de perfil" class="w-20 h-20 object-cover">
+    </svg>
+  </section>
 
-    <div class="card w-2/6 bg-white shadow-xl mx-auto mt-20 overflow-hidden rounded-lg text-center relative">
-    <div class="border-b border-black w-90">
-        <div class="flex items-start justify-start ml-4 mt-4">
-            <img src="../img/logo.png" alt="Logo" class="w-12 h-12 object-cover">
-            <div class="mx-auto">
-                <h1 class="text-2xl font-bold mt-2 mb-2 text-black mr-8">CARNET</h1>
-            </div>
-        </div>
+  <section class="block border-l border-gray-300 m-3">
+    <div class="pl-3">
+      <h3 class="text-gray-600 font-semibold text-sm"><?= $user['name']; ?></h3>
+        <h3 class="text-gray-600 font-semibold text-sm"><?= $user['surname']; ?></h3>
+      <h3 class="bg-clip-text text-transparent bg-gradient-to-l from-[#005BC4] to-[#27272A] text-lg font-bold"><?= isset($group) ? $group : '' ?></h3>
     </div>
-    <div class="flex">
-        <img src="../img/user.png" alt="Imagen de perfil" class="w-32 h-32 object-cover rounded-bl mb-6">
-        <div class="card-body flex-grow ml-4 p-4 text-left flex justify-between">
-            <div>
-                <h2 class="card-title text-black ml-20"><?= $user['name']; ?></h2>
-                <h2 class="card-title text-black ml-20"><?= $user['surname']; ?></h2>
-                <h2 class="card-title text-black ml-20"><?= isset($group) ? $group : '' ?></h2>
-            </div>
-        </div>
-        <img src="../img/qr.png" alt="Ejemplo" class="w-24 h-24 object-cover mr-6 mt-4">
+  </section>
+  <section class="flex items-center justify-center ml-14">
+    <div class="">
+      <img src="../img/qr.png" alt="Ejemplo" class="w-20 h-20 object-cover">
     </div>
-    <div class="card-actions justify-end bg-black text-white p-4 rounded-b-lg absolute bottom-0 w-full">
-    </div>
+    </section>
 </div>
+</div>
+
+
+    
 
 
 

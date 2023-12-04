@@ -51,13 +51,52 @@ class Orles
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }
+    public function getOrlaName($orla_id)
+    {
+        $stmt = $this->sql->prepare("SELECT name_orla FROM orla WHERE id = :orla_id");
+        $stmt->bindParam(":orla_id", $orla_id);
+        $stmt->execute();
+        $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+        return $result["name_orla"];
+    }
+    public function getStatusOrla($orla_id)
+{
+    $stmt = $this->sql->prepare("SELECT status FROM orla WHERE id = :orla_id");
+    $stmt->bindParam(":orla_id", $orla_id);
+    $stmt->execute();
+    $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+    return $result["status"]; // Corregido: "status" en lugar de "orlaStatus"
+}
+
+
+
+
+
+public function publishOrla($orlaId)
+{
+    $stmtSelect = $this->sql->prepare("SELECT status FROM orla WHERE id = :orlaId");
+    $stmtSelect->bindParam(":orlaId", $orlaId);
+    $stmtSelect->execute();
+    
+   
+    $currentStatus = $stmtSelect->fetchColumn();
+
+    $newStatus = ($currentStatus === 'Privat') ? 'Public' : 'Privat';
+
+    $stmtUpdate = $this->sql->prepare("UPDATE orla SET status = :status WHERE id = :orlaId");
+    $stmtUpdate->bindParam(":status", $newStatus);
+    $stmtUpdate->bindParam(":orlaId", $orlaId);
+    $stmtUpdate->execute();
+}
+
+
+
+    
     
 
     public function createNewOrla()
     {
        
-    
-    
         if (isset($_SESSION["group_id"])) {
             $group_id = $_SESSION["group_id"];
     
@@ -139,7 +178,7 @@ public function eliminarPhoto($photo_id){
     }
     
     
-    
+   
     
 
 

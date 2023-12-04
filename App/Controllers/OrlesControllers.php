@@ -20,16 +20,18 @@ class OrlesControllers
         $userId = $_SESSION["user_id"];
 
 
+        
         $orla = $OrlaModel->getOrles($userId);
 
         $response->set("orles", $orla);
-
 
 
         $response->SetTemplate("vieworles.php");
         return $response;
     }
 
+
+   
 
     public function editarOrles($request, $response, $container)
     {
@@ -42,16 +44,20 @@ class OrlesControllers
         $photos = $OrlaModel->getPhotosForOrla($orla_id);
         $response->set("photos", $photos);
         $response->set("orla_id", $orla_id);
-    
+        $orlaName = $OrlaModel->getOrlaName($orla_id);
+        $response->set("orlaName", $orlaName);
+        $orlaStatus = $OrlaModel->getStatusOrla($orla_id);
+        $response->set("orlaStatus", $orlaStatus);
         // Obtener la lista de usuarios y grupos
-        $usersModel = new \App\Models\UsersPDO($connection);
+        $usersModel = new UsersPDO($connection);
         $users = $usersModel->getAllUsers();
         $groups = $usersModel->getAllGroups();
     
         // Pasar la lista de usuarios y grupos a la vista
         $response->set("users", $users);
         $response->set("groups", $groups);
-    
+        
+
         // Para cada grupo, obtener los usuarios del grupo
         $usersInGroups = [];
         foreach ($groups as $group) {
@@ -61,6 +67,8 @@ class OrlesControllers
     
         // Pasar la lista de usuarios en grupos a la vista
         $response->set("usersInGroups", $usersInGroups);
+
+        $_SESSION["orla_id"] = $orla_id;
     
         $response->SetTemplate("editarOrles.php");
     
@@ -129,15 +137,22 @@ public function eliminarOrlaPanel($request, $response, $container)
 
 
 
+/**
+ * [add_users_to_orla description]
+ *
+ * @param   [type]  $request    [$request description]
+ * @param   [type]  $response   [$response description]
+ * @param   [type]  $container  [$container description]
+ *
+ * @return  [type]              [return description]
+ */
 public function add_users_to_orla($request, $response, $container)
 {
     // Obtener el ID de la orla y los usuarios seleccionados del formulario
     
     $orla_id = $_POST['orla_id'];
     $selected_users = $_POST['selected_users'];
-    
-    echo("Orla ID: " . $orla_id);
-    echo("Selected Users: " . implode(', ', $selected_users));
+   
     // Llamar a la función en el modelo para agregar usuarios a la orla
     $dbConfig = $container["config"]["database"];
     $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
@@ -145,12 +160,59 @@ public function add_users_to_orla($request, $response, $container)
 
     $OrlaModel = new Orles($connection);
     $OrlaModel->addUsersToOrla($orla_id, $selected_users);
+    $photos = $OrlaModel->getPhotosForOrla($orla_id);
+    $response->set("photos", $photos);
+    $response->set("orla_id", $orla_id);
+    $orlaName = $OrlaModel->getOrlaName($orla_id);
+    $response->set("orlaName", $orlaName);
+    // Obtener la lista de usuarios y grupos
+    $usersModel = new UsersPDO($connection);
+    $users = $usersModel->getAllUsers();
+    $groups = $usersModel->getAllGroups();
 
+    // Pasar la lista de usuarios y grupos a la vista
+    $response->set("users", $users);
+    $response->set("groups", $groups);
+    $orlaStatus = $OrlaModel->getStatusOrla($orla_id);
+        $response->set("orlaStatus", $orlaStatus);
+
+    // Para cada grupo, obtener los usuarios del grupo
+    $usersInGroups = [];
+    foreach ($groups as $group) {
+        $usersInGroup = $usersModel->getUsersInGroup($group['id']);
+        $usersInGroups[$group['id']] = $usersInGroup;
+    }
+
+    // Pasar la lista de usuarios en grupos a la vista
+    $response->set("usersInGroups", $usersInGroups);
+
+
+    
     
     $response->SetTemplate("editarOrles.php");
 
     return $response;
 }
+
+public function publish_orla($request, $response, $container)
+{
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
+
+    $OrlaModel = new Orles($connection);
+
+    $orlaId = $_SESSION["orla_id"] ;
+    $isPublished = 'isPublished';
+
+    $OrlaModel->publishOrla($orlaId, $isPublished);
+
+    $response->SetTemplate("vieworles.php");
+    return $response;
+}
+
+
+
 
 
 public function UploadOrla($request, $response, $container)
@@ -170,10 +232,8 @@ public function UploadOrla($request, $response, $container)
     $OrlaModel->UploadOrla($orla_id, $name_orla, $status, $url, $group_name);
 
     $response->SetTemplate("paneldecontrol.php");
-
     return $response;
-
-
+  
 }
 
 public function eliminarPhoto($request, $response, $container)

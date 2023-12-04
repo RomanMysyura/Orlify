@@ -92,7 +92,9 @@ class UserController
             $_SESSION["user_id"] = $loggedInUser["id"];
             $_SESSION["group_id"] = $loggedInUser["group_id"];
             $_SESSION["logged"] = true;
+            $_SESSION["role"] = $loggedInUser["role"];
             $userId = $_SESSION["user_id"];
+            $_SESSION["role"] = $loggedInUser["role"];
             $group = $usersModel->getGroupForUser($userId);
 
             $response->set("user", $loggedInUser);
@@ -147,7 +149,7 @@ class UserController
             $response->SetTemplate("index.php");
 
             // Registrar usuario y obtener el ID del nuevo usuario
-            $userId = $usersModel->registerUser($name, $surname, $email, $phone, $dni, $birthDate, $hashedPassword);
+            $userId = $usersModel->registerUser($name, $surname, $email, $phone, $dni, $birthDate, 'Alumne', $hashedPassword);
 
             // Asociar el usuario al grupo en la tabla user_groups
             $usersModel->assignUserToGroup($userId, $groupId);
@@ -190,12 +192,13 @@ class UserController
             $surname = $_POST["surname"];
             $email = $_POST["mail"];
             $birthDate = $_POST["birth_date"];
+            $role = $_POST["role"];
             $password = $_POST["password"];
 
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $response->set("error_message_register", "La conta creada correctament");
             $response->SetTemplate("paneldecontrol.php");
-            $usersModel->registerUser($name, $surname, $email, $birthDate, $hashedPassword);
+            $usersModel->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
 
 
             return $response;
@@ -282,6 +285,7 @@ class UserController
         $connection = $dbModel->getConnection();
     
         $usersModel = new UsersPDO($connection);
+        $photoModel = new UsersPDO($connection);
     
         // Busca el usuario por el token
         $user = $usersModel->getUserByToken($id);
@@ -294,10 +298,12 @@ class UserController
             }
         
             $group = $usersModel->getGroupForUser($user["id"]);
+            $photo = $photoModel->getUserSelectedPhoto($user["id"]);
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
             $response->set("uniqueUrl", "/carnet/{$user["id"]}");
+            $response->set("photo", $photo);
         
             // Establece la plantilla
             $response->setTemplate("carnet.php");
