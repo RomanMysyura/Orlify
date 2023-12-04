@@ -9,11 +9,11 @@ function toggleDescription(button) {
 }
 
 $(document).ready(function() {
-    $(".editorles,  .crear_usuari, .notifications").hide();
+    $(".editorles,  .crear_usuari, .notifications, .editar_grups").hide();
 
     $("#editarUsuarioBtn").click(function() {
-        $(".editar_usuari, .crear_usuari, .editorles,  .notifications").hide();
-        $("#editorlesBtn,  #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400").addClass(
+        $(".editar_usuari, .crear_usuari, .editorles, .editar_grups  .notifications").hide();
+        $("#editorlesBtn,  #crearUsuarioBtn, #notificationsBtn, #editarGrupsBtn").removeClass("bg-gray-400").addClass(
             "bg-white");
 
         $(".editar_usuari").show();
@@ -22,8 +22,8 @@ $(document).ready(function() {
     });
 
     $("#crearUsuarioBtn").click(function() {
-        $(".editar_usuari, .editorles,  .notifications").hide();
-        $("#editarUsuarioBtn,  #editorlesBtn, #notificationsBtn").removeClass("bg-gray-400").addClass(
+        $(".editar_usuari, .editorles,  .notifications, .editar_grups").hide();
+        $("#editarUsuarioBtn,  #editorlesBtn, #notificationsBtn, #editarGrupsBtn").removeClass("bg-gray-400").addClass(
             "bg-white");
 
         $(".crear_usuari").show();
@@ -32,8 +32,8 @@ $(document).ready(function() {
     });
 
     $("#editorlesBtn").click(function() {
-        $(".editar_usuari, .crear_usuari, .editorles,  .notifications").hide();
-        $("#editarUsuarioBtn,   #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400")
+        $(".editar_usuari, .crear_usuari, .editorles,  .notifications, .editar_grups").hide();
+        $("#editarUsuarioBtn,   #crearUsuarioBtn, #notificationsBtn,#editarGrupsBtn").removeClass("bg-gray-400")
             .addClass("bg-white");
 
         $(".editorles").show();
@@ -43,13 +43,24 @@ $(document).ready(function() {
 
   
     $("#notificationsBtn").click(function() {
-        $(".editar_usuari, .crear_usuari, .editorles,  .notifications").hide();
-        $("#editarUsuarioBtn, #editorlesBtn,  #crearUsuarioBtn").removeClass("bg-gray-400")
+        $(".editar_usuari, .crear_usuari, .editorles,  .notifications, .editar_grups").hide();
+        $("#editarUsuarioBtn, #editorlesBtn,  #crearUsuarioBtn, #editarGrupsBtn").removeClass("bg-gray-400")
             .addClass("bg-white");
 
         $(".notifications").show();
 
         $(this).removeClass("bg-white").addClass("bg-gray-400");
+    });
+
+    $("#editarGrupsBtn").click(function() {
+        $(".editar_usuari, .crear_usuari, .editorles,  .notifications, .editar_grups").hide();
+        $("#editarUsuarioBtn, #editorlesBtn,  #crearUsuarioBtn, #notificationsBtn").removeClass("bg-gray-400")
+            .addClass("bg-white");
+
+        $(".editar_grups").show();
+
+        $(this).removeClass("bg-white").addClass("bg-gray-400");
+
     });
     
 
@@ -91,9 +102,9 @@ $(document).ready(function() {
 
  
 });
-function openEditModal(userId, name, surname, email, phone, dni, birth_date,  role) {
+function openEditModal(userId, name, surname, email, phone, dni, birth_date,  role, group) {
     // Obtén los datos del usuario correspondiente (puedes hacer una solicitud AJAX si es necesario)
-    var user = obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_date,  role);
+    var user = obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_date,  role, group);
 
     // Actualiza el contenido del modal con los datos del usuario
     document.getElementById('user_details').innerHTML = `
@@ -123,13 +134,17 @@ function openEditModal(userId, name, surname, email, phone, dni, birth_date,  ro
                 <input type="text" id="dni" title="dni" name="dni"
                     class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
                     placeholder="dni" value="${user.dni}">
+                    
+                    <input type="text" id="group" title="group" name="group"
+                    class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                    placeholder="grup" value="${user.group}">
 
                 <input type="date" id="birth_date" title="birth_date" name="birth_date"
                     class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
                     placeholder="data de naixement" value="${user.birth_date}">
 
-
-             
+              
+                
                     <select id="role" title="role" name="role" class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300">
                     <option value="Alumne" ${user.role === 'Alumne' ? 'selected' : ''}>Alumne</option>
                     <option value="Professor" ${user.role === 'Professor' ? 'selected' : ''}>Professor</option>
@@ -153,7 +168,7 @@ function closeEditModal() {
 }
 
 // Esta función es solo un ejemplo y deberías reemplazarla con la lógica real para obtener los datos del usuario
-function obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_date,  role) {
+function obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_date,  role, group) {
     // Aquí puedes hacer una solicitud AJAX al servidor para obtener los datos del usuario
     // Por ahora, devolvemos un objeto con datos de ejemplo
     return {
@@ -164,7 +179,8 @@ function obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_dat
         phone: phone,
         dni: dni,
         birth_date: birth_date,
-        role: role
+        role: role,
+        group: group
     };
 }
 
@@ -386,4 +402,35 @@ function obtenerDatosOrla(orlaid, name, status, url, group_id, group_name) {
         group_id: group_id,
         group_name: group_name
     };
+}
+
+function openEditModal3(id, name, description) {
+    // Obtén los datos del usuario correspondiente (puedes hacer una solicitud AJAX si es necesario)
+
+    // Actualiza el contenido del modal con los datos del usuario
+    document.getElementById('user_details3').innerHTML = `
+    <div class="w-full max-w-md m-auto bg-white rounded-md mt-5">
+   <form action="/crearGrup" method="post">
+    <input type="hidden" name="id" >
+        <div class="card-body items-center text-center">
+        <input type="text" title="name" id="name" name="name"
+        class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+        placeholder="Nom" >
+        <div class="card-actions justify-end mt-5">
+            <button type="submit" class="btn btn-active btn-neutral">Crear</button>
+        </div>
+    </div>
+    </form>
+</div>
+
+        
+    `;
+
+    // Abre el modal
+    document.getElementById('edit_modal3').showModal();
+}
+
+// Función para cerrar el modal
+function closeEditModal3() {
+    document.getElementById('edit_modal2').close();
 }

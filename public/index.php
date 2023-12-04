@@ -61,6 +61,8 @@ $app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"]);
 $app->post("PanelUploadUser", [UserController::class,"PanelUploadUser"]);
 $app->get("Idpanel", [UserController::class,"Idpanel"]);
 $app->get("deleteUser", [UserController::class,"deleteUser"]);
+$app->get("DeleteGrup", [UserController::class,"DeleteGrup"]);
+$app->post("crearGrup", [UserController::class,"crearGrup"]);
 $app->get("/carnet/{token}", [UserController::class, "carnetUser"]);
 $app->get("deleteerror", [UserController::class,"deleteerror"]);
 $app->post("uploaderror", [UserController::class,"uploaderror"]);
