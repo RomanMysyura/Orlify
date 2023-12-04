@@ -2,43 +2,59 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/main.css">
-    <title>Crear Carnet</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/main.css">
+  <style>
+    /* Agrega reglas CSS para el fondo */
+    .card {
+      background-image: url('../img/carnet.jpg'); /* Reemplaza 'ruta/a/tu/carpeta/' con la ruta correcta */
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Establece el color blanco para el texto en las etiquetas h3 y p */
+    .card h3, .card p {
+      color: white;
+    }
+  </style>
+  <title>Crear Carnet</title>
 </head>
 
 <body class="bg-gray-200">
-    <?php include "navbar.php" ?>
-    
-    <div class="flex items-center card  w-1/3 h-40 bg-white shadow-lg mx-auto mt-20 overflow-hidden rounded-md text-center relative">
-    <div class="flex items-center p-3 h-40 bg-white rounded-md mr-5">
-  <section class="flex justify-center items-center w-24 h-24 rounded-full  shadow-md bg-gradient-to-r from-[#141313] to-[#999999 ] hover:from-[#C9A9E9] hover:to-[#7EE7FC] hover:cursor-pointer hover:scale-110 duration-300">
-    <img src="<?= $photo['url']?>" alt="Imagen de perfil" class="w-20 h-20 object-cover">
-    </svg>
-  </section>
+  <?php include "navbar.php" ?>
 
-  <section class="block border-l border-gray-300 m-3">
-    <div class="pl-3">
-      <h3 class="text-gray-600 font-semibold text-sm"><?= $user['name']; ?></h3>
-        <h3 class="text-gray-600 font-semibold text-sm"><?= $user['surname']; ?></h3>
-      <h3 class="bg-clip-text text-transparent bg-gradient-to-l from-[#005BC4] to-[#27272A] text-lg font-bold"><?= isset($group) ? $group : '' ?></h3>
+  <div class="flex items-center card w-1/3 h-60 shadow-lg mx-auto mt-20 overflow-hidden rounded-md text-center relative">
+    <div class="flex items-center p-3 h-60 rounded-md mr-5">
+      <section class="flex justify-center items-center w-32 h-32 rounded-full shadow-md">
+        <?php if (!empty($photo)): ?>
+          <!-- Aplica border-radius al contenedor de la imagen -->
+          <img src="../<?= $photo[0]['url'] ?>" class="rounded-full w-full h-full object-cover" />
+        <?php else: ?>
+          <p>No hay foto seleccionada</p>
+        <?php endif; ?>
+      </section>
+
+      <section class="flex-grow border-gray-300 m-3 pr-3 ml-12">
+        <div>
+        <p class="text-gray-400 text-lg ml-12 text-justify">
+            DNI: <?= $user['dni']; ?>
+          </p>
+          <p class="text-gray-400 text-lg ml-12 text-justify">
+            Nom: <?= $user['name']; ?>
+          </p>
+          <p class="text-gray-400 text-lg ml-12 text-justify">
+            Cognom: <?= $user['surname']; ?>
+          </p>
+          <p class="text-gray-400 text-lg ml-12 text-justify">
+            Grup: <?= isset($group) ? $group : 'N/A'; ?>
+          </p>
+        </div>
+      </section>
     </div>
-  </section>
-  <section class="flex items-center justify-center ml-14">
-    <div class="">
-      <img src="../img/qr.png" alt="Ejemplo" class="w-20 h-20 object-cover">
-    </div>
-    </section>
-</div>
-</div>
+  </div>
 
-
-    
-
-
-
-    <?php include "footer.php" ?>
+  <?php include "footer.php" ?>
 </body>
 
 </html>

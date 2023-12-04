@@ -1,0 +1,19 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.rectangular-div {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-image: url('../img/carnet.avif');
+    background-size: cover;
+    width: 300px;
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
