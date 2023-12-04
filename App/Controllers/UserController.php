@@ -278,25 +278,25 @@ class UserController
     public function carnetUser($request, $response, $container)
     {
         $id = $request->getParam("token");
-    
+
         // Verifica si el token está presente en la base de datos
         $dbConfig = $container["config"]["database"];
         $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
         $connection = $dbModel->getConnection();
-    
+
         $usersModel = new UsersPDO($connection);
         $photoModel = new UsersPDO($connection);
-    
+
         // Busca el usuario por el token
         $user = $usersModel->getUserByToken($id);
-    
+
         if ($user || $userId = $_SESSION["user_id"]) {
             // Si el usuario existe o hay un token en la sesión, obtén la información
             if (!$user) {
                 // Si no hay usuario pero hay un token en la sesión, obtén la información del usuario loggeado
                 $user = $usersModel->getUserById($userId);
             }
-        
+
             $group = $usersModel->getGroupForUser($user["id"]);
             $photo = $photoModel->getUserSelectedPhoto($user["id"]);
             // Pasa los datos a la vista
@@ -304,7 +304,7 @@ class UserController
             $response->set("group", $group);
             $response->set("uniqueUrl", "/carnet/{$user["id"]}");
             $response->set("photo", $photo);
-        
+
             // Establece la plantilla
             $response->setTemplate("carnet.php");
         } else {
@@ -312,8 +312,8 @@ class UserController
             $response->set("error", "Usuario no encontrado");
             $response->setTemplate("error.php"); // Asegúrate de tener una plantilla para mostrar errores
         }
-        
-    
+
+
         return $response;
     }
     
