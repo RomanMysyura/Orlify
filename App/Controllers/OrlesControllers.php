@@ -224,6 +224,9 @@ public function eliminarPhoto($request, $response, $container)
 
 
 
+
+
+
 public function descarregarOrla($request, $response, $container)
 {
     $orla_id = $request->getParam("id");
@@ -240,10 +243,29 @@ public function descarregarOrla($request, $response, $container)
 
     $pdf->AddPage();
 
-    $pdf->SetFont('times', '', 12);
+    $pdf->SetPageOrientation('L');
 
-    // Output only the 'name_orla' field
-    $pdf->Cell(0, 10, 'Orla Data: ' . $orlaData['name_orla'], 0, 1);
+    $pdf->SetFont('times', '', 20);
+
+    $html = '<h1 style="color: #000000; font-size: 24pt; text-align: center;">' . $orlaData['name_orla'] . '</h1>';
+
+    $html .= '<p>Descripción: ' . "aa" . '</p>';
+    $photoModel = $container["\App\Models\Orles"];
+    $photos = $photoModel->getPhotosForOrla($orla_id);
+    
+    // Agregar imágenes con dimensiones específicas y sus nombres
+    foreach ($photos as $photo) {
+        $html .= '<div style="text-align: center;">';
+        $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['name'] . '" style="width: 50px; height: 50px; margin-right: 5px;">';
+        $html .= '<p>' . $photo['name'] . '</p>';
+        $html .= '</div>';
+    }
+
+    $pdf->SetFillColor(255, 255, 255); // Blanco
+    $pdf->SetTextColor(0, 0, 0); // Negro
+
+    // Imprimir HTML
+    $pdf->writeHTML($html, true, false, true, false, '');
 
     $pdfContent = $pdf->Output('S');
 
@@ -254,6 +276,12 @@ public function descarregarOrla($request, $response, $container)
 
     return $response;
 }
+
+
+
+
+
+
 
 
 

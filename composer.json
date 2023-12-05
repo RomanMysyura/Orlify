@@ -11,7 +11,8 @@
     "require": {
         "emeset/framework": "^0.3",
         "tecnickcom/tc-lib-pdf": "^8.0",
-        "tecnickcom/tcpdf": "^6.6"
+        "tecnickcom/tcpdf": "^6.6",
+        "dompdf/dompdf": "^2.0"
     },
 
     "autoload": {
