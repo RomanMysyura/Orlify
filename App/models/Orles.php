@@ -62,6 +62,9 @@ class Orles
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }
+
+
+    
     public function getOrlaName($orla_id)
     {
         $stmt = $this->sql->prepare("SELECT name_orla FROM orla WHERE id = :orla_id");

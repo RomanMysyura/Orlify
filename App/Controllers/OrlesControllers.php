@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use TCPDF;
 class OrlesControllers 
 {
 
@@ -225,18 +226,68 @@ public function eliminarPhoto($request, $response, $container)
 }
 
 
+
+
+
+
 public function descarregarOrla($request, $response, $container)
 {
-    $orla_id = $request->getParam("id");     
+    $orla_id = $request->getParam("id");
+
     $OrlaModel = $container["\App\Models\Orles"];
     $orlaData = $OrlaModel->getOrlaById($orla_id);
 
-  
-    $message = 'Controller ejecutado correctamente. ID de la orla: ' . $orla_id;
+    $pdf = new TCPDF();
 
-    $response->SetTemplate("paneldecontrol.php");
-    return $response->withJson(['message' => $message]); 
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Your Name');
+    $pdf->SetTitle('Orla PDF');
+    $pdf->SetSubject('Orla Data');
+
+    $pdf->AddPage();
+
+    $pdf->SetPageOrientation('L');
+
+    $pdf->SetFont('times', '', 20);
+
+    $html = '<h1 style="color: #000000; font-size: 24pt; text-align: center;">' . $orlaData['name_orla'] . '</h1>';
+
+    $html .= '<p>Descripción: ' . "aa" . '</p>';
+    $photoModel = $container["\App\Models\Orles"];
+    $photos = $photoModel->getPhotosForOrla($orla_id);
+    
+    // Agregar imágenes con dimensiones específicas y sus nombres
+    foreach ($photos as $photo) {
+        $html .= '<div style="text-align: center;">';
+        $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['name'] . '" style="width: 50px; height: 50px; margin-right: 5px;">';
+        $html .= '<p>' . $photo['name'] . '</p>';
+        $html .= '</div>';
+    }
+
+    $pdf->SetFillColor(255, 255, 255); // Blanco
+    $pdf->SetTextColor(0, 0, 0); // Negro
+
+    // Imprimir HTML
+    $pdf->writeHTML($html, true, false, true, false, '');
+
+    $pdfContent = $pdf->Output('S');
+
+    $response = $response->withHeader('Content-Type', 'application/pdf');
+    $response = $response->withHeader('Content-Disposition', 'attachment; filename="orla.pdf"');
+
+    $response->getBody()->write($pdfContent);
+
+    return $response;
 }
+
+
+
+
+
+
+
+
+
 
 
 

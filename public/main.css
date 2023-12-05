@@ -2983,6 +2983,9 @@ details.collapse summary::-webkit-details-marker {
 .mt-8 {
   margin-top: 2rem;
 }
+.ml-24 {
+  margin-left: 6rem;
+}
 .block {
   display: block;
 }
@@ -3048,6 +3051,9 @@ details.collapse summary::-webkit-details-marker {
 }
 .h-screen {
   height: 100vh;
+}
+.h-96 {
+  height: 24rem;
 }
 .w-1\/2 {
   width: 50%;
