@@ -13,6 +13,7 @@ import setCookie from "./cookie.js";
 import {getCookie} from "./cookie.js";
 import {initializeCookieBanner} from "./cookie.js";
 import moverSlider from "./slider.js";
+import toggleCamera from "./camara.js";
 
 openModal();
 initDropFile();
@@ -24,3 +25,4 @@ setCookie();
 getCookie();
 initializeCookieBanner();
 moverSlider();
+toggleCamera();

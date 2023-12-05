@@ -292,8 +292,6 @@ class UserController
             $response->set("user", $user);
             $response->set("group", $group);
             $response->set("uniqueUrl", "/carnet/{$user["id"]}");
-            
-            echo $_SESSION["user_id"];
            
             // Establece la plantilla
             $response->setTemplate("carnet.php");
