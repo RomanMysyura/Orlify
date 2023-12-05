@@ -22,7 +22,7 @@
                         <?php if (!empty($userPhoto)): ?>
                         <a href="/photo"><img src="<?= $userPhoto[0]["url"] ?>" alt="foto de perfil" /></a>
                         <?php else: ?>
-                        <p>No hay foto seleccionada</p>
+                            <img src="../img/user2.png"/>
                         <?php endif; ?>
                     </div>
                 </div>
