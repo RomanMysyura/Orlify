@@ -13,6 +13,10 @@ class NavigationController
         $errorModel = $container["\App\Models\usersPDO"];
         $orlaModel = $container["\App\Models\Orles"];
         $grupsModel = $container["\App\Models\usersPDO"];
+        $userId = $_SESSION["user_id"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+       
         $users = $usersModel->getAllUsers();
         $errors = $errorModel->geterror();
         $orles = $orlaModel->getAllOrles();
@@ -42,6 +46,7 @@ class NavigationController
         $response->set("errors", $errors);
         $response->set("orles", $orles);
         $response->set("grups", $grups);
+        $response->set("photo", $photo);
     
         // Remove the following line as $photos is not defined here
         // $response->set("photos", $photos);

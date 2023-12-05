@@ -241,7 +241,7 @@ class UsersPDO
 
     public function getUserSelectedPhoto($userId)
     {
-        $sql = "SELECT * FROM photo WHERE user_id = ? AND selected_photo = 'active'";
+        $sql = "SELECT * FROM photo WHERE user_id = ? AND selected_photo = 'active' LIMIT 1";
         $stmt = $this->sql->prepare($sql);
         $stmt->execute([$userId]);
 

@@ -7,9 +7,14 @@ class UserController
 
     public function index($request, $response, $container)
     {
+        $userId = $_SESSION["user_id"]; 
         $usersModel = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($userId);
         $users = $usersModel->getAllUsers();
+
         $response->set("users", $users);
+        $response->set("photo", $photo);
         $response->SetTemplate("index.php");
         return $response;
     }
@@ -26,11 +31,14 @@ class UserController
             // Crea una instancia del modelo UsersPDO
             $usersModel = $container["\App\Models\usersPDO"];
             $userPhoto = $container["\App\Models\usersPDO"];
+            $photoModel = $container["\App\Models\usersPDO"];
+            
 
             // Obtén los datos del usuario actual
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
             $userPhoto = $usersModel->getUserSelectedPhoto($userId);
+            $photo = $photoModel->getUserSelectedPhoto($userId);
 
             // Pasa los datos a la vista
             $response->set("user", $user);
@@ -42,6 +50,7 @@ class UserController
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
+            $response->set("photo", $photo);
 
             // Establece la plantilla
             $response->SetTemplate("perfil.php");
@@ -338,6 +347,11 @@ class UserController
     
     public function contactar($request, $response, $container)
     {
+
+        $userId = $_SESSION["user_id"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+        $response->set("photo", $photo);
          $response->SetTemplate("contactar.php");
         return $response;
  
@@ -352,8 +366,11 @@ class UserController
         $email = $_POST["email"];
 
         $errorModel = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+        
         $Createerror = $errorModel->createerror($userId, $mensaje);
-
+        $response->set("photo", $photo);
         $response->SetTemplate("contactar.php");
         return $response;
         } else {
