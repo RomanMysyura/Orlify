@@ -7,9 +7,14 @@ class UserController
 
     public function index($request, $response, $container)
     {
+        $userId = $_SESSION["user_id"]; 
         $usersModel = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($userId);
         $users = $usersModel->getAllUsers();
+
         $response->set("users", $users);
+        $response->set("photo", $photo);
         $response->SetTemplate("index.php");
         return $response;
     }
@@ -26,11 +31,14 @@ class UserController
             // Crea una instancia del modelo UsersPDO
             $usersModel = $container["\App\Models\usersPDO"];
             $userPhoto = $container["\App\Models\usersPDO"];
+            $photoModel = $container["\App\Models\usersPDO"];
+            
 
             // Obtén los datos del usuario actual
             $userId = $_SESSION["user_id"];
             $user = $usersModel->getUserById($userId);
             $userPhoto = $usersModel->getUserSelectedPhoto($userId);
+            $photo = $photoModel->getUserSelectedPhoto($userId);
 
             // Pasa los datos a la vista
             $response->set("user", $user);
@@ -42,6 +50,7 @@ class UserController
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
+            $response->set("photo", $photo);
 
             // Establece la plantilla
             $response->SetTemplate("perfil.php");
@@ -292,8 +301,6 @@ class UserController
             $response->set("user", $user);
             $response->set("group", $group);
             $response->set("uniqueUrl", "/carnet/{$user["id"]}");
-            
-            echo $_SESSION["user_id"];
            
             // Establece la plantilla
             $response->setTemplate("carnet.php");
@@ -377,6 +384,11 @@ class UserController
     
     public function contactar($request, $response, $container)
     {
+
+        $userId = $_SESSION["user_id"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+        $response->set("photo", $photo);
          $response->SetTemplate("contactar.php");
         return $response;
  
@@ -391,8 +403,11 @@ class UserController
         $email = $_POST["email"];
 
         $errorModel = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+        
         $Createerror = $errorModel->createerror($userId, $mensaje);
-
+        $response->set("photo", $photo);
         $response->SetTemplate("contactar.php");
         return $response;
         } else {
@@ -580,7 +595,8 @@ public function DeleteGrup($request, $response, $container)
 {
     $grup_id = $_GET['id'];
 
-    $usersModel =  $container["\App\Models\usersPDO"];
+
+    $usersModel = $container["\App\Models\usersPDO"];
     $usersModel->DeleteGrup($grup_id);
     $userId = $_SESSION["user_id"];
     $users = $usersModel->Idpanel($userId);
@@ -595,7 +611,11 @@ public function crearGrup($request, $response, $container)
 {  
     $name = $_POST["name"];
 
-    $usersModel =  $container["\App\Models\usersPDO"];
+    $dbConfig = $container["config"]["database"];
+    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
+    $connection = $dbModel->getConnection();
+
+    $usersModel = new UsersPDO($connection);
     $usersModel->crearGrup($name);
     $userId = $_SESSION["user_id"];
     $users = $usersModel->Idpanel($userId);

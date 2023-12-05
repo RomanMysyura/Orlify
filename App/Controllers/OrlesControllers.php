@@ -10,12 +10,15 @@ class OrlesControllers
 
         $OrlaModel = $container["\App\Models\Orles"];
         $userId = $request->get("SESSION", "user_id");
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($userId);
 
 
         
         $orla = $OrlaModel->getOrles($userId);
 
         $response->set("orles", $orla);
+        $response->set("photo", $photo);
 
 
         $response->SetTemplate("vieworles.php");
