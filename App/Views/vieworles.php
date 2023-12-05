@@ -90,7 +90,7 @@
                         </button>
                     </a>
 
-                    <a href="/descarregar-orla?id=<?= $orla['orla_id'] ?>">
+                    <a href="/descarregar-orla/<?= $orla['orla_id'] ?>">
                         <button class="btn bg-neutral-300 w-16">
                             <svg fill="#000000" width="25px" height="25px" viewBox="0 0 1920 1920"
                                 xmlns="http://www.w3.org/2000/svg">

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use TCPDF;
 class OrlesControllers 
 {
 
@@ -222,18 +223,40 @@ public function eliminarPhoto($request, $response, $container)
 }
 
 
+
 public function descarregarOrla($request, $response, $container)
 {
-    $orla_id = $request->getParam("id");     
+    $orla_id = $request->getParam("id");
+
     $OrlaModel = $container["\App\Models\Orles"];
     $orlaData = $OrlaModel->getOrlaById($orla_id);
 
-  
-    $message = 'Controller ejecutado correctamente. ID de la orla: ' . $orla_id;
+    $pdf = new TCPDF();
 
-    $response->SetTemplate("paneldecontrol.php");
-    return $response->withJson(['message' => $message]); 
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Your Name');
+    $pdf->SetTitle('Orla PDF');
+    $pdf->SetSubject('Orla Data');
+
+    $pdf->AddPage();
+
+    $pdf->SetFont('times', '', 12);
+
+    // Output only the 'name_orla' field
+    $pdf->Cell(0, 10, 'Orla Data: ' . $orlaData['name_orla'], 0, 1);
+
+    $pdfContent = $pdf->Output('S');
+
+    $response = $response->withHeader('Content-Type', 'application/pdf');
+    $response = $response->withHeader('Content-Disposition', 'attachment; filename="orla.pdf"');
+
+    $response->getBody()->write($pdfContent);
+
+    return $response;
 }
+
+
+
 
 
 
