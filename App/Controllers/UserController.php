@@ -60,40 +60,37 @@ class UserController
     {
         $email = $_POST["email"];
         $password = $_POST["password"];
-
+    
         $usersModel = $container["\App\Models\usersPDO"];
-
-        $userPhoto = $container["\App\Models\usersPDO"];
-
-        // Obtén los datos del usuario actual
-        $userId = $_SESSION["user_id"];
-        $userPhoto = $usersModel->getUserSelectedPhoto($userId);
-
-        $response->set("userPhoto", $userPhoto);
-
+    
         $loggedInUser = $usersModel->login($email, $password);
-
+    
         if ($loggedInUser) {
             $_SESSION["user_id"] = $loggedInUser["id"];
             $_SESSION["group_id"] = $loggedInUser["group_id"];
             $_SESSION["logged"] = true;
             $_SESSION["role"] = $loggedInUser["role"];
+    
             $userId = $_SESSION["user_id"];
-            $_SESSION["role"] = $loggedInUser["role"];
             $group = $usersModel->getGroupForUser($userId);
-
+            $user = $usersModel->getUserById($userId);
+            $userPhoto = $usersModel->getUserSelectedPhoto($userId);
+    
             $response->set("user", $loggedInUser);
             $response->set("group", $group);
-
+            $response->set("userPhoto", $userPhoto);
+    
             $response->SetTemplate("perfil.php");
         } else {
             $response->SetTemplate("index.php");
             $response->set("error_message_login", "Email i/o contrasenya incorrectes");
             $_SESSION["logged"] = false;
         }
-
+    
         return $response;
     }
+    
+
 
     public function logout($request, $response, $container)
     {
