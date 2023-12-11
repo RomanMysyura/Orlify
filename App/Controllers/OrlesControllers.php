@@ -247,7 +247,6 @@ public function eliminarPhoto($request, $response, $container)
 
 
 
-
 public function descarregarOrla($request, $response, $container)
 {
     $orla_id = $request->getParam("id");
@@ -255,47 +254,61 @@ public function descarregarOrla($request, $response, $container)
     $OrlaModel = $container["\App\Models\Orles"];
     $orlaData = $OrlaModel->getOrlaById($orla_id);
 
-    $pdf = new TCPDF();
+    // Utilizar la clase \Mpdf\Mpdf
+    $pdf = new \Mpdf\Mpdf();
 
-    $pdf->SetCreator(PDF_CREATOR);
+    // Opciones del PDF
+    $pdf->SetCreator('Your Name');
     $pdf->SetAuthor('Your Name');
     $pdf->SetTitle('Orla PDF');
     $pdf->SetSubject('Orla Data');
 
-    $pdf->AddPage();
-
-    $pdf->SetPageOrientation('L');
+    // Agregar página con orientación horizontal
+    $pdf->AddPageByArray([
+        'orientation' => 'L'
+    ]);
 
     $pdf->SetFont('times', '', 20);
 
-    $html = '<h1 style="color: #000000; font-size: 24pt; text-align: center;">' . $orlaData['name_orla'] . '</h1>';
+  
 
-    $html .= '<p>Descripción: ' . "aa" . '</p>';
-    $photoModel = $container["\App\Models\Orles"];
-    $photos = $photoModel->getPhotosForOrla($orla_id);
-    
-    // Agregar imágenes con dimensiones específicas y sus nombres
-    foreach ($photos as $photo) {
-        $html .= '<div style="text-align: center;">';
-        $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['name'] . '" style="width: 50px; height: 50px; margin-right: 5px;">';
-        $html .= '<p>' . $photo['name'] . '</p>';
-        $html .= '</div>';
-    }
+$html .= '<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4;">';
 
-    $pdf->SetFillColor(255, 255, 255); // Blanco
-    $pdf->SetTextColor(0, 0, 0); // Negro
+$html .= '<header style="background-color: #000000; color: #fff; text-align: center; padding: 2px;">';
+$html .= '<h1 style="color: #ffffff; font-size: 24pt; text-align: center;">'. $orlaData['name_orla'] .'</h1>';
+$html .= '</header>';
+
+$html .= '<div style="margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 5px; display: flex; justify-content: center;" class="container">';
+$html .= '<div style="display: flex; flex-wrap: wrap;">';
+
+$photoModel = $container["\App\Models\Orles"];
+$photos = $photoModel->getPhotosForOrla($orla_id);
+
+foreach ($photos as $photo) {
+  
+    $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['name'] . '" style="width: 100px; height: 130px; margin: 10px; border-radius: 5px;">';
+
+}
+
+$html .= '</div>';
+$html .= '</div>';
+
+
+$html .= '</body>';
+   
 
     // Imprimir HTML
-    $pdf->writeHTML($html, true, false, true, false, '');
+    $pdf->WriteHTML($html);
 
-    $pdfContent = $pdf->Output('S');
+    // Obtener el contenido del PDF como una cadena
+    $pdfContent = $pdf->Output('', 'S');
 
-    $response = $response->withHeader('Content-Type', 'application/pdf');
-    $response = $response->withHeader('Content-Disposition', 'attachment; filename="orla.pdf"');
+    // Configurar los encabezados de la respuesta
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: attachment; filename="orla.pdf"');
 
-    $response->getBody()->write($pdfContent);
-
-    return $response;
+    // Escribir el contenido del PDF en la salida
+    echo $pdfContent;
 }
 
 
