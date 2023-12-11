@@ -9,6 +9,14 @@
     <script src="/js/buscarAlumnes.js" defer> </script>
 
     <title>Document</title>
+
+    <style>
+    @media only screen and (max-width: 700px) {
+        video {
+            max-width: 100%;
+        }
+    }
+    </style>
 </head>
 
 <body>
@@ -27,8 +35,9 @@
                         </svg>
                     </div>
 
-                    <input class="peer h-full w-full outline-none text-lg text-gray-700 pr-2 bg-slate-200" title="search" type="text"
-                        id="searchInput" placeholder="Buscar alumne per el seu nom, correu... etc." />
+                    <input class="peer h-full w-full outline-none text-lg text-gray-700 pr-2 bg-slate-200"
+                        title="search" type="text" id="searchInput"
+                        placeholder="Buscar alumne per el seu nom, correu... etc." />
                 </div>
             </div>
 
@@ -77,53 +86,85 @@
                     </td>
 
                 </tr>
+
                 <dialog id="my_modal_2" class="modal">
-                    <div class="modal-box">
+                    <div class="modal-box w-4/5">
                         <h3 id="modalTitle" class="font-bold text-lg">Hello!</h3>
+                        <div class="text flex justify-center items-center">
+                            <p class="text-md font-bold mt-2 mb-2">Selecciona una foto o obre la càmera per fer-la
+                                tu mateix!</p>
+                        </div>
+                        <div class="flex justify-center items-center mt-5 mb-5">
+                            <button id="cam" name="cam" type="button" value="Obrir càmera"
+                                class="btn btn-active btn-neutral  mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">
+                                <span relative="relative z-10">Obrir càmera</span>
+                        </div>
 
-
+                        <video muted="muted" id="video" style="display: none;"></video>
+                        <canvas id="canvas" style="display: none;"></canvas>
+                        <div class="flex justify-center items-center mt-5 mb-5 m-10">
+                            <button id="capture"  class="btn btn-active btn-neutral  mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40" style="display: none;">Capturar foto</button>
+                        </div>
                         <form action="/uploadPhotoFromFile" method="post" enctype="multipart/form-data"
                             class="flex items-center">
                             <input type="hidden" name="user_id" id="userIdInput" value="">
 
-                            <div class="flex items-center justify-center w-full">
-                                <label for="dropzone-file"
-                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                                    id="dropzone-label">
-                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                stroke-width="2"
-                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                        </svg>
-                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
-                                                class="font-semibold">Clica</span> o arrastra la foto</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400" id="file-name">JPG, JPEG i
-                                            PNG</p>
-                                    </div>
-                                    <input type="file" id="dropzone-file" name="photo"
-                                        accept="image/jpeg, image/jpg, image/png" class="hidden"
-                                        onchange="displayFileName()">
-                                </label>
 
-                            </div>
-                            <button type="submit" class="btn btn-active btn-neutral mr-auto mt-2">Pujar Foto</button>
+                            <div class="">
+                                <div class="flex items-center justify-center w-full mb-5">
+                                    <label for="dropzone-file"
+                                        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                        id="dropzone-label">
+                                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                                viewBox="0 0 20 16">
+                                                <path stroke="currentColor" stroke-linecap="round"
+                                                    stroke-linejoin="round" stroke-width="2"
+                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                            </svg>
+                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                                                    class="font-semibold">Clica</span> o arrossega la foto</p>
+                                            <p class="text-xs text-gray-500 dark:text-gray-400" id="file-name">JPG, JPEG
+                                                i
+                                                PNG</p>
+                                        </div>
+                                        <input type="file" id="dropzone-file" name="photo"
+                                            accept="image/jpeg, image/jpg, image/png" class="hidden"
+                                            onchange="displayFileName()">
+                                    </label>
 
+
+                                </div>
+
+                 
+                                <button type="submit" class="btn btn-active btn-neutral mr-auto ml-20 mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40" >Pujar
+                                    Foto
+                                </button>
+            
                         </form>
                         <form method="dialog" style="display: inline-block">
-                            <button class="btn btn-active btn-neutral ml-auto mt-2" id="modalCancelar">Cancelar</button>
-                        </form>
-                    </div>
-                </dialog>
+                        <button class="btn btn-active btn-neutral ml-auto mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40"  id="modalCancelar">Cancelar</button>
+                    </form>
 
+                    </div>
+                   
+                </dialog>
                 <?php endforeach; ?>
+            </tbody>
         </table>
-      
+
+
 
     </div>
 
     <?php include "footer.php" ?>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script src="/js/downloadPDF.js"></script>
+
+    <script src="/js/editarOrles.js"></script>
+    <script src="/js/publishOrla.js"></script>
 
 </body>
 

@@ -18,20 +18,25 @@
     <?php include "navbar.php" ?>
 
     <div class="flex">
-        <div class="flex flex-col w-52">
-            <a href="#" class="p-4 bg-white hover:bg-gray-200" id="editarUsuarioBtn">Editar Usuaris</a>
-            <a href="#" class="p-4 bg-white hover:bg-gray-200" id="crearUsuarioBtn">Afegir Usuari</a>
-            <a href="#" class="p-4 bg-white hover:bg-gray-200" id="editorlesBtn">Editar Orles</a>
-            <a href="#" class="p-4 bg-white hover:bg-gray-200" id="editarGrupsBtn">Editar Grups</a>
-            <a href="#" class="p-4 bg-white hover:bg-gray-200" id="notificationsBtn">Notificacions d'error</a>
+        <div class="flex flex-col w-52 rounded ">
+            <a href="#" class="p-4 bg-white hover:bg-gray-200 border border-b-gray-300 border-r-gray-300"
+                id="editarUsuarioBtn">Editar Usuaris</a>
+            <a href="#" class="p-4 bg-white hover:bg-gray-200 border border-b-gray-300 border-r-gray-300"
+                id="crearUsuarioBtn">Afegir Usuari</a>
+            <a href="#" class="p-4 bg-white hover:bg-gray-200 border border-b-gray-300 border-r-gray-300"
+                id="editorlesBtn">Editar Orles</a>
+            <a href="#" class="p-4 bg-white hover:bg-gray-200 border border-b-gray-300 border-r-gray-300"
+                id="editarGrupsBtn">Editar Grups</a>
+            <a href="#" class="p-4 bg-white hover:bg-gray-200 border border-b-gray-300 border-r-gray-300"
+                id="notificationsBtn">Notificacions d'error</a>
 
         </div>
 
 
-        <div class="ml-0 w-full">
+        <div class="ml-0 w-full bg-white">
             <div class="editar_usuari">
-                <div class='flex items-center justify-center '>
-                    <div class="flex rounded-full bg-white px-2 mt-2 mb-2 w-full max-w-md">
+                <div class='flex items-center justify-center bg-white '>
+                    <div class="flex rounded-full bg-white px-2 mt-2 mb-2 w-full max-w-md drop-shadow-lg">
 
                         <input type="text" id="searchInput"
                             class="w-full  flex bg-transparent pl-5 text-black outline-0 border-0" title="Search"
@@ -56,8 +61,8 @@
                         </button>
                     </div>
                 </div>
-                <div class="overflow-x-auto">
-                    <table class="table table-zebra bg-white border border-gray-300 w-full">
+                <div class="overflow-x-auto bg-white">
+                    <table class="table table-zebra bg-white border-b border-gray-300 w-full mt-5">
                         <thead>
                             <tr>
                                 <th class="py-2 px-4 border-b text-gray-700">ID</th>
@@ -110,16 +115,16 @@
                                     <?= $user['role'] ?>
                                 </td>
                                 <td class="py-2 px-2 border-b">
-                                    <button class="btn bg-white w-16"
+                                    <button class="btn bg-white w-15"
                                         onclick="toggleCollapse2('collapse<?= $user['id'] ?>')">
                                         <img src="../img/foto3.png" alt="expand"
                                             class="w-6 h-6 object-cover rounded-lg">
                                     </button>
-                                    <button class="btn bg-white w-16"
+                                    <button class="btn bg-white w-15"
                                         onclick="openEditModal('<?= $user['id'] ?>', '<?= $user['name'] ?>', '<?= $user['surname'] ?>', '<?= $user['email'] ?>', '<?= $user['phone'] ?>', '<?= $user['dni'] ?>', '<?= $user['birth_date'] ?>', '<?= $user['role'] ?>', '<?= $user['groups'] ?>')">
                                         <img src="../img/editar.png" alt="edit" class="w-6 h-6 object-cover rounded-lg">
                                     </button>
-                                    <button class="btn bg-white w-16">
+                                    <button class="btn bg-white w-15">
                                         <a href="/deleteUser?id=<?= $user['id']; ?>"
                                             onclick="return confirm('Estas segur que vols eliminar aquest usuari?')">
                                             <img src="../img/eliminar2.png" alt="delete"
@@ -176,71 +181,75 @@
 
 
 
-            <div class="crear_usuari ">
+            <div class="crear_usuari  flex">
 
-                <form class="bg-white shadow-md w-full max-w-xl mt-2 m-auto rounded px-8 pt-6 pb-8 mb-4"
-                    action="/randomuser" method="post">
-                    <!-- Campos del formulario -->
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-md font-bold mb-4" for="username">
-                            Crear nuevo usuario
-                        </label>
+                <div class="w-1/2 bg-white shadow-md w-full max-w-xl mt-2 m-auto rounded px-8 pt-6 pb-8 mb-4 ">
+                    <form class=""
+                        action="/randomuser" method="post">
+                        <!-- Campos del formulario -->
+                        <div class="mb-4">
+                            <label class="block text-gray-700 text-md font-bold mb-4" for="username">
+                                Crear nou usuari
+                            </label>
+                            <div class="mt-5">
+                                <div class="relative">
+                                    <input id="mail" name="mail" type="text" title="mail"
+                                        placeholder="Correu electronic"
+                                        class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                                </div>
+                            </div>
+                        </div>
                         <div class="mt-5">
                             <div class="relative">
-                                <input id="mail" name="mail" type="text" title="mail" placeholder="Correo electrónico"
+                                <input id="username" name="username" type="text" placeholder="Nom" title="username"
                                     class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                             </div>
                         </div>
-                    </div>
-                    <div class="mt-5">
-                        <div class="relative">
-                            <input id="username" name="username" type="text" placeholder="Nombre"
-                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        <div class="mt-5">
+                            <div class="relative">
+                                <input id="surname" name="surname" title="surname" type="text" placeholder="Cognoms"
+                                    class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-5">
-                        <div class="relative">
-                            <input id="surname" name="surname" title="surname" type="text" placeholder="Apellidos"
-                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        <div class="mb-4 mt-5">
+                            <label class="text-xs text-black top-4" for="birth_date">
+                                Fecha de nacimiento
+                                <input
+                                    class="bg-gray-100 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    id="birth_date" name="birth_date" type="date">
                         </div>
-                    </div>
-                    <div class="mb-4 mt-5">
-                        <label class="text-xs text-black top-4" for="birth_date">
-                            Fecha de nacimiento
-                            <input
-                                class="bg-gray-100 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                id="birth_date" name="birth_date" type="date">
-                    </div>
-                    <div class="mt-5">
-                        <div class="relative">
-                            <input id="role" name="role" type="text" placeholder="Rol" title="rol"
-                                autocomplete="username"
-                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        <div class="mt-5">
+                            <div class="relative">
+                                <input id="role" name="role" type="text" placeholder="Rol" title="rol"
+                                    autocomplete="username"
+                                    class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-5">
-                        <div class="relative">
-                            <input id="password" name="password" type="password" title="password"
-                                placeholder="Contraseña" autocomplete="current-password"
-                                class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        <div class="mt-5">
+                            <div class="relative">
+                                <input id="password" name="password" type="password" title="password"
+                                    placeholder="Contrasenya" autocomplete="current-password"
+                                    class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
 
+                            </div>
                         </div>
-                    </div>
-                    <div class="mt-5 flex items-center justify-center">
-                        <button
-                            class="btn btn-outline inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
-                            type="submit">
-                            Crear nou usuari
+                        <div class="mt-5 flex items-center justify-center">
+                            <button
+                                class="btn btn-outline inline-flex items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
+                                type="submit">
+                                Crear nou usuari
+                            </button>
+                        </div>
+                    </form>
+                    <div class="flex justify-center mt-2">
+                        <button id="crearUsuarioPrueba" type="button"
+                            class="btn btn-outline items-center justify-center  h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none">
+                            Emplanar usuari aleatori
                         </button>
                     </div>
-                </form>
-                <div class="flex justify-center mt-2">
-                    <button id="crearUsuarioPrueba" type="button"
-                        class="btn btn-outline items-center justify-center  h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none">
-                        Crear Usuari de Prova
-                    </button>
                 </div>
+                <div class="w-1/2 items-center justify-center">
                 <div id="loader"
                     class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-200 bg-opacity-75 hidden">
                     <l-newtons-cradle size="78" speed="1.4" color="black"></l-newtons-cradle>
@@ -261,6 +270,7 @@
                         </button>
                     </div>
                 </form>
+                </div>
             </div>
 
 
@@ -370,7 +380,7 @@
                 </table>
             </div>
             <div class="editar_grups">
-                <div class="flex justify-end items-center mb-4 mt-5">
+                <div class="flex justify-end items-center mb-4 mt-5 bg-white">
                     <button id="crearGrupBtn" type="button" onclick="openEditModal3()"
                         class="btn btn-outline items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none">
                         + Afegir Grup
@@ -378,8 +388,8 @@
                     <!-- Agregamos un espacio entre el botón y el borde derecho del contenedor -->
                     <div class="w-16"></div>
                 </div>
-                <div class="overflow-x-auto bg-white border border-gray-300 w-full mx-auto">
-                    <table class="table table-zebra bg-white border border-gray-300 w-full ">
+                <div class="overflow-x-auto bg-white border-b border-b-gray-300 w-full mx-auto">
+                    <table class="table bg-white border-b border-b-gray-300 w-full ">
                         <thead>
                             <tr>
                                 <th class="py-2 px-4 border-b text-left text-gray-700 text-lg">Nom</th>
@@ -435,7 +445,7 @@
             <div class="notifications">
 
                 <div class="overflow-x-auto bg-white">
-                    <table class="table table-zebra bg-white border border-gray-300 w-full">
+                    <table class="table  bg-white border-b border-b-gray-300 w-full">
                         <thead>
                             <tr>
                                 <th class="py-2 px-4 border-b  text-gray-700">Id </th>
@@ -483,7 +493,7 @@
                                     <input type="hidden" name="id" value="<?= $error['error_id'] ?>">
                                     <td class="py-2 px-4 border-b">
                                         <select name="error_status" class="select select-bordered w-full max-w-xs">
-                                            <?php foreach (['Pending', 'Resuelta', 'Rechazada'] as $status): ?>
+                                            <?php foreach (['Pendent', 'Resolta', 'Rebutjada'] as $status): ?>
                                             <option <?= ($error['error_status'] === $status) ? 'selected' : '' ?>>
                                                 <?= $status ?>
                                             </option>
