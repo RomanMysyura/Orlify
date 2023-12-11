@@ -42,7 +42,6 @@ class ComposerStaticInit7b72ee8de6d00b8b7c8563fd58a771f6
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'PhpOption\\' => 10,
-            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -155,7 +154,6 @@ class ComposerStaticInit7b72ee8de6d00b8b7c8563fd58a771f6
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
-<<<<<<< HEAD
         'Mpdf\\PsrLogAwareTrait\\' => 
         array (
             0 => __DIR__ . '/..' . '/mpdf/psr-log-aware-trait/src',
@@ -175,11 +173,6 @@ class ComposerStaticInit7b72ee8de6d00b8b7c8563fd58a771f6
         'Knp\\Snappy\\' => 
         array (
             0 => __DIR__ . '/..' . '/knplabs/knp-snappy/src/Knp/Snappy',
-=======
-        'PHPMailer\\PHPMailer\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
->>>>>>> feature-recuperarpass
         ),
         'GrahamCampbell\\ResultType\\' => 
         array (

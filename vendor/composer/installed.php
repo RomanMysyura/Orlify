@@ -3,11 +3,7 @@
         'name' => 'emeset/emeset',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-<<<<<<< HEAD
-        'reference' => '7527f63029f25eadd5e5bb9388f9876fba064873',
-=======
-        'reference' => '2e1f3425f6070a389068737cb01dce3566d353a3',
->>>>>>> feature-recuperarpass
+        'reference' => '13bb2211491080a230395ad2a05cbc23bb8dc114',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -26,11 +22,7 @@
         'emeset/emeset' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-<<<<<<< HEAD
-            'reference' => '7527f63029f25eadd5e5bb9388f9876fba064873',
-=======
-            'reference' => '2e1f3425f6070a389068737cb01dce3566d353a3',
->>>>>>> feature-recuperarpass
+            'reference' => '13bb2211491080a230395ad2a05cbc23bb8dc114',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -144,7 +136,6 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-<<<<<<< HEAD
         'paragonie/random_compat' => array(
             'pretty_version' => 'v9.99.100',
             'version' => '9.99.100.0',
@@ -169,14 +160,6 @@
             'reference' => '76876c6cf3080bcb6f249d7d59705108166a6685',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phenx/php-svg-lib',
-=======
-        'phpmailer/phpmailer' => array(
-            'pretty_version' => 'v6.9.1',
-            'version' => '6.9.1.0',
-            'reference' => '039de174cd9c17a8389754d3b877a2ed22743e18',
-            'type' => 'library',
-            'install_path' => __DIR__ . '/../phpmailer/phpmailer',
->>>>>>> feature-recuperarpass
             'aliases' => array(),
             'dev_requirement' => false,
         ),
