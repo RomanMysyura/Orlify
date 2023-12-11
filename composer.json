@@ -11,6 +11,7 @@
     "require": {
         "emeset/framework": "^0.3",
         "tecnickcom/tc-lib-pdf": "^8.0",
+<<<<<<< HEAD
         "tecnickcom/tcpdf": "^6.6",
         "dompdf/dompdf": "^2.0",
         "mpdf/mpdf": "^8.2",
@@ -19,6 +20,9 @@
         "knplabs/knp-snappy": "^1.4",
         "mikehaertl/phpwkhtmltopdf": "^2.5",
         "setasign/fpdi": "^2.5"
+=======
+        "phpmailer/phpmailer": "^6.5"
+>>>>>>> feature-recuperarpass
     },
 
     "autoload": {
