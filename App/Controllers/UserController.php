@@ -7,19 +7,19 @@ class UserController
 
     public function index($request, $response, $container)
     {
-        $userId = $_SESSION["user_id"]; 
+        $userId = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : 0;
+    
         $usersModel = $container["\App\Models\usersPDO"];
         $photoModel = $container["\App\Models\usersPDO"];
         $photo = $photoModel->getUserSelectedPhoto($userId);
         $users = $usersModel->getAllUsers();
-
+    
         $response->set("users", $users);
         $response->set("photo", $photo);
         $response->SetTemplate("index.php");
         return $response;
     }
-
-
+    
 
 
 
@@ -537,6 +537,7 @@ class UserController
  
 public function uploadPhotoFromFile($request, $response, $container)
 {
+    
   
     if (isset($_FILES['photo'])) {
         $file = $_FILES['photo'];
@@ -556,10 +557,11 @@ public function uploadPhotoFromFile($request, $response, $container)
                     </div>
             ';
 
-            // Imprimir el mensaje de éxito
+         
             echo $successMessage;
 
                 $usersModel = $container["\App\Models\usersPDO"];
+               
                 $UploadUserPhoto = $container["\App\Models\usersPDO"];
 
                 $user_id = $_POST['user_id']; 
@@ -577,14 +579,16 @@ public function uploadPhotoFromFile($request, $response, $container)
     } else {
         echo "No se ha enviado ninguna imagen.";
     }
+    
     $userId = $_SESSION["user_id"];
 
-    $alumnes = new $container["\App\Models\usersPDO"];
+    $alumnes = $container["\App\Models\usersPDO"];
 
     $alumnes = $alumnes->getAlumnesByProfessor($userId);
 
     $response->set("alumnes", $alumnes);
     $response->SetTemplate("alumnes.php");
+    
     return $response;
 }
 
