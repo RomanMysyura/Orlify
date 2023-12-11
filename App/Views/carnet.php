@@ -34,7 +34,7 @@
       <section class="flex justify-center items-center w-32 h-32 rounded-full shadow-md z-50">
         <?php if (!empty($photo)): ?>
           <!-- Aplica border-radius al contenedor de la imagen -->
-          <img src="../<?= $photo[0]['url'] ?>" class="rounded-full w-full h-full object-cover" />
+          <img src="../<?= $photo[0]['url'] ?>" class="rounded-full w-full h-full object-cover" alt="Foto"/>
         <?php else: ?>
           <img src="../img/user.png"/>
         <?php endif; ?>

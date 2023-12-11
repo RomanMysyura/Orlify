@@ -48,8 +48,6 @@ class NavigationController
         $response->set("grups", $grups);
         $response->set("photo", $photo);
     
-        // Remove the following line as $photos is not defined here
-        // $response->set("photos", $photos);
      $response->SetTemplate("paneldecontrol.php");
         return $response;
     }
