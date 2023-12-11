@@ -43,7 +43,7 @@
                             class="w-full h-full object-cover transition-opacity duration-500 "></div>
                     <div class="w-full w-24 h-24 slide m-2"><img src="../img/index/img6.png" alt="Imagen 6"
                             class="w-full h-full object-cover transition-opacity duration-500 "></div>
-                   
+
                 </div>
             </div>
             <p class="text-xl text-center mt-10 text-black">No necessites instal·lar ni descarregar res i la pots fer

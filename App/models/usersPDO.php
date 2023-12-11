@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Models;
-
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 class UsersPDO
 {
     private $sql;
@@ -403,7 +404,7 @@ class UsersPDO
     
             // Devuelve true si la actualización fue exitosa
             return true;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             // Manejo de errores: Puedes ajustar esto según tus necesidades
             echo "Error al guardar el token: " . $e->getMessage();
             return false;
@@ -423,7 +424,7 @@ class UsersPDO
 
             // Retorna el token si existe, de lo contrario, retorna null
             return $result ? $result['token'] : null;
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             // Manejo de errores: Puedes ajustar esto según tus necesidades
             echo "Error al obtener el token del usuario: " . $e->getMessage();
             return null;
@@ -442,7 +443,7 @@ class UsersPDO
     
             // Compara el token proporcionado con el almacenado en la base de datos
             return ($token === $storedToken);
-        } catch (PDOException $e) {
+        } catch (\PDOException $e) {
             // Manejo de errores: Puedes ajustar esto según tus necesidades
             echo "Error al verificar el token: " . $e->getMessage();
             return false;
@@ -458,4 +459,81 @@ class UsersPDO
     // Devuelve el usuario si se encuentra, o false si no se encuentra
     return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
+public function emailExists($email) {
+    // Aquí deberías implementar la lógica para verificar si el correo existe en tu aplicación
+    // Retorna true si el correo existe, false si no existe
+    return true;
+}
+
+public function RecoveryEmail($email) {
+    $mail = new PHPMailer(true);
+
+    try {
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.gmail.com';
+        $mail->SMTPAuth   = true;
+        $mail->Username   = 'Orlify22@gmail.com';
+        $mail->Password   = 'dqdi lybq lqhz dydb';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port       = 587;
+
+        // Configura el remitente y destinatario
+        $mail->setFrom('marcos01092004@gmail.com', 'mmunoz2');
+        $mail->addAddress($email);
+
+        // Configura el contenido del correo como HTML
+        $mail->isHTML(true);
+        $mail->Subject = 'Recuperacio de contrasenya';
+
+        // Cuerpo HTML con el enlace
+        $htmlBody = '<p>Hemos recibido una solicitud para restablecer tu contraseña. Por favor, sigue las instrucciones que recibirás por correo.</p>';
+        $htmlBody .= '<p>Accede a este <a href="http://localhost:8080/newpass">enlace</a> para poner tu contraseña nueva.</p>';
+        
+        $mail->msgHTML($htmlBody);
+
+        // Envía el correo electrónico
+        $mail->send();
+    } catch (Exception $e) {
+        echo "Error al enviar el correo: {$mail->ErrorInfo}";
+    }
+}
+
+public function storeToken($email, $token) {
+    $stmt = $this->sql->prepare("UPDATE users SET token = :token WHERE email = :email");
+    $stmt->bindParam(':token', $token);
+    $stmt->bindParam(':email', $email);
+    $stmt->execute();
+}
+public function PasswordUser($id, $password,)
+{
+    $stmt = $this->sql->prepare("UPDATE users SET password = :password  WHERE id = :id");
+    $stmt->execute([
+        ':id' => $id,
+        ':password' => $password
+    ]);
+}
+public function getUserByEmail($email)
+{
+    $query = "SELECT * FROM users WHERE email = :email";
+    $stmt = $this->sql->prepare($query);
+    $stmt->bindParam(":email", $email, \PDO::PARAM_STR);
+    $stmt->execute();
+
+    // Devuelve el usuario si se encuentra, o false si no se encuentra
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+public function getTokenByEmail($email)
+{
+    $query = "SELECT token FROM users WHERE email = :email";
+    $stmt = $this->sql->prepare($query);
+    $stmt->bindParam(":email", $email, \PDO::PARAM_STR);
+    $stmt->execute();
+
+    $result = $stmt->fetch(\PDO::FETCH_ASSOC);
+
+    // Devuelve el token si se encuentra, o false si no se encuentra
+    return ($result !== false) ? $result['token'] : false;
+}
+
+
 }

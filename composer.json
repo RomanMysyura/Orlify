@@ -10,7 +10,8 @@
     },
     "require": {
         "emeset/framework": "^0.3",
-        "tecnickcom/tc-lib-pdf": "^8.0"
+        "tecnickcom/tc-lib-pdf": "^8.0",
+        "phpmailer/phpmailer": "^6.5"
     },
 
     "autoload": {
