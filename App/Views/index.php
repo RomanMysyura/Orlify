@@ -170,7 +170,7 @@
                             </div>
                         </div>
                         <p class="text-sm text-gray-500 mt-5">
-                            <a href="/recuperarpass" class="text-blue-500">Has oblidat la contrasenya?</a>
+                            <a href="/recuperarpass" class="text-sky-800">Has oblidat la contrasenya?</a>
                         </p>
                         <div class="flex items-center justify-between mt-10">
                             <button
@@ -247,7 +247,7 @@
                                 class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
 
                             <!-- Botón para mostrar información al pasar el ratón -->
-                            <button id="infoButton" type="button"
+                            <button id="infoButton" type="button" title="Password info"
                                 class="absolute inset-y-0 right-0 px-3 flex items-center bg-gray-200 hover:bg-gray-300 rounded-r-md mb-2">
                                 <svg class="w-6 h-6 bg-gray-200 dark:text-white" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">

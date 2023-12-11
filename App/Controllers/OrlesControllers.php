@@ -31,8 +31,10 @@ class OrlesControllers
 
     public function editarOrles($request, $response, $container)
     {
+        $userId = $_SESSION["user_id"];
         $orla_id = $_GET["id"];
         $OrlaModel = $container["\App\Models\Orles"];
+        
         $photos = $OrlaModel->getPhotosForOrla($orla_id);
         $response->set("photos", $photos);
         $response->set("orla_id", $orla_id);
@@ -51,6 +53,10 @@ class OrlesControllers
         $response->set("groups", $groups);
         
 
+        $photoModel = $container["\App\Models\usersPDO"];
+
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+        $response->set("photo", $photo);
         // Para cada grupo, obtener los usuarios del grupo
         $usersInGroups = [];
         foreach ($groups as $group) {
@@ -154,16 +160,23 @@ public function add_users_to_orla($request, $response, $container)
 
 public function publish_orla($request, $response, $container)
 {
+    $userId = $_SESSION["user_id"];
+    $PhotoModel = $container["\App\Models\Orles"];
     $OrlaModel = $container["\App\Models\Orles"];
     $orlaId = $_SESSION["orla_id"] ;
     $isPublished = 'isPublished';
     $OrlaModel->publishOrla($orlaId, $isPublished);
+    $photos = $PhotoModel->getUserSelectedPhoto($userId);
+
+    $response->set("photos", $photos);
     $response->SetTemplate("vieworles.php");
+
     return $response;
 }
 
 public function UploadOrla($request, $response, $container)
 {
+    $userId = $_SESSION["user_id"];
     $orla_id = $_POST['id'];
     $name_orla = $_POST['name'];
     $status = $_POST['status'];
@@ -174,12 +187,16 @@ public function UploadOrla($request, $response, $container)
     $OrlaModel = $container["\App\Models\Orles"];
     $usersModel = $container["\App\Models\usersPDO"];
     $errorModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
+
 
     $grupsModel = $container["\App\Models\usersPDO"];
     $users = $usersModel->getAllUsers();
     $errors = $errorModel->geterror();
     $orles = $OrlaModel->getAllOrles();
     $grups = $grupsModel->getAllGroups();
+ 
+    $photo = $photoModel->getUserSelectedPhoto($userId);
 
     $OrlaModel->UploadOrla($orla_id, $name_orla, $status, $url, $group_name);
     
@@ -207,6 +224,7 @@ public function UploadOrla($request, $response, $container)
     $response->set("errors", $errors);
     $response->set("orles", $orles);
     $response->set("grups", $grups);
+    $response->set("photo", $photo);
 
     
 
