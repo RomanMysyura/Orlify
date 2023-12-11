@@ -41,10 +41,7 @@
                                     <a href="/contactar"
                                         class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Contactar</a>
                                 </div>
-                                <?php if ($_SERVER['REQUEST_URI'] !== '/'): ?>
-    <a href="/" class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Inici</a>
-<?php endif; ?>
-
+                               
                             </div>
                             <a href="/panel-de-control"
                                 class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Panel
