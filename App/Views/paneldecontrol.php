@@ -115,16 +115,16 @@
                                     <?= $user['role'] ?>
                                 </td>
                                 <td class="py-2 px-2 border-b">
-                                    <button class="btn bg-white w-16"
+                                    <button class="btn bg-white w-15"
                                         onclick="toggleCollapse2('collapse<?= $user['id'] ?>')">
                                         <img src="../img/foto3.png" alt="expand"
                                             class="w-6 h-6 object-cover rounded-lg">
                                     </button>
-                                    <button class="btn bg-white w-16"
+                                    <button class="btn bg-white w-15"
                                         onclick="openEditModal('<?= $user['id'] ?>', '<?= $user['name'] ?>', '<?= $user['surname'] ?>', '<?= $user['email'] ?>', '<?= $user['phone'] ?>', '<?= $user['dni'] ?>', '<?= $user['birth_date'] ?>', '<?= $user['role'] ?>', '<?= $user['groups'] ?>')">
                                         <img src="../img/editar.png" alt="edit" class="w-6 h-6 object-cover rounded-lg">
                                     </button>
-                                    <button class="btn bg-white w-16">
+                                    <button class="btn bg-white w-15">
                                         <a href="/deleteUser?id=<?= $user['id']; ?>"
                                             onclick="return confirm('Estas segur que vols eliminar aquest usuari?')">
                                             <img src="../img/eliminar2.png" alt="delete"

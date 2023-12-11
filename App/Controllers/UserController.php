@@ -71,6 +71,8 @@ class UserController
         $password = $_POST["password"];
     
         $usersModel = $container["\App\Models\usersPDO"];
+        
+        
     
         $loggedInUser = $usersModel->login($email, $password);
     
@@ -81,13 +83,17 @@ class UserController
             $_SESSION["role"] = $loggedInUser["role"];
     
             $userId = $_SESSION["user_id"];
+            $photoModel = $container["\App\Models\usersPDO"];
+           
             $group = $usersModel->getGroupForUser($userId);
             $user = $usersModel->getUserById($userId);
             $userPhoto = $usersModel->getUserSelectedPhoto($userId);
+            $photo = $photoModel->getUserSelectedPhoto($userId);
     
             $response->set("user", $loggedInUser);
             $response->set("group", $group);
             $response->set("userPhoto", $userPhoto);
+            $response->set("photo", $photo);
     
             $response->SetTemplate("perfil.php");
         } else {
@@ -162,6 +168,7 @@ class UserController
     {
 
         $usersModel = $container["\App\Models\usersPDO"];
+        
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $name = $_POST["username"];
@@ -193,6 +200,8 @@ class UserController
     public function uploadUser($request, $response, $container)
     {
         $usersModel = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
+
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $id = $_POST["id"];
@@ -209,7 +218,9 @@ class UserController
 
         $id = $_POST["id"];
         $user = $usersModel->getUserById($id);
+        $photo = $photoModel->getUserSelectedPhoto($id);
 
+        $response->set("photo", $photo);
         $response->SetTemplate("perfil.php", ["user" => $user]);
         return $response;
     }
@@ -222,10 +233,13 @@ class UserController
         $errorModel = $container["\App\Models\usersPDO"];
         $orlaModel = $container["\App\Models\Orles"];
         $grupsModel = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
+
         $users = $usersModel->getAllUsers();
         $errors = $errorModel->geterror();
         $orles = $orlaModel->getAllOrles();
         $grups = $grupsModel->getAllGroups();
+        $photo = $photoModel->getUserSelectedPhoto($id);
         foreach ($users as &$user) {
             $user["photos"] = $usersModel->getUserPhotos($user["id"]);
             $groups = $usersModel->getGroupByUserId($user["id"]);
@@ -249,6 +263,7 @@ class UserController
         $response->set("errors", $errors);
         $response->set("orles", $orles);
         $response->set("grups", $grups);
+        $response->set("photo", $photo);
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $id = $_POST["id"];
@@ -338,6 +353,8 @@ class UserController
         $userId = $_SESSION["user_id"];
     
         $UploadUserPhoto = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($userId);
     
         if (isset($_POST["selectedPhoto"])) {
             $selectedPhoto = $_POST["selectedPhoto"];
@@ -354,6 +371,7 @@ class UserController
             echo 'error';
         }
     
+        $response->set("photo", $photo);
         return $response;
     }
     
@@ -371,9 +389,13 @@ class UserController
     public function alumnes($request, $response, $container)
     {
         $userId = $_SESSION["user_id"];
+        $photoModel = $container["\App\Models\usersPDO"];
+     
         $alumnes = $container["\App\Models\usersPDO"];
         $alumnes = $alumnes->getAlumnesByProfessor($userId);
+        $photo = $photoModel->getUserSelectedPhoto($userId);
         $response->set("alumnes", $alumnes);
+        $response->set("photo", $photo);
         $response->SetTemplate("alumnes.php");
 
         return $response;
@@ -418,6 +440,8 @@ class UserController
     public function PanelUploadUser($request, $response, $container)
     {
         $usersModel = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
+
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $id = $_POST["id"];
@@ -437,7 +461,9 @@ class UserController
 
         $id = $_POST["id"];
         $user = $usersModel->getUserById($id);
+        $photo = $photoModel->getUserSelectedPhoto($id);
 
+        $response->set("photo", $photo);
         $response->SetTemplate("paneldecontrol.php", ["user" => $user]);
         return $response;
     }
@@ -495,16 +521,17 @@ class UserController
 
     }
 
-
-
     $usersModel = $container["\App\Models\usersPDO"];
     $errorModel = $container["\App\Models\usersPDO"];
     $orlaModel = $container["\App\Models\Orles"];
     $grupsModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
+
     $users = $usersModel->getAllUsers();
     $errors = $errorModel->geterror();
     $orles = $orlaModel->getAllOrles();
     $grups = $grupsModel->getAllGroups();
+    $photo = $photoModel->getUserSelectedPhoto($id);
     
     
     foreach ($users as &$user) {
@@ -530,6 +557,7 @@ class UserController
     $response->set("errors", $errors);
     $response->set("orles", $orles);
     $response->set("grups", $grups);
+    $response->set("photo", $photo);
 
     $response->SetTemplate("paneldecontrol.php");
    return $response;
@@ -552,7 +580,7 @@ public function uploadPhotoFromFile($request, $response, $container)
                 $successMessage = '
                 <div role="alert" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded">
                       <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                      <span>Haz pujat i actualitzat la foto del alumne</span>
+                      <span>Has pujat i actualitzat la foto del alumne</span>
                     </div>
             ';
 
@@ -561,6 +589,7 @@ public function uploadPhotoFromFile($request, $response, $container)
 
                 $usersModel = $container["\App\Models\usersPDO"];
                 $UploadUserPhoto = $container["\App\Models\usersPDO"];
+                
 
                 $user_id = $_POST['user_id']; 
                 $userId = $_SESSION["user_id"];
@@ -572,18 +601,22 @@ public function uploadPhotoFromFile($request, $response, $container)
                 echo "Error al guardar la imagen.";
             }
         } else {
-            echo "Error al subir la imagen.";
+            echo "Selecciona una fotografia.";
         }
     } else {
         echo "No se ha enviado ninguna imagen.";
     }
     $userId = $_SESSION["user_id"];
+    $photoModel = $container["\App\Models\usersPDO"];
+   
 
-    $alumnes = new $container["\App\Models\usersPDO"];
+    $alumnes = $container["\App\Models\usersPDO"];
 
     $alumnes = $alumnes->getAlumnesByProfessor($userId);
+    $photo = $photoModel->getUserSelectedPhoto($userId);
 
     $response->set("alumnes", $alumnes);
+    $response->set("photo", $photo);
     $response->SetTemplate("alumnes.php");
     return $response;
 }
