@@ -22,7 +22,7 @@ return [
     "database" => [
         "server" => "localhost",
         "username" => "root",
-        "password" => "",
-        "database" => "orles"
+        "password" => "1234",
+        "database" => "orlify"
     ]
 ];

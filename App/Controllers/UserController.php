@@ -153,9 +153,6 @@ class UserController
                   // Si ya tiene un token, utiliza el existente
                   $token = $existingToken;
               }
-      
-              // Construye la URL completa con el token como parámetro de ruta
-              $uniqueUrl = "https://tuwebapp.com/carnet/{$token}";
 
             return $response;
         }
@@ -694,4 +691,63 @@ public function crearGrup($request, $response, $container)
     return $response;
 
 }
+public function sendRecoveryEmail($request, $response, $container) {
+    $emailModel = $container["\App\Models\usersPDO"];
+
+    // Verifica si el correo electrónico existe en tu lógica de aplicación
+    $email = $_POST["email"]; // Asigna un valor a la variable $email
+    if ($emailModel->emailExists($email)) {
+        // Genera un token único
+        $token = uniqid();
+
+        // Almacena el token en la base de datos
+        $emailModel->storeToken($email, $token);
+
+        // Envía el correo electrónico de recuperación con el token
+        $emailModel->RecoveryEmail($email, $token);
+
+        echo "Correo enviado correctamente a $email";
+    } else {
+        echo "La dirección de correo electrónico no existe en nuestra base de datos.";
+    }
+}
+public function newpass($request, $response, $container)
+{
+    $usersModel = $container["\App\Models\usersPDO"];
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        $email = $_POST["email"];
+        $password = $_POST["password"];
+
+        // Obtener el token del usuario por correo electrónico
+        $token = $usersModel->getTokenByEmail($email);
+
+        if ($token !== false) {
+            // Cambiar la contraseña del usuario con el token proporcionado
+            $user = $usersModel->getUserByEmail($email);
+
+            // Hash de la nueva contraseña
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+            // Actualizar la contraseña del usuario con el hash
+            $usersModel->PasswordUser($user['id'], $hashedPassword);
+        } else {
+            // El correo electrónico no está registrado o no tiene un token asociado
+            // Puedes redirigir a una página de error o mostrar un mensaje de error.
+            // Por ejemplo:
+            echo "Usuario no encontrado o no tiene un token asociado";
+            exit();
+        }
+    }
+
+    $response->SetTemplate("newpass.php");
+    return $response;
+}
+
+
+
+
+
+
+
 }
