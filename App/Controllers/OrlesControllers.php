@@ -300,7 +300,7 @@ $html .= '</body>';
     // Imprimir HTML
     $pdf->WriteHTML($html);
 
-    // Obtener el contenido del PDF como una cadena
+    // Obtener el contenido del PDF como una caden
     $pdfContent = $pdf->Output('', 'S');
 
     // Configurar los encabezados de la respuesta
