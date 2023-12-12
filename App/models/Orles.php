@@ -193,7 +193,13 @@ public function eliminarPhoto($photo_id){
     
     
    
-    
+    public function UploadNameOrla($orla_id, $name_orla)
+    {
+        $stmt = $this->sql->prepare("UPDATE orla SET name_orla = :name_orla WHERE id = :orla_id");
+        $stmt->bindParam(":orla_id", $orla_id);
+        $stmt->bindParam(":name_orla", $name_orla);
+        $stmt->execute();
+    }
 
 
     

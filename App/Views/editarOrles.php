@@ -14,13 +14,12 @@
 
     <?php include "navbar.php" ?>
 
-    <div class=" flex items-center justify-center">
-        <form action="/updateNameOrla" method="POST">
-            <input type="text" name="id" value="<?= $orla['orla_id'] ?>" style="display: none;">
-            <input type="text" placeholder="<?= $orlaName ?>"
-                class="input w-auto text-4xl text-center bg-slate-100 font-bold shadow-inner"
-                value="<?= $orlaName ?>" />
-
+    <div class="flex items-center justify-center">
+        <form id="updateNameForm" action="/updateNameOrla" method="POST">
+            <input type="text" name="id_orla" value="<?= $orla_id ?>" style="display: none;">
+            <input type="text" placeholder="<?= $orlaName ?>" name="nom" id="nom"
+                class="input w-auto text-4xl text-center bg-slate-100 font-bold shadow-inner" value="<?= $orlaName ?>"
+                onkeydown="submitOnEnter(event)">
         </form>
 
     </div>
@@ -152,7 +151,7 @@
                     </li>
 
                     <li>
-                       
+
                         <a href="/descarregar-orla/<?= $_SESSION["orla_id"] ?>" id="downloadPDF">
                             <svg fill="#000000" viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg"
                                 class="h-8 w-8">
@@ -218,10 +217,25 @@
     </script>
 
     <?php include "footer.php" ?>
+    
     <script src="/js/downloadPDF.js"></script>
 
     <script src="/js/editarOrles.js"></script>
     <script src="/js/publishOrla.js"></script>
+    <script>
+    
+function submitOnEnter(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("updateNameForm").submit();  
+        
+    }
+
+}
+
+
+
+    </script>
 
 
 </body>

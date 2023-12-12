@@ -313,18 +313,49 @@ $html .= '</body>';
 
 
 
+public function updateNameOrla ($request, $response, $container)
+{
+    $userId = $_SESSION["user_id"];
+        $Id_Orla = $_POST["id_orla"];
+        $name_orla = $_POST["nom"];
+        $OrlaModel = $container["\App\Models\Orles"];
+        $OrlaNameModel = $container["\App\Models\Orles"];
+        
+        $photos = $OrlaModel->getPhotosForOrla($Id_Orla);
+        $response->set("photos", $photos);
+        $response->set("orla_id", $Id_Orla);
+        
+        $orlaStatus = $OrlaModel->getStatusOrla($Id_Orla);
+        $response->set("orlaStatus", $orlaStatus);
+        $Id_Orla_Name = $OrlaNameModel->UploadNameOrla($Id_Orla, $name_orla);
+        $orlaName = $OrlaModel->getOrlaName($Id_Orla);
+        $response->set("orlaName", $orlaName);
 
+        // Obtener la lista de usuarios y grupos
+        $usersModel = $container["\App\Models\usersPDO"];
+        $users = $usersModel->getAllUsers();
+        $groups = $usersModel->getAllGroups();
+    
+        // Pasar la lista de usuarios y grupos a la vista
+        $response->set("users", $users);
+        $response->set("groups", $groups);
+        
 
+        $photoModel = $container["\App\Models\usersPDO"];
 
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+        $response->set("photo", $photo);
+        // Para cada grupo, obtener los usuarios del grupo
+        $usersInGroups = [];
+        foreach ($groups as $group) {
+            $usersInGroup = $usersModel->getUsersInGroup($group['id']);
+            $usersInGroups[$group['id']] = $usersInGroup;
+        }
 
-
-
-
-
-
-
-
-
-
-
+        $response->set("usersInGroups", $usersInGroups);
+        $_SESSION["Id_Orla"] = $Id_Orla;
+        $response->SetTemplate("editarOrles.php");
+    
+        return $response;
+}
 }
