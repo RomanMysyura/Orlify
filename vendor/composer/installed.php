@@ -3,7 +3,7 @@
         'name' => 'emeset/emeset',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '9ec18af802c4a1e80b6ee30b6bda23c65fdfb6b4',
+        'reference' => '651e36462cd242d68f0c77a8019fd31eb6f3f220',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -22,7 +22,7 @@
         'emeset/emeset' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '9ec18af802c4a1e80b6ee30b6bda23c65fdfb6b4',
+            'reference' => '651e36462cd242d68f0c77a8019fd31eb6f3f220',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
