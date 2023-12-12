@@ -194,11 +194,19 @@ class UsersPDO
 
     public function editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $group_name, $role)
     {
-        $stmt = $this->sql->prepare("UPDATE user_groups SET group_id = (SELECT id FROM groups WHERE name = :group_name) WHERE user_id = :id");
+        $stmt = $this->sql->prepare("DELETE FROM user_groups WHERE user_id = :id");
+        $stmt->execute([
+            ':id' => $id
+        ]);
+
+        $stmt = $this->sql->prepare("INSERT INTO user_groups (user_id, group_id) VALUES (:id, (SELECT id FROM groups WHERE name = :group_name))");
         $stmt->execute([
             ':id' => $id,
             ':group_name' => $group_name
         ]);
+
+
+      
             
             $stmt = $this->sql->prepare("UPDATE users SET name = :name, surname = :surname, email = :email, phone = :phone, dni = :dni, birth_date = :birth_date, role = :role WHERE id = :id");
             $stmt->execute([

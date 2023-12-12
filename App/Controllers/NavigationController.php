@@ -41,7 +41,7 @@ class NavigationController
         foreach ($grups as &$grup) {
             $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
         }
-    
+
         $response->set("users", $users);
         $response->set("errors", $errors);
         $response->set("orles", $orles);
