@@ -26,32 +26,36 @@
 
 
 
+
     <div class="flex text-center">
 
-        <div class="w-full max-w-xs md:w-1/3 m-auto mt-5 ml-20 mr-20">
-
-
+        <div class="w-full  md:w-1/4 m-auto mt-5 ml-20 mr-20">
 
 
 
             <div class=" w-full">
-                <h1 class="font-bold text-xl mb-3">Seleccionar usuarios y grupos</h1>
+                <h1 class="font-bold text-xl mb-3">Seleccionar alumnes i professors</h1>
 
                 <form action="/add_users_to_orla" method="post">
                     <!-- Agregar el campo oculto para el ID de la orla -->
                     <input type="hidden" name="orla_id" value="<?= $orla_id ?>">
-
                     <?php
-    echo '<ul class="menu bg-slate-200 w-full rounded-md ">';
-    foreach ($groups as $group) {
+echo '<ul class="menu bg-slate-200 w-full rounded-md ">';
+foreach ($groups as $group) {
+    
+    // Verificar si el grupo tiene el mismo id que algún grupo al que pertenece el usuario
+    if (in_array($group['id'], $_SESSION["grup_prof"])) {
         echo '<li>';
-        echo '<details>';
-        echo '<summary>'. $group['name'] . '</summary>';
+        echo '<details open>'; // Agregar el atributo open aquí
+        echo '<summary class="text-lg font-medium">' . $group['name'] . '</summary>';
         echo '<ul>';
 
         if (isset($usersInGroups[$group['id']])) {
             foreach ($usersInGroups[$group['id']] as $user) {
-                echo '<li><label><input type="checkbox" name="selected_users[]" value=' . $user['id'] . ' />' . $user['name'] .' '. $user['surname'] . '</label></li>';
+                // Verificar si el ID del usuario está en la sesión
+                $isChecked = in_array($user['id'], $_SESSION["orla_users_ids"]) ? 'checked' : '';
+
+                echo '<li><label class="text-base text-black"><input type="checkbox" class="checkbox" name="selected_users[]" value=' . $user['id'] . ' ' . $isChecked . ' />' . $user['name'] . ' ' . $user['surname'] . '</label></li>';
             }
         }
 
@@ -59,17 +63,19 @@
         echo '</details>';
         echo '</li>';
     }
-    echo '</ul>';
-    ?>
+}
+echo '</ul>';
+
+?>
 
                     <button type="submit"
-                        class="btnseleccionar btn btn-active btn-neutral mt-5 mb-10">Seleccionar</button>
+                        class="btnseleccionar btn btn-active btn-neutral mt-5 mb-10 w-full">Seleccionar</button>
                 </form>
 
             </div>
 
 
-           
+
 
         </div>
 
@@ -139,16 +145,45 @@
 
 
             <div class=" bg-slate-200 rounded-b-lg border-2 border-inherit  p-2">
+                <h1 class="font-semibold text-3xl">Professores</h1>
+                <div class="flex flex-wrap  border  border-slate-300 bg-slate-50 pt-5 rounded">
 
-                <div class="flex flex-wrap mt-2 ">
 
                     <?php foreach ($photos as $photo) : ?>
+                    <?php if ($photo['role'] === 'Professor') : ?>
                     <div
-                        class="photo-container relative overflow-hidden transform transition-transform duration-300 hover:scale-110 mb-5  rounded ml-auto mr-auto">
-                        <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>" class="w-36 h-44 m-1 rounded-md ">
-                        <p class="font-bold "><?= $photo['name'] ?> </p>
+                        class="photo-container relative overflow-hidden transform transition-transform duration-300 hover:scale-110 mb-5 rounded ml-auto mr-auto">
+                        <img src="<?= $photo['url'] ?>" alt="<?= $photo['user_name'] . ' ' . $photo['surname'] ?>"
+                            class="w-36 h-44 m-1 rounded-md ">
+                        <p class="font-bold ">
+                            <?= $photo['user_name'] ?> <?= $photo['surname'] ?>
+
+                        </p>
                     </div>
+                    <?php endif; ?>
                     <?php endforeach; ?>
+
+                </div>
+
+                <h1 class="font-semibold text-3xl">Alumnes</h1>
+                <div class="flex flex-wrap  border  border-slate-300 bg-slate-50 pt-5 rounded">
+
+                    <?php foreach ($photos as $photo) : ?>
+                    <?php if ($photo['role'] === 'Alumne') : ?>
+                    <div
+                        class="photo-container relative overflow-hidden transform transition-transform duration-300 hover:scale-110 mb-5 rounded ml-auto mr-auto">
+                        <img src="<?= $photo['url'] ?>" alt="<?= $photo['user_name'] . ' ' . $photo['surname'] ?>"
+                            class="w-36 h-44 m-1 rounded-md ">
+                        <p class="font-bold ">
+                            <?= $photo['user_name'] ?> <?= $photo['surname'] ?>
+
+                        </p>
+                    </div>
+                    <?php endif; ?>
+                    <?php endforeach; ?>
+
+
+
 
                 </div>
             </div>
@@ -167,24 +202,20 @@
     </script>
 
     <?php include "footer.php" ?>
-    
+
     <script src="/js/downloadPDF.js"></script>
 
     <script src="/js/editarOrles.js"></script>
     <script src="/js/publishOrla.js"></script>
     <script>
-    
-function submitOnEnter(event) {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        document.getElementById("updateNameForm").submit();  
-        
+    function submitOnEnter(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("updateNameForm").submit();
+
+        }
+
     }
-
-}
-
-
-
     </script>
 
 

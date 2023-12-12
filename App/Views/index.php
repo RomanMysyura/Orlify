@@ -6,22 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/main.css">
     <title><?= $app_config["app"]["name"] ?></title>
-    <style>
-    @keyframes waveAnimation {
-        0% {
-            transform: translateX(0);
-        }
 
-        50% {
-            transform: translateX(10px);
-            /* Ajusta la distancia de la oscilación */
-        }
-
-        100% {
-            transform: translateX(0);
-        }
-    }
-    </style>
 </head>
 <!-- Contenedor del banner de cookies -->
 <div id="cookie-banner" class="fixed bottom-0 w-full bg-gray-800 p-4 text-center shadow-md opacity-100 z-50">
@@ -128,7 +113,7 @@
 
 
 
-            <div class="mockup-phone mobileborders">
+            <div class="mockup-phone mobileborders animate-box">
                 <div class="camera"></div>
                 <div class="display">
                     <div class="artboard artboard-demo phone-1">

@@ -30,46 +30,53 @@ class OrlesControllers
    
 
     public function editarOrles($request, $response, $container)
-    {
-        $userId = $_SESSION["user_id"];
-        $orla_id = $_GET["id"];
-        $OrlaModel = $container["\App\Models\Orles"];
-        
-        $photos = $OrlaModel->getPhotosForOrla($orla_id);
-        $response->set("photos", $photos);
-        $response->set("orla_id", $orla_id);
-        $orlaName = $OrlaModel->getOrlaName($orla_id);
-        $response->set("orlaName", $orlaName);
-        $orlaStatus = $OrlaModel->getStatusOrla($orla_id);
-        $response->set("orlaStatus", $orlaStatus);
-
-        // Obtener la lista de usuarios y grupos
-        $usersModel = $container["\App\Models\usersPDO"];
-        $users = $usersModel->getAllUsers();
-        $groups = $usersModel->getAllGroups();
+{
+    $userId = $_SESSION["user_id"];
+    $orla_id = $_GET["id"];
+    $OrlaModel = $container["\App\Models\Orles"];
     
-        // Pasar la lista de usuarios y grupos a la vista
-        $response->set("users", $users);
-        $response->set("groups", $groups);
-        
+    $photos = $OrlaModel->getPhotosForOrla($orla_id);
+    $usersInOrla = $OrlaModel->getUsersInOrla($orla_id);
+    $_SESSION["orla_users_ids"] = array_column($usersInOrla, 'user_id');
+    $response->set("photos", $photos);
+    $response->set("orla_id", $orla_id);
+    $orlaName = $OrlaModel->getOrlaName($orla_id);
+    $response->set("orlaName", $orlaName);
+    $orlaStatus = $OrlaModel->getStatusOrla($orla_id);
+    $response->set("orlaStatus", $orlaStatus);
 
-        $photoModel = $container["\App\Models\usersPDO"];
+    // Obtener la lista de usuarios y grupos
+    $usersModel = $container["\App\Models\usersPDO"];
+    $users = $usersModel->getAllUsers();
+    $groups = $usersModel->getAllGroups();
 
-        $photo = $photoModel->getUserSelectedPhoto($userId);
-        $response->set("photo", $photo);
-        // Para cada grupo, obtener los usuarios del grupo
-        $usersInGroups = [];
-        foreach ($groups as $group) {
-            $usersInGroup = $usersModel->getUsersInGroup($group['id']);
-            $usersInGroups[$group['id']] = $usersInGroup;
-        }
-
-        $response->set("usersInGroups", $usersInGroups);
-        $_SESSION["orla_id"] = $orla_id;
-        $response->SetTemplate("editarOrles.php");
+    $grupsprof = $usersModel->getGroupsProf($userId);
+    $_SESSION["grup_prof"] = $grupsprof;
     
-        return $response;
-    } 
+    // Pasar la lista de usuarios y grupos a la vista
+    $response->set("users", $users);
+    $response->set("groups", $groups);
+    
+    // Obtener la lista de usuarios en la orla
+    
+    $photoModel = $container["\App\Models\usersPDO"];
+
+    $photo = $photoModel->getUserSelectedPhoto($userId);
+    $response->set("photo", $photo);
+    // Para cada grupo, obtener los usuarios del grupo
+    $usersInGroups = [];
+    foreach ($groups as $group) {
+        $usersInGroup = $usersModel->getUsersInGroup($group['id']);
+        $usersInGroups[$group['id']] = $usersInGroup;
+    }
+
+    $response->set("usersInGroups", $usersInGroups);
+    $_SESSION["orla_id"] = $orla_id;
+    $response->SetTemplate("editarOrles.php");
+
+    return $response;
+}
+
     
     
 
@@ -134,6 +141,9 @@ public function add_users_to_orla($request, $response, $container)
     $orlaName = $OrlaModel->getOrlaName($orla_id);
     $response->set("orlaName", $orlaName);
  
+    $usersInOrla = $OrlaModel->getUsersInOrla($orla_id);
+    $_SESSION["orla_users_ids"] = array_column($usersInOrla, 'user_id');
+
 
     $usersModel = $container["\App\Models\usersPDO"];
     $users = $usersModel->getAllUsers();
@@ -286,8 +296,8 @@ $photos = $photoModel->getPhotosForOrla($orla_id);
 foreach ($photos as $photo) {
   
     $html .= '<div style="float:left; width: 120px; heigh: 150px; border-radius: 5px;">';
-    $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['name'] . '" style="width: 100px; height: 130px; margin: 10px; border-radius: 5px;">';
-    $html .= '<p style="margin-top: 5px; text-align: center;">' . $photo['name'] . '</p>';
+    $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name']  . '" style="width: 100px; height: 130px; margin: 10px; border-radius: 5px;">';
+    $html .= '<p style="margin-top: 5px; text-align: center;">' . $photo['user_name'] . " ". $photo['surname']. '</p>';
     $html .= '</div>';
 }
 

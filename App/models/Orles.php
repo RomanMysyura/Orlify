@@ -63,6 +63,17 @@ class Orles
         return $result;
     }
 
+    public function getUsersInOrla($orla_id)
+    {
+        $stmt = $this->sql->prepare("SELECT user_id FROM orla_users WHERE orla_id = :orla_id");
+        $stmt->bindParam(":orla_id", $orla_id);
+        $stmt->execute();
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+    
+    
+    
 
     
     public function getOrlaName($orla_id)
@@ -73,6 +84,7 @@ class Orles
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result["name_orla"];
     }
+
     public function getStatusOrla($orla_id)
 {
     $stmt = $this->sql->prepare("SELECT status FROM orla WHERE id = :orla_id");
@@ -126,7 +138,7 @@ public function publishOrla($orlaId)
 
     public function getPhotosForOrla($orla_id)
     {
-        $stmt = $this->sql->prepare("SELECT p.id AS photo_id, p.name, p.url
+        $stmt = $this->sql->prepare("SELECT p.id AS photo_id, u.name AS user_name, u.surname, p.url, u.role
                                     FROM photo p
                                     JOIN users u ON p.user_id = u.id
                                     JOIN orla_users ou ON u.id = ou.user_id
@@ -137,6 +149,9 @@ public function publishOrla($orlaId)
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }
+    
+    
+    
     
     
     public function eliminarOrla($orla_id)
