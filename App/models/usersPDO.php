@@ -460,9 +460,13 @@ class UsersPDO
     return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
 public function emailExists($email) {
-    // Aquí deberías implementar la lógica para verificar si el correo existe en tu aplicación
-    // Retorna true si el correo existe, false si no existe
-    return true;
+    $query = "SELECT * FROM users WHERE email = :email";
+    $stmt = $this->sql->prepare($query);
+    $stmt->bindParam(":email", $email, \PDO::PARAM_STR);
+    $stmt->execute();
+
+    // Devuelve el usuario si se encuentra, o false si no se encuentra
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
 }
 
 public function RecoveryEmail($email) {

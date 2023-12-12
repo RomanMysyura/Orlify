@@ -6,9 +6,14 @@ module.exports = {
   ],
   theme: {
     extend: { 
+      container: {  
+        margin:{
+          'margintop':'578px',
+        },
       animation: {
       'infinite-scroll': 'infinite-scroll 25s linear infinite',
     },
+  },
     keyframes: {
       'infinite-scroll': {
         from: { transform: 'translateX(0)' },

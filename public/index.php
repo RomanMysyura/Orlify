@@ -72,6 +72,7 @@ $app->post("publish-orla", [OrlesControllers::class,"publish_orla"]);
 $app->get("descarregar-orla/{id}", [OrlesControllers::class,"descarregarOrla"]);
 $app->get("eliminar-orla", [OrlesControllers::class,"eliminarOrla"]);
 $app->post("sendRecoveryEmail", [UserController::class,"sendRecoveryEmail"]);
+$app->post("erroremail", [UserController::class,"sendRecoveryEmail"]);
 $app->get("newpass", [UserController::class,"newpass"]);
 $app->post("newpass", [UserController::class,"newpass"]);
 
