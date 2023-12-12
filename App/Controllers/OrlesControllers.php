@@ -270,7 +270,6 @@ public function descarregarOrla($request, $response, $container)
 
     $pdf->SetFont('times', '', 20);
 
-  
 
 $html .= '<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4;">';
 
@@ -286,8 +285,10 @@ $photos = $photoModel->getPhotosForOrla($orla_id);
 
 foreach ($photos as $photo) {
   
+    $html .= '<div style="float:left; width: 120px; heigh: 150px; border-radius: 5px;">';
     $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['name'] . '" style="width: 100px; height: 130px; margin: 10px; border-radius: 5px;">';
-
+    $html .= '<p style="margin-top: 5px; text-align: center;">' . $photo['name'] . '</p>';
+    $html .= '</div>';
 }
 
 $html .= '</div>';

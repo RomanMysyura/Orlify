@@ -21,7 +21,6 @@
             transform: translateX(0);
         }
     }
-  
     </style>
 </head>
 <!-- Contenedor del banner de cookies -->
@@ -54,8 +53,8 @@
 
 
     <div class="flex">
-    <div class="w-full md:w-1/2 lg:1/2 md:flex md:flex-col hidden">
-                    <div class="flex-1 p-4 m-9 mt-16 hidden md:flex flex-col ">
+        <div class="w-full md:w-1/2 lg:1/2 md:flex md:flex-col hidden">
+            <div class="flex-1 p-4 m-9 mt-16 hidden md:flex flex-col ">
                 <p class="text-7xl text-center font-bold">
                     <span class="bg-gradient-to-r text-black bg-clip-text animate-fadeInGradient">LA TEVA ORLA EN POCS
                         PASOS</span>
@@ -93,7 +92,8 @@
                         </li>
                     </ul>
                     <ul x-ref="logos"
-                        class="flex items-center justify-center md:justify-start [&_li]:mx-4 mt-4 [&_img]:max-w-none animate-infinite-scroll" aria-hidden="true">
+                        class="flex items-center justify-center md:justify-start [&_li]:mx-4 mt-4 [&_img]:max-w-none animate-infinite-scroll"
+                        aria-hidden="true">
                         <li class="mx-4 mt-4">
                             <img class="h-24" src="/img/index/img1.png" alt="Logo 1">
                         </li>
@@ -124,8 +124,27 @@
                     pots fer
                     des de qualsevol ordinador. I podràs descarregar una prova en PDF!</p>
             </div>
-        </div>
 
+
+
+
+            <div class="mockup-phone mobileborders">
+                <div class="camera"></div>
+                <div class="display">
+                    <div class="artboard artboard-demo phone-1">
+                        <div class="video-container">
+                            <video width="700" height="450" loop autoplay muted style="margin-top: -37px;">
+                                <source src="/img/phoneee3.mp4" type="video/mp4">
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
 
 
 
@@ -315,7 +334,8 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
+
 
     <?php include "footer.php" ?>
     <script src="/js/bundle.js"></script>
