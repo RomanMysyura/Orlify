@@ -172,8 +172,11 @@ class UserController
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $response->set("error_message_register", "La conta creada correctament");
             $response->SetTemplate("paneldecontrol.php");
-            $usersModel->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
-
+            $userId=$usersModel->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
+            $token = uniqid();
+      
+            // Guarda el token en la base de datos
+            $usersModel->saveUserToken($userId, $token);
 
             return $response;
         }
