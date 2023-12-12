@@ -128,22 +128,23 @@
 
 
 
-            <div class="mockup-phone">
+            <div class="mockup-phone mobileborders">
                 <div class="camera"></div>
                 <div class="display">
                     <div class="artboard artboard-demo phone-1">
-                        <video width="700" height="450" controls loop style="margin-top: -37px;">
-                            <source src="/img/phoneee3.mp4" type="video/mp4">
-                            Tu navegador no soporta el elemento de video.
-                        </video>
+                        <div class="video-container">
+                            <video width="700" height="450" loop autoplay muted style="margin-top: -37px;">
+                                <source src="/img/phoneee3.mp4" type="video/mp4">
+                                Tu navegador no soporta el elemento de video.
+                            </video>
+                        </div>
                     </div>
-
                 </div>
             </div>
 
 
-        </div>
 
+        </div>
 
 
 

@@ -3,5 +3,10 @@
 @tailwind utilities;
 
 .loading-lg {
-    width: 5rem ;
-  }
+  width: 5rem;
+}
+
+.mobileborders {
+  height: 547px;
+}
+
