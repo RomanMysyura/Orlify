@@ -142,13 +142,18 @@
 
                 <div class="flex flex-wrap mt-2 ">
 
-                    <?php foreach ($photos as $photo) : ?>
-                    <div
-                        class="photo-container relative overflow-hidden transform transition-transform duration-300 hover:scale-110 mb-5  rounded ml-auto mr-auto">
-                        <img src="<?= $photo['url'] ?>" alt="<?= $photo['name'] ?>" class="w-36 h-44 m-1 rounded-md ">
-                        <p class="font-bold "><?= $photo['name'] ?> </p>
-                    </div>
-                    <?php endforeach; ?>
+                <?php foreach ($photos as $photo) : ?>
+    <div class="photo-container relative overflow-hidden transform transition-transform duration-300 hover:scale-110 mb-5 rounded ml-auto mr-auto">
+        <img src="<?= $photo['url'] ?>" alt="<?= $photo['user_name'] . ' ' . $photo['surname'] ?>" class="w-36 h-44 m-1 rounded-md ">
+        <p class="font-bold ">
+            <?= $photo['user_name'] ?> <?= $photo['surname'] ?>
+           
+        </p>
+    </div>
+<?php endforeach; ?>
+
+
+
 
                 </div>
             </div>

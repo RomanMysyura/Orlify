@@ -126,7 +126,7 @@ public function publishOrla($orlaId)
 
     public function getPhotosForOrla($orla_id)
     {
-        $stmt = $this->sql->prepare("SELECT p.id AS photo_id, p.name, p.url
+        $stmt = $this->sql->prepare("SELECT p.id AS photo_id, u.name AS user_name, u.surname, p.url, u.role
                                     FROM photo p
                                     JOIN users u ON p.user_id = u.id
                                     JOIN orla_users ou ON u.id = ou.user_id
@@ -137,7 +137,6 @@ public function publishOrla($orlaId)
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result;
     }
-    
     
     public function eliminarOrla($orla_id)
     {

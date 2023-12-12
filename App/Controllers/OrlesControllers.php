@@ -242,11 +242,6 @@ public function eliminarPhoto($request, $response, $container)
     $response->SetTemplate("paneldecontrol.php");
     return $response;
 }
-
-
-
-
-
 public function descarregarOrla($request, $response, $container)
 {
     $orla_id = $request->getParam("id");
@@ -263,6 +258,10 @@ public function descarregarOrla($request, $response, $container)
     $pdf->SetTitle('Orla PDF');
     $pdf->SetSubject('Orla Data');
 
+    // Configurar una imagen de fondo
+    $pdf->SetWatermarkImage('./img/marco.svg');
+    $pdf->showWatermarkImage = true;
+
     // Agregar página con orientación horizontal
     $pdf->AddPageByArray([
         'orientation' => 'L'
@@ -270,43 +269,97 @@ public function descarregarOrla($request, $response, $container)
 
     $pdf->SetFont('times', '', 20);
 
+    // Obtener las fotos
+    $photoModel = $container["\App\Models\Orles"];
+    $photos = $photoModel->getPhotosForOrla($orla_id);
 
-$html .= '<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4;">';
+    // Configurar los encabezados de la respuesta
+    header('Content-Type: application/pdf');
+    header('Content-Disposition: attachment; filename="orla.pdf"');
 
-$html .= '<header style="background-color: #000000; color: #fff; text-align: center; padding: 2px;">';
-$html .= '<h1 style="color: #ffffff; font-size: 24pt; text-align: center;">'. $orlaData['name_orla'] .'</h1>';
-$html .= '</header>';
+    // Iniciar el contenido HTML
+    $html = '<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center;">';
 
-$html .= '<div style="margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 5px; display: flex; justify-content: center;" class="container">';
-$html .= '<div style="display: flex; flex-wrap: wrap;">';
-
-$photoModel = $container["\App\Models\Orles"];
-$photos = $photoModel->getPhotosForOrla($orla_id);
-
-foreach ($photos as $photo) {
-  
-    $html .= '<div style="float:left; width: 120px; heigh: 150px; border-radius: 5px;">';
-    $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['name'] . '" style="width: 100px; height: 130px; margin: 10px; border-radius: 5px;">';
-    $html .= '<p style="margin-top: 5px; text-align: center;">' . $photo['name'] . '</p>';
+    $html .= '<header style="background-color: rgba(255, 255, 255, 0);  padding: 2px;">';
+    $html .= '<h1 style="color: #000000; font-size: 24pt; text-align: center; font-style: italic;">' . $orlaData['name_orla'] . '</h1>';
+    $html .= '</header>';
+    $html .= '<div style="margin: 0px; display: flex; justify-content: center; text-align: center;" class="">';
+    $html .= '<h6 style="color: #000000; font-size: 10pt; text-align: center; "> Institut Cendrassos - Promoció 2023 - 2024 </h6>';
     $html .= '</div>';
-}
 
-$html .= '</div>';
-$html .= '</div>';
+    $html .= '<div style="margin-left: 8px; margin-right: 8px; border-radius: 5px; display: flex; justify-content: center; text-align: center;" class="container">';
+    $html .= '<div style="display: flex; flex-wrap: wrap;">';
 
+    $columnCount = 0; // Contador para rastrear el número de columnas en la fila actual
 
-$html .= '</body>';
-   
+    $html .= '<div>';
+    $html .= '<h5 style="text-align: center;">Professors</h5>';
+    $html .= '</div>';
+
+    foreach ($photos as $photo) {
+        if ($photo['role'] == 'Professor') {
+            // Determinar el estilo de la columna
+            $columnStyle = 'float:left; width: 120px; height: 150px; border-radius: 5px; margin-top: 0;';
+
+            // Calcular el margen izquierdo proporcional al número de fotos por línea
+
+            // Agregar la columna al HTML con margen izquierdo
+            $html .= '<div style="' . $columnStyle . '">';
+            $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name'] . '" style="width: 100px; height: 130px; margin: 10px; border-radius: 5px;">';
+            $html .= '<p style="margin-top: 3px; text-align: center; font-size: 12px;">' . $photo['user_name'] . " " . $photo['surname'] . '</p>';
+            $html .= '</div>';
+
+            // Aumentar el contador de columnas
+            $columnCount++;
+
+            // Si el contador es igual a 7, restablecerlo y agregar un estilo para bajar a la siguiente fila
+            if ($columnCount == 7) {
+                $columnCount = 0;
+                $columnStyle .= 'clear: both;';
+            }
+        }
+    }
+
+    $html .= '<div style="clear: both;"></div>';
+
+    $html .= '<div>';
+    $html .= '<h5 style="text-align: center;"> Alumnes </h5>';
+    $html .= '</div>';
+
+    foreach ($photos as $photo) {
+        if ($photo['role'] == 'Alumne') {
+            // Determinar el estilo de la columna
+            $columnStyle = 'float:left; width: 120px; height: 150px; border-radius: 5px; margin-top: 0;';
+
+            // Calcular el margen izquierdo proporcional al número de fotos por línea
+
+            // Agregar la columna al HTML con margen izquierdo
+            $html .= '<div style="' . $columnStyle . '">';
+            $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name'] . '" style="width: 100px; height: 130px; margin: 10px; border-radius: 10px;">';
+            $html .= '<p style="margin-top: 3px; text-align: center; font-size: 12px;">' . $photo['user_name'] . " " . $photo['surname'] . '</p>';
+            $html .= '</div>';
+
+            // Aumentar el contador de columnas
+            $columnCount++;
+
+            // Si el contador es igual a 10, restablecerlo y agregar un estilo para bajar a la siguiente fila
+            if ($columnCount == 10) {
+                $columnCount = 0;
+                $columnStyle .= 'clear: both;';
+            }
+        }
+    }
+
+    $html .= '</div>';
+    $html .= '</div>';
+
+    $html .= '</body>';
 
     // Imprimir HTML
     $pdf->WriteHTML($html);
 
     // Obtener el contenido del PDF como una cadena
     $pdfContent = $pdf->Output('', 'S');
-
-    // Configurar los encabezados de la respuesta
-    header('Content-Type: application/pdf');
-    header('Content-Disposition: attachment; filename="orla.pdf"');
 
     // Escribir el contenido del PDF en la salida
     echo $pdfContent;

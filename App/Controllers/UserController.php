@@ -226,7 +226,6 @@ class UserController
     {
         
         $usersModel = $container["\App\Models\usersPDO"];
-        
         $errorModel = $container["\App\Models\usersPDO"];
         $orlaModel = $container["\App\Models\Orles"];
         $grupsModel = $container["\App\Models\usersPDO"];
