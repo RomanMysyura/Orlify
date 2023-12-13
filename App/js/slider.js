@@ -3,7 +3,7 @@ const slider = document.getElementById('slider');
 // Configuración del slider
 const intervaloTiempo = 2000; // Intervalo de tiempo en milisegundos (2 segundos en este caso)
 
-export default function moverSlider() {
+export function moverSlider() {
     const anchoSlide = document.querySelector('.slide').offsetWidth;
     slider.style.transition = 'transform 0.8s ease-in-out';
     slider.style.transform = `translateX(-${anchoSlide}px)`;
