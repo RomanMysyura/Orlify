@@ -55,7 +55,12 @@
                                     class="flex items-center justify-center text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">
                                     <div class="avatar">
                                         <div class="w-10 rounded-full">
-                                            <img src="<?= $photo[0]['url'] ?>"  alt="Foto de Perfil"/>
+                                        <?php if (!empty($photo)): ?>
+          <!-- Aplica border-radius al contenedor de la imagen -->
+          <img src="../<?= $photo[0]['url'] ?>" class="rounded-full w-full h-full object-cover" alt="Foto"/>
+        <?php else: ?>
+          <img src="../img/user2.png"/>
+        <?php endif; ?>
                                         </div>
                                     </div>
                                 </summary>
