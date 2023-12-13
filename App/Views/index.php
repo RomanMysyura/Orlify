@@ -19,6 +19,7 @@
 </div>
 
 <body class="bg-gray-300 ">
+    <?php echo $_SESSION["role"]; ?>
     <?php include "navbar.php" ?>
     <div style="overflow: hidden;">
         <svg id="wave-path" preserveAspectRatio="none" viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg"
