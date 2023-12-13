@@ -283,18 +283,11 @@ public function descarregarOrla($request, $response, $container)
     $html .= '<header style="background-color: rgba(255, 255, 255, 0);  padding: 2px;">';
     $html .= '<h1 style="color: #000000; font-size: 24pt; text-align: center; font-style: italic;">' . $orlaData['name_orla'] . '</h1>';
     $html .= '</header>';
-    $html .= '<div style="margin: 0px; display: flex; justify-content: center; text-align: center;" class="">';
-    $html .= '<h6 style="color: #000000; font-size: 10pt; text-align: center; "> Institut Cendrassos - Promoció 2023 - 2024 </h6>';
-    $html .= '</div>';
 
     $html .= '<div style="margin-left: 8px; margin-right: 8px; border-radius: 5px; display: flex; justify-content: center; text-align: center;" class="container">';
     $html .= '<div style="display: flex; flex-wrap: wrap;">';
 
     $columnCount = 0; // Contador para rastrear el número de columnas en la fila actual
-
-    $html .= '<div>';
-    $html .= '<h5 style="text-align: center;">Professors</h5>';
-    $html .= '</div>';
 
     foreach ($photos as $photo) {
         if ($photo['role'] == 'Professor') {
@@ -305,15 +298,15 @@ public function descarregarOrla($request, $response, $container)
 
             // Agregar la columna al HTML con margen izquierdo
             $html .= '<div style="' . $columnStyle . '">';
-            $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name'] . '" style="width: 100px; height: 130px; margin: 10px; border-radius: 5px;">';
-            $html .= '<p style="margin-top: 3px; text-align: center; font-size: 12px;">' . $photo['user_name'] . " " . $photo['surname'] . '</p>';
+            $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name'] . '" style="width: 80px; height: 100px; margin: 5px; border-radius: 5px;">';
+            $html .= '<p style="margin-top: 3px; text-align: center; font-size: 10px;">' . $photo['user_name'] . " " . $photo['surname'] . '</p>';
             $html .= '</div>';
 
             // Aumentar el contador de columnas
             $columnCount++;
 
-            // Si el contador es igual a 7, restablecerlo y agregar un estilo para bajar a la siguiente fila
-            if ($columnCount == 7) {
+            // Si el contador es igual a 10, restablecerlo y agregar un estilo para bajar a la siguiente fila
+            if ($columnCount == 10) {
                 $columnCount = 0;
                 $columnStyle .= 'clear: both;';
             }
@@ -322,8 +315,8 @@ public function descarregarOrla($request, $response, $container)
 
     $html .= '<div style="clear: both;"></div>';
 
-    $html .= '<div>';
-    $html .= '<h5 style="text-align: center;"> Alumnes </h5>';
+    $html .= '<div style="margin: 0px; display: flex; justify-content: center; text-align: center;" class="">';
+    $html .= '<h6 style="color: #000000; font-size: 10pt; text-align: center; "> Institut Cendrassos - Promoció 2023-2024 </h6>';
     $html .= '</div>';
 
     foreach ($photos as $photo) {
@@ -335,15 +328,15 @@ public function descarregarOrla($request, $response, $container)
 
             // Agregar la columna al HTML con margen izquierdo
             $html .= '<div style="' . $columnStyle . '">';
-            $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name'] . '" style="width: 100px; height: 130px; margin: 10px; border-radius: 10px;">';
-            $html .= '<p style="margin-top: 3px; text-align: center; font-size: 12px;">' . $photo['user_name'] . " " . $photo['surname'] . '</p>';
+            $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name'] . '" style="width: 80px; height: 100px; margin: 5px; border-radius: 5px;">';
+            $html .= '<p style="margin-top: 3px; text-align: center; font-size: 10px;">' . $photo['user_name'] . " " . $photo['surname'] . '</p>';
             $html .= '</div>';
 
             // Aumentar el contador de columnas
             $columnCount++;
 
-            // Si el contador es igual a 10, restablecerlo y agregar un estilo para bajar a la siguiente fila
-            if ($columnCount == 10) {
+            // Si el contador es igual a 30, restablecerlo y agregar un estilo para bajar a la siguiente fila
+            if ($columnCount == 30) {
                 $columnCount = 0;
                 $columnStyle .= 'clear: both;';
             }
@@ -364,6 +357,7 @@ public function descarregarOrla($request, $response, $container)
     // Escribir el contenido del PDF en la salida
     echo $pdfContent;
 }
+
 
 
 

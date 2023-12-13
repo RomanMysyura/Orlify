@@ -109,6 +109,7 @@
                                     <?= $user['groups']; ?>
                                     <?php else: ?>
                                     Sin grupo asignado
+                                    
                                     <?php endif; ?>
                                 </td>
                                 <td class="py-2 px-4 border-b">
