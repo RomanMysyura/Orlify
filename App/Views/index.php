@@ -260,9 +260,9 @@
                             <!-- Contenedor de información -->
                             <div id="infoContainer"
                                 class="absolute z-10 invisible bg-white border border-gray-200 rounded-lg shadow-sm p-4 right-0">
-                                <p>Entre 6 y 13 letras</p>
+                                <p>Entre 6 i 13 lletres</p>
                                 <p>1 caracter especial</p>
-                                <p>Al menos 1 letra y 1 número</p>
+                                <p>Almenys 1 lletra i 1 número</p>
                             </div>
                         </div>
                         <div id="mss"></div>
