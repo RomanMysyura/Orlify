@@ -3,7 +3,7 @@ const captureButton = document.getElementById('captureButton');
 const canvas = document.getElementById('canvas');
 const downloadLink = document.getElementById('downloadLink');
 const screenshotsContainer = document.getElementById('screenshotsContainer');
-const context = canvas.getContext('2d');
+const context = canvas ? canvas.getContext('2d') : null;
 let isCameraOpen = false;
 
 // Función para abrir/cerrar la cámara
@@ -38,18 +38,20 @@ export default function toggleCamera() {
 }
 
 // Capturar una foto cuando se hace clic en el botón
-captureButton.addEventListener('click', () => {
-    // Dibujar el fotograma actual del video en el lienzo
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+if (canvas) {
+    captureButton.addEventListener('click', () => {
+        // Dibujar el fotograma actual del video en el lienzo
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-    // Mostrar el enlace de descarga y configurar la imagen
-    const imageDataURL = canvas.toDataURL('image/png');
-    downloadLink.href = imageDataURL;
-    downloadLink.download = 'captura.png';
-    downloadLink.style.display = 'inline-block';
+        // Mostrar el enlace de descarga y configurar la imagen
+        const imageDataURL = canvas.toDataURL('image/png');
+        downloadLink.href = imageDataURL;
+        downloadLink.download = 'captura.png';
+        downloadLink.style.display = 'inline-block';
 
-    // Crear un nuevo elemento img y agregarlo al contenedor de imágenes capturadas
-    const img = document.createElement('img');
-    img.src = imageDataURL;
-    screenshotsContainer.prepend(img);
-});
+        // Crear un nuevo elemento img y agregarlo al contenedor de imágenes capturadas
+        const img = document.createElement('img');
+        img.src = imageDataURL;
+        screenshotsContainer.prepend(img);
+    });
+}

@@ -44,36 +44,36 @@
                     <span class="bg-gradient-to-r text-black bg-clip-text animate-fadeInGradient">LA TEVA ORLA EN POCS
                         PASOS</span>
                 </p>
-                <div x-data="{}" x-init="$nextTick(() => {
+                <div id="slider" x-data="{}" x-init="$nextTick(() => {
                 let ul = $refs.logos;
                 ul.insertAdjacentHTML('afterend', ul.outerHTML);
                 ul.nextSibling.setAttribute('aria-hidden', 'true');
-            })" class="w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
+            })" class="slide w-full inline-flex flex-nowrap overflow-hidden [mask-image:_linear-gradient(to_right,transparent_0,_black_128px,_black_calc(100%-128px),transparent_100%)]">
                     <ul x-ref="logos"
                         class="flex items-center justify-center md:justify-start [&_li]:mx-4 mt-4 [&_img]:max-w-none animate-infinite-scroll">
                         <li class="mx-4 mt-4">
-                            <img class="h-24" src="/img/index/img1.png" alt="Logo 1">
+                            <img class="h-24 slide" src="/img/index/img1.png" alt="Logo 1">
                         </li>
                         <li class="mx-4 mt-4">
-                            <img class="h-24" src="/img/index/img2.png" alt="Logo 2">
+                            <img class="h-24 slide" src="/img/index/img2.png" alt="Logo 2">
                         </li>
                         <li class="mx-4 mt-4">
-                            <img class="h-24" src="/img/index/img3.png" alt="Logo 3">
+                            <img class="h-24 slide" src="/img/index/img3.png" alt="Logo 3">
                         </li>
                         <li class="mx-4 mt-4">
-                            <img class="h-24" src="/img/index/img4.png" alt="Logo 4">
+                            <img class="h-24 slide" src="/img/index/img4.png" alt="Logo 4">
                         </li>
                         <li class="mx-4 mt-4">
-                            <img class="h-24" src="/img/index/img5.png" alt="Logo 5">
+                            <img class="h-24 slide" src="/img/index/img5.png" alt="Logo 5">
                         </li>
                         <li class="mx-4 mt-4">
-                            <img class="h-24" src="/img/index/img6.png" alt="Logo 6">
+                            <img class="h-24 slide" src="/img/index/img6.png" alt="Logo 6">
                         </li>
                         <li class="mx-4 mt-4">
-                            <img class="h-24" src="/img/index/img7.png" alt="Logo 7">
+                            <img class="h-24 slide" src="/img/index/img7.png" alt="Logo 7">
                         </li>
                         <li class="mx-4 mt-4">
-                            <img class="h-24" src="/img/index/img8.png" alt="Logo 8">
+                            <img class="h-24 slide" src="/img/index/img8.png" alt="Logo 8">
                         </li>
                     </ul>
                     <ul x-ref="logos"

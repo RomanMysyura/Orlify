@@ -1,6 +1,5 @@
 import $ from "jquery";
 
-import hola from "./scripts.js";
 import handlePasswordValidation from "./password.js";
 
 import displayFileName from "./dropfile.js";
