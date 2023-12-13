@@ -311,7 +311,7 @@
 
 
     <?php include "footer.php" ?>
-    <script src="/js/bundle.js"></script>
+    <script src="/js/bundle.js" defer></script>
 </body>
 
 </html>
