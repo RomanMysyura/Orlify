@@ -1,41 +1,21 @@
-document.addEventListener('DOMContentLoaded', function () {
-    const slider = document.getElementById('slider');
+const slider = document.getElementById('slider');
 
-    if (!slider) {
-        console.error("No se encontró ningún elemento con el ID 'slider'");
-        return;
-    }
+// Configuración del slider
+const intervaloTiempo = 2000; // Intervalo de tiempo en milisegundos (2 segundos en este caso)
 
-    const slides = Array.from(slider.querySelectorAll('.slide'));
-    const anchoSlide = slides[0].offsetWidth;
+export function moverSlider() {
+    const anchoSlide = document.querySelector('.slide').offsetWidth;
+    slider.style.transition = 'transform 0.8s ease-in-out';
+    slider.style.transform = `translateX(-${anchoSlide}px)`;
 
-    if (slides.length < 2) {
-        console.error("El slider debe tener al menos dos elementos con la clase 'slide'");
-        return;
-    }
+    // Cuando la animación de transición ha terminado, mueve el primer slide al final
+    setTimeout(() => {
+        const primerSlide = slider.firstElementChild;
+        slider.appendChild(primerSlide);
+        slider.style.transition = 'none';
+        slider.style.transform = 'translateX(0)';
+    }, 800); // Ajusta el tiempo de espera a la duración de la transición
+}
 
-    function moverSlider() {
-        slider.style.transition = `transform 0.8s ease-in-out`;
-        slider.style.transform = `translateX(-${anchoSlide}px)`;
-
-        function transitionEndHandler() {
-            slider.style.transition = 'none';
-            slider.style.transform = 'translateX(0)';
-
-            const removedSlide = slides.shift();
-            slides.push(removedSlide);
-
-            slides.forEach((slide, index) => {
-                slide.style.left = `${index * anchoSlide}px`;
-            });
-
-            slider.removeEventListener('transitionend', transitionEndHandler);
-        }
-
-        slider.addEventListener('transitionend', transitionEndHandler);
-    }
-
-    setInterval(() => {
-        moverSlider();
-    }, 2000);
-});
+// Inicia el slider automáticamente
+setInterval(moverSlider, intervaloTiempo);
