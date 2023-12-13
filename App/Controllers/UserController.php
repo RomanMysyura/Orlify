@@ -139,20 +139,14 @@ class UserController
 
             // Asociar el usuario al grupo en la tabla user_groups
             $usersModel->assignUserToGroup($userId, $groupId);
-              // Verifica si el usuario ya tiene un token
-              $existingToken = $usersModel->getUserToken($userId);
+
     
               // Si no tiene un token, genera uno nuevo y guárdalo
-              if (empty($existingToken)) {
                   // Genera un token único
                   $token = uniqid();
       
                   // Guarda el token en la base de datos
                   $usersModel->saveUserToken($userId, $token);
-              } else {
-                  // Si ya tiene un token, utiliza el existente
-                  $token = $existingToken;
-              }
 
             return $response;
         }
@@ -178,8 +172,11 @@ class UserController
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $response->set("error_message_register", "La conta creada correctament");
             $response->SetTemplate("paneldecontrol.php");
-            $usersModel->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
-
+            $userId=$usersModel->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
+            $token = uniqid();
+      
+            // Guarda el token en la base de datos
+            $usersModel->saveUserToken($userId, $token);
 
             return $response;
         }
@@ -702,14 +699,27 @@ public function sendRecoveryEmail($request, $response, $container) {
         // Almacena el token en la base de datos
         $emailModel->storeToken($email, $token);
 
-        // Envía el correo electrónico de recuperación con el token
-        $emailModel->RecoveryEmail($email, $token);
+        // Intenta enviar el correo electrónico de recuperación con el token
+        try {
+            $emailModel->RecoveryEmail($email, $token);
 
-        echo "Correo enviado correctamente a $email";
-    } else {
-        echo "La dirección de correo electrónico no existe en nuestra base de datos.";
+            // Se ha enviado un correo para recuperar la contraseña
+            $response->SetTemplate("sendemail.php");
+            return $response;
+
+        } catch (\Exception $e) {
+            // Manejar el error de manera segura (puede registrar en un archivo de registro)
+            $response->SetTemplate("erroremail.php");
+            return $response;
+        }
     }
+
+    // Si el correo no existe, redirige a la página de error
+    $response->SetTemplate("erroremail.php");
+    return $response;
 }
+
+
 public function newpass($request, $response, $container)
 {
     $usersModel = $container["\App\Models\usersPDO"];

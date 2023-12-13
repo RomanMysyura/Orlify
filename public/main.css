@@ -3010,6 +3010,10 @@ details.collapse summary::-webkit-details-marker {
   margin-left: auto;
   margin-right: auto;
 }
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
 .my-4 {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -3250,19 +3254,6 @@ details.collapse summary::-webkit-details-marker {
 }
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-@keyframes infinite-scroll {
-
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(-100%);
-  }
-}
-.animate-infinite-scroll {
-  animation: infinite-scroll 25s linear infinite;
 }
 .cursor-pointer {
   cursor: pointer;
