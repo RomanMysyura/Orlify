@@ -63,6 +63,17 @@ class Orles
         return $result;
     }
 
+    public function getUsersInOrla($orla_id)
+    {
+        $stmt = $this->sql->prepare("SELECT user_id FROM orla_users WHERE orla_id = :orla_id");
+        $stmt->bindParam(":orla_id", $orla_id);
+        $stmt->execute();
+        $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+        return $result;
+    }
+    
+    
+    
 
     
     public function getOrlaName($orla_id)
@@ -73,6 +84,7 @@ class Orles
         $result = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $result["name_orla"];
     }
+
     public function getStatusOrla($orla_id)
 {
     $stmt = $this->sql->prepare("SELECT status FROM orla WHERE id = :orla_id");

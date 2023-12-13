@@ -67,6 +67,16 @@ class UsersPDO
         return $group['group_name'] ?? null;
         
     }
+    public function getGroupsProf($userId)
+{
+    $query = "SELECT group_id FROM user_groups WHERE user_id = :user_id";
+    $statement = $this->sql->prepare($query);
+    $statement->bindParam(':user_id', $userId, \PDO::PARAM_INT);
+    $statement->execute();
+    $groups = $statement->fetchAll(\PDO::FETCH_ASSOC);
+    return array_column($groups, 'group_id');
+}
+
 
     public function getGroupByUserId($userId)
     {

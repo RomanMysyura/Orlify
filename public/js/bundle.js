@@ -170,4 +170,8 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /******/ 	var __webpack_exports__ = __webpack_require__("./App/js/index.js");
 /******/ 	
 /******/ })()
+<<<<<<< HEAD
 ;
+=======
+;
+>>>>>>> feature-import-pdf_v7
