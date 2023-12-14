@@ -5,38 +5,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/main.css">
+    <style>
+    /* Agrega reglas CSS para el fondo */
+    .card {
+        background-image: url('../img/carnet.jpg');
+        /* Reemplaza 'ruta/a/tu/carpeta/' con la ruta correcta */
+        background-size: cover;
+        background-position: center;
+    }
+
+    /* Establece el color blanco para el texto en las etiquetas h3 y p */
+    .card h3,
+    .card p {
+        color: white;
+    }
+
+    /* Aumenta el z-index de la imagen del usuario */
+    .user-photo {
+        z-index: 2;
+        /* Ajusta según sea necesario */
+    }
+    </style>
     <title>Crear Carnet</title>
 </head>
 
 <body class="bg-gray-200">
     <?php include "navbar.php" ?>
 
-    <div class="card w-2/6 bg-white shadow-xl mx-auto mt-20 overflow-hidden rounded-lg text-center relative">
-    <div class="border-b border-black w-90">
-        <div class="flex items-start justify-start ml-4 mt-4">
-            <img src="img/logo.png" alt="Logo" class="w-12 h-12 object-cover">
-            <div class="mx-auto">
-                <h1 class="text-2xl font-bold mt-2 mb-2 text-black mr-8">CARNET</h1>
+
+
+
+
+    <div class="w-full mt-20 dark:bg-slate-800 gap-6 flex items-center justify-center h-80">
+        <div
+            class="profilecard bg-gray-100 dark:bg-gray-700 relative shadow-xl overflow-hidden hover:shadow-2xl group rounded-xl p-5 transition-all duration-500 transform flex items-center">
+          
+            <div class="flex items-center gap-4">
+                <img src="../<?= $photo[0]['url'] ?>"
+                    class="w-32 group-hover:w-36 group-hover:h-36 h-32 object-center object-cover rounded-full transition-all duration-500 delay-500 transform" />
+                <div class="w-fit transition-all transform duration-500">
+                    <h1 class="text-gray-600 dark:text-gray-200 font-bold text-3xl">
+                        <?= $user['surname']; ?> <?= $user['name']; ?>
+                    </h1>
+                    <p class="text-gray-400 text-2xl"><?= $user['role']; ?></p>
+                    <a
+                        class="text-xl text-gray-500 dark:text-gray-200 group-hover:opacity-100 opacity-0 transform transition-all delay-300 duration-500">
+                        <?= $user['email']; ?>
+                    </a>
+                    <br>
+                    <a
+                        class="text-xl text-gray-500 dark:text-gray-200 group-hover:opacity-100 opacity-0 transform transition-all delay-300 duration-500">
+                        <?= isset($group) ? $group : 'N/A'; ?>
+                    </a>
+                </div>
+            </div>
+            <div class="flex items-center justify-end mt-4 ml-auto">
+                <img src="/img/QrCodeCarnet.png" alt=""
+                    class="w-28 h-28 object-cover rounded-full transition-all duration-500 delay-500 transform" />
             </div>
         </div>
-    </div>
-    <div class="flex">
-        <img src="img/user.png" alt="Imagen de perfil" class="w-32 h-32 object-cover rounded-bl mb-6">
-        <div class="card-body flex-grow ml-4 p-4 text-left flex justify-between">
-            <div>
-                <h2 class="card-title text-black ml-20"><?= $user['name']; ?></h2>
-                <h2 class="card-title text-black ml-20"><?= $user['surname']; ?></h2>
-                <h2 class="card-title text-black ml-20"><?= isset($group) ? $group : '' ?></h2>
-            </div>
-        </div>
-        <img src="img/qr.png" alt="Ejemplo" class="w-24 h-24 object-cover mr-6 mt-4">
-    </div>
-    <div class="card-actions justify-end bg-black text-white p-4 rounded-b-lg absolute bottom-0 w-full">
-    </div>
-</div>
 
 
-
+    </div>
     <?php include "footer.php" ?>
 </body>
 

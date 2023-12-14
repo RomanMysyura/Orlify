@@ -18,32 +18,36 @@
             <input type="hidden" name="id" value="<?= $user['id'] ?>">
             <div class="card-body items-center text-center">
                 <div class="tooltip avatar" data-tip="Editar foto">
-                    <div class="w-24 rounded-full">
-                        <a href="/photo"><img src="../img/3.jpeg" /></a>
+                    <div class="w-32 rounded-full">
+                        <?php if (!empty($userPhoto)): ?>
+                        <a href="/photo"><img src="<?= $userPhoto[0]["url"] ?>" alt="foto de perfil" /></a>
+                        <?php else: ?>
+                            <img src="../img/user2.png"/>
+                        <?php endif; ?>
                     </div>
                 </div>
                 <h2 class="text-center text-lg font-bold mb-5">Les meves dades</h2>
 
-                <label for="nombre">Nom:</label>
-                <input type="text" id="name" name="name"
+                <input type="text" title="name" id="name" name="name"
                     class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
                     placeholder="Nom" value="<?= $user['name'] ?>">
 
-                <label for="cognom">Cognom:</label>
-                <input type="text" id="surname" name="surname"
+                <input type="text" title="surname" id="surname" name="surname"
                     class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
                     placeholder="Cognom" value="<?= $user['surname'] ?>">
 
-                <label for="email">Email:</label>
-                <input type="text" id="email" name="email"
+                <input type="text" id="email" title="email" name="email"
                     class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
                     placeholder="email" value="<?= $user['email'] ?>">
-                <label for="email">telefon:</label>
-                <input type="text" id="phone" name="phone"
+
+                <input type="text" id="phone" title="phone" name="phone"
                     class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
                     placeholder="telefon" value="<?= $user['phone'] ?>">
-                    <label for="group">Grup:</label>
-<input type="text" id="group" name="group" class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300" placeholder="Grup" value="<?= isset($group) ? $group : '' ?>">
+
+                <input type="text" id="group" title="grup" name="group"
+                    class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300"
+                    placeholder="Grup" value="<?= isset($group) ? $group : '' ?>" readonly>
+
 
 
                 <div class="card-actions justify-end mt-5">

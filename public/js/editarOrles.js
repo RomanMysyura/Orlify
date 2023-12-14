@@ -1,55 +1,70 @@
-const video = document.getElementById('video');
-const captureButton = document.getElementById('captureButton');
-const canvas = document.getElementById('canvas');
-const downloadLink = document.getElementById('downloadLink');
-const screenshotsContainer = document.getElementById('screenshotsContainer');
-const context = canvas.getContext('2d');
-let isCameraOpen = false;
+document.addEventListener('DOMContentLoaded', function () {
+    const $camButton = document.getElementById('cam');
+    const $captureButton = document.getElementById('capture');
+    const $video = document.getElementById('video');
+    const $canvas = document.getElementById('canvas');
+    const $form = document.getElementById('myForm');
 
-// Función para abrir/cerrar la cámara
-function toggleCamera() {
-    if (isCameraOpen) {
-        // Detener la transmisión de la cámara
-        const stream = video.srcObject;
-        const tracks = stream.getTracks();
+    let isCameraOpen = false;
 
-        tracks.forEach(track => track.stop());
-        video.srcObject = null;
+    const tieneSoporteUserMedia = () =>
+        !!(navigator.getUserMedia || (navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia) || navigator.webkitGetUserMedia || navigator.msGetUserMedia);
 
-        // Ocultar el botón de captura, el enlace de descarga y las imágenes
-        captureButton.style.display = 'none';
-        downloadLink.style.display = 'none';
-        screenshotsContainer.innerHTML = '';
-    } else {
-        // Obtener la corriente de la cámara y mostrarla en el elemento de video
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then((stream) => {
-                video.srcObject = stream;
-                // Mostrar el botón de captura después de abrir la cámara
-                captureButton.style.display = 'inline-block';
-            })
-            .catch((error) => {
-                console.error('Error al acceder a la cámara:', error);
-            });
-    }
+    const _getUserMedia = (...arguments) =>
+        (navigator.getUserMedia || (navigator.mozGetUserMedia || navigator.mediaDevices.getUserMedia) || navigator.webkitGetUserMedia || navigator.msGetUserMedia).apply(navigator, arguments);
 
-    // Cambiar el estado de la cámara
-    isCameraOpen = !isCameraOpen;
-}
+    const mostrarStream = () => {
+        if (!isCameraOpen) {
+            _getUserMedia(
+                { video: true },
+                (streamObtenido) => {
+                    $video.style.display = 'block';
+                    $video.srcObject = streamObtenido;
+                    $video.play();
+                    $captureButton.style.display = 'block';
+                    $camButton.textContent = 'Tancar càmera';
+                    isCameraOpen = true;
+                },
+                (error) => {
+                    console.log("Permiso denegado o error: ", error);
+                }
+            );
+        } else {
+            if ($video.srcObject) {
+                const tracks = $video.srcObject.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+            $video.style.display = 'none';
+            $captureButton.style.display = 'none';
+            $camButton.textContent = 'Obrir càmera';
+            isCameraOpen = false;
+        }
+    };
 
-// Capturar una foto cuando se hace clic en el botón
-captureButton.addEventListener('click', () => {
-    // Dibujar el fotograma actual del video en el lienzo
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    $camButton.addEventListener('click', () => {
+        mostrarStream();
+    });
 
-    // Mostrar el enlace de descarga y configurar la imagen
-    const imageDataURL = canvas.toDataURL('image/png');
-    downloadLink.href = imageDataURL;
-    downloadLink.download = 'captura.png';
-    downloadLink.style.display = 'inline-block';
+    $captureButton.addEventListener('click', () => {
+        $video.pause();
+        let contexto = $canvas.getContext("2d");
+        $canvas.width = $video.videoWidth;
+        $canvas.height = $video.videoHeight;
+        contexto.drawImage($video, 0, 0, $canvas.width, $canvas.height);
+        let foto = $canvas.toDataURL();
+        let enlace = document.createElement('a');
+        enlace.download = "foto.png";
+        enlace.href = foto;
+        enlace.click();
+        $video.play();
+    });
 
-    // Crear un nuevo elemento img y agregarlo al contenedor de imágenes capturadas
-    const img = document.createElement('img');
-    img.src = imageDataURL;
-    screenshotsContainer.prepend(img);
+    $form.addEventListener('submit', function (event) {
+        if (isCameraOpen) {
+            event.preventDefault();
+            alert('Por favor, cierra la cámara antes de enviar el formulario.');
+        }
+    });
 });
+
+

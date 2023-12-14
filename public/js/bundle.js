@@ -19,14 +19,36 @@ eval("var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!\n * jQ
 
 /***/ }),
 
-/***/ "./App/js/example.ts":
-/*!***************************!*\
-  !*** ./App/js/example.ts ***!
-  \***************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/***/ "./App/js/camara.js":
+/*!**************************!*\
+  !*** ./App/js/camara.js ***!
+  \**************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   Example: () => (/* binding */ Example),\n/* harmony export */   obj: () => (/* binding */ obj)\n/* harmony export */ });\nvar Example = /** @class */ (function () {\n    function Example(nameBook, years) {\n        this.nameBook = nameBook;\n        this.years = years;\n    }\n    return Example;\n}());\nvar obj = new Example(\"Meditation\", 2023);\n\n\n\n//# sourceURL=webpack:///./App/js/example.ts?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   toggleCamera: () => (/* binding */ toggleCamera)\n/* harmony export */ });\nfunction toggleCamera() {\r\n    const video = document.getElementById('video');\r\n    const captureButton = document.getElementById('captureButton');\r\n    const canvas = document.getElementById('canvas');\r\n    const downloadLink = document.getElementById('downloadLink');\r\n    const screenshotsContainer = document.getElementById('screenshotsContainer');\r\n    const context = canvas ? canvas.getContext('2d') : null;\r\n    let isCameraOpen = false;\r\n\r\n    // Resto del código ...\r\n\r\n    // Capturar una foto cuando se hace clic en el botón\r\n    if (canvas) {\r\n        captureButton.addEventListener('click', () => {\r\n            // Dibujar el fotograma actual del video en el lienzo\r\n            context.drawImage(video, 0, 0, canvas.width, canvas.height);\r\n\r\n            // Mostrar el enlace de descarga y configurar la imagen\r\n            const imageDataURL = canvas.toDataURL('image/png');\r\n            downloadLink.href = imageDataURL;\r\n            downloadLink.download = 'captura.png';\r\n            downloadLink.style.display = 'inline-block';\r\n\r\n            // Crear un nuevo elemento img y agregarlo al contenedor de imágenes capturadas\r\n            const img = document.createElement('img');\r\n            img.src = imageDataURL;\r\n            screenshotsContainer.prepend(img);\r\n        });\r\n    }\r\n}\r\n\n\n//# sourceURL=webpack:///./App/js/camara.js?");
+
+/***/ }),
+
+/***/ "./App/js/cookie.js":
+/*!**************************!*\
+  !*** ./App/js/cookie.js ***!
+  \**************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ setCookie),\n/* harmony export */   getCookie: () => (/* binding */ getCookie),\n/* harmony export */   initializeCookieBanner: () => (/* binding */ initializeCookieBanner)\n/* harmony export */ });\n// Function to set a cookie\r\n// Function to set a cookie with SameSite=None and Secure\r\nfunction setCookie(name, value, days) {\r\n    var expires = \"\";\r\n    var sameSite = \"; SameSite=None ;Secure\";\r\n\r\n    // Añade Secure si estás utilizando HTTPS\r\n    var secureFlag = location.protocol === \"https:\" ? \"; Secure\" : \"\";\r\n\r\n    if (days) {\r\n        var date = new Date();\r\n        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));\r\n        expires = \"; expires=\" + date.toUTCString();\r\n    }\r\n\r\n    document.cookie = name + \"=\" + value + expires + sameSite + secureFlag + \"; path=/\";\r\n}\r\n\r\nfunction getCookie(name) {\r\n    var nameEQ = name + \"=\";\r\n    var ca = document.cookie.split(';');\r\n    for (var i = 0; i < ca.length; i++) {\r\n        var c = ca[i];\r\n        while (c.charAt(0) == ' ') c = c.substring(1);\r\n        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);\r\n    }\r\n    return null;\r\n}\r\n\r\nfunction initializeCookieBanner() {\r\n    // Verificar si ya se aceptaron las cookies utilizando sessionStorage o la cookie directamente\r\n    if (sessionStorage.getItem(\"cookiesAccepted\") || getCookie('cookieAccepted')) {\r\n        var cookieBannerElement = document.getElementById(\"cookie-banner\");\r\n        if (cookieBannerElement) {\r\n            cookieBannerElement.classList.add(\"hidden\");\r\n        }\r\n    } else {\r\n        // Cuando el DOM esté cargado\r\n        document.addEventListener(\"DOMContentLoaded\", function () {\r\n            var acceptCookiesButton = document.getElementById(\"accept-cookies\");\r\n            var cookieBannerElement = document.getElementById(\"cookie-banner\");\r\n\r\n            if (acceptCookiesButton && cookieBannerElement) {\r\n                // Manejar clic en el botón de aceptar cookies\r\n                acceptCookiesButton.addEventListener(\"click\", function () {\r\n                    // Eliminar el banner de cookies\r\n                    cookieBannerElement.classList.add(\"hidden\");\r\n\r\n                    // Marcar que las cookies fueron aceptadas (almacenar en sessionStorage)\r\n                    sessionStorage.setItem(\"cookiesAccepted\", \"true\");\r\n\r\n                    // Setear la cookie\r\n                    setCookie('cookieAccepted', 'true', 365);\r\n                });\r\n            }\r\n        });\r\n    }\r\n}\r\n\r\n// Encapsula la lógica de inicialización en una función autoejecutable\r\n(function () {\r\n    initializeCookieBanner();\r\n})();\r\n\r\n\n\n//# sourceURL=webpack:///./App/js/cookie.js?");
+
+/***/ }),
+
+/***/ "./App/js/dropfile.js":
+/*!****************************!*\
+  !*** ./App/js/dropfile.js ***!
+  \****************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ displayFileName),\n/* harmony export */   initDropFile: () => (/* binding */ initDropFile)\n/* harmony export */ });\nfunction displayFileName() {\r\n    var dropzoneInput = document.getElementById(\"dropzone-file\");\r\n    var fileNameElement = document.getElementById(\"file-name\");\r\n\r\n    if (dropzoneInput && fileNameElement) {\r\n        if (dropzoneInput.files.length > 0) {\r\n            fileNameElement.innerText = dropzoneInput.files[0].name;\r\n        } else {\r\n            fileNameElement.innerText = \"JPG, JPEG i PNG\";\r\n        }\r\n    }\r\n}\r\n\r\nfunction initDropFile() {\r\n    document.addEventListener(\"DOMContentLoaded\", function () {\r\n        var dropzoneLabel = document.getElementById(\"dropzone-label\");\r\n        var dropzoneInput = document.getElementById(\"dropzone-file\");\r\n\r\n        if (dropzoneLabel && dropzoneInput) {\r\n            dropzoneLabel.addEventListener(\"dragover\", function (e) {\r\n                e.preventDefault();\r\n                dropzoneLabel.classList.add(\"border-blue-500\");\r\n            });\r\n\r\n            dropzoneLabel.addEventListener(\"dragleave\", function () {\r\n                dropzoneLabel.classList.remove(\"border-blue-500\");\r\n            });\r\n\r\n            dropzoneLabel.addEventListener(\"drop\", function (e) {\r\n                e.preventDefault();\r\n\r\n                dropzoneLabel.classList.remove(\"border-blue-500\");\r\n\r\n                var files = e.dataTransfer.files;\r\n\r\n                if (files.length > 0) {\r\n                    dropzoneInput.files = files;\r\n                    displayFileName();\r\n                }\r\n            });\r\n        }\r\n    });\r\n}\r\n\n\n//# sourceURL=webpack:///./App/js/dropfile.js?");
 
 /***/ }),
 
@@ -37,18 +59,51 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpac
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n/* harmony import */ var _scripts_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts.js */ \"./App/js/scripts.js\");\n/* harmony import */ var _example_ts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./example.ts */ \"./App/js/example.ts\");\n\r\n\r\n\r\n\r\n\r\n\r\njquery__WEBPACK_IMPORTED_MODULE_0__(function() {\r\n    console.log('Hello World');\r\n    (0,_scripts_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])();\r\n    console.log(\"Example\", _example_ts__WEBPACK_IMPORTED_MODULE_2__.obj);\r\n});\r\n\r\n\n\n//# sourceURL=webpack:///./App/js/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n/* harmony import */ var _password_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./password.js */ \"./App/js/password.js\");\n/* harmony import */ var _dropfile_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./dropfile.js */ \"./App/js/dropfile.js\");\n/* harmony import */ var _openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./openmodalalumnes.js */ \"./App/js/openmodalalumnes.js\");\n/* harmony import */ var _cookie_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./cookie.js */ \"./App/js/cookie.js\");\n/* harmony import */ var _slider_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./slider.js */ \"./App/js/slider.js\");\n/* harmony import */ var _camara_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./camara.js */ \"./App/js/camara.js\");\n/* harmony import */ var _mousevent_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./mousevent.js */ \"./App/js/mousevent.js\");\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_3__.openModal)();\r\n(0,_dropfile_js__WEBPACK_IMPORTED_MODULE_2__.initDropFile)();\r\n(0,_password_js__WEBPACK_IMPORTED_MODULE_1__[\"default\"])();\r\n(0,_dropfile_js__WEBPACK_IMPORTED_MODULE_2__[\"default\"])();\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_3__.closeModal)();\r\n(0,_openmodalalumnes_js__WEBPACK_IMPORTED_MODULE_3__.searchAlumne)();\r\n(0,_cookie_js__WEBPACK_IMPORTED_MODULE_4__[\"default\"])();\r\n(0,_cookie_js__WEBPACK_IMPORTED_MODULE_4__.getCookie)();\r\n(0,_cookie_js__WEBPACK_IMPORTED_MODULE_4__.initializeCookieBanner)();\r\n(0,_slider_js__WEBPACK_IMPORTED_MODULE_5__.moverSlider)();\r\n(0,_camara_js__WEBPACK_IMPORTED_MODULE_6__.toggleCamera)();\r\n(0,_mousevent_js__WEBPACK_IMPORTED_MODULE_7__.setupMouseEvents)();\r\n\n\n//# sourceURL=webpack:///./App/js/index.js?");
 
 /***/ }),
 
-/***/ "./App/js/scripts.js":
-/*!***************************!*\
-  !*** ./App/js/scripts.js ***!
-  \***************************/
+/***/ "./App/js/mousevent.js":
+/*!*****************************!*\
+  !*** ./App/js/mousevent.js ***!
+  \*****************************/
 /***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\r\nwindow.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0__;\r\n\r\n\r\n\r\n\r\n\n\n//# sourceURL=webpack:///./App/js/scripts.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   setupMouseEvents: () => (/* binding */ setupMouseEvents)\n/* harmony export */ });\nfunction setupMouseEvents() {\r\n    const infoButton = document.getElementById('infoButton');\r\n    const infoContainer = document.getElementById('infoContainer');\r\n\r\n    // Verificar si los elementos existen antes de agregar eventos\r\n    if (infoButton && infoContainer) {\r\n        // Agregar evento al pasar el ratón sobre el botón\r\n        infoButton.addEventListener('mouseover', function() {\r\n            // Mostrar el contenedor de información\r\n            infoContainer.classList.remove('invisible');\r\n        });\r\n\r\n        // Agregar evento al quitar el ratón del botón\r\n        infoButton.addEventListener('mouseout', function() {\r\n            // Ocultar el contenedor de información\r\n            infoContainer.classList.add('invisible');\r\n        });\r\n    }\r\n}\r\n\r\n// Llama a la función para agregar los eventos\r\nsetupMouseEvents();\r\n\n\n//# sourceURL=webpack:///./App/js/mousevent.js?");
+
+/***/ }),
+
+/***/ "./App/js/openmodalalumnes.js":
+/*!************************************!*\
+  !*** ./App/js/openmodalalumnes.js ***!
+  \************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   closeModal: () => (/* binding */ closeModal),\n/* harmony export */   openModal: () => (/* binding */ openModal),\n/* harmony export */   searchAlumne: () => (/* binding */ searchAlumne)\n/* harmony export */ });\nfunction openModal() {\r\n\r\n    console.log(\"hola\")\r\n\r\n\r\n    const modalsFotos = document.querySelectorAll('.modalFoto');\r\n\r\n    modalsFotos.forEach(modal => {\r\n\r\n        modal.addEventListener(\"click\", () => {\r\n            const userId = modal.getAttribute('data-user-id');\r\n            // Obtener el elemento del título del modal\r\n            var modalTitle = document.getElementById('modalTitle');\r\n    \r\n            // Actualizar el contenido del título con el valor de userId\r\n            modalTitle.innerText = 'User ID: ' + userId;\r\n    \r\n            // Obtener el elemento de entrada oculta para el user_id en el formulario\r\n            var userIdInput = document.getElementById('userIdInput');\r\n    \r\n            // Actualizar el valor del campo user_id en el formulario\r\n            userIdInput.value = userId;\r\n    \r\n            // Mostrar el modal\r\n            document.getElementById('my_modal_2').showModal();\r\n        })\r\n    })\r\n}\r\n\r\nfunction closeModal() {\r\n    console.log(\"holasds\");\r\n    // Cerrar el modal\r\n    document.getElementById(\"modalCancelar\").addEventListener(() => {\r\n\r\n    })\r\n\r\n}\r\n\r\n\r\n\r\nfunction searchAlumne() {\r\n    \r\n};\n\n//# sourceURL=webpack:///./App/js/openmodalalumnes.js?");
+
+/***/ }),
+
+/***/ "./App/js/password.js":
+/*!****************************!*\
+  !*** ./App/js/password.js ***!
+  \****************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   handlePasswordValidation: () => (/* binding */ handlePasswordValidation)\n/* harmony export */ });\n/* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js\");\n\r\nwindow.$ = window.jQuery = jquery__WEBPACK_IMPORTED_MODULE_0__;\r\n\r\nconsole.log(\"password.js loaded\");\r\n\r\n// La expresión regular para validar la contraseña\r\nvar pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[$@$!%*?&_.,|\\\\\\/¿¡~¬[\\]{};])[A-Za-z\\d$@$!%*?&_.,|\\\\\\/¿¡~¬[\\]{};]{6,13}[^'\\s]/;\r\n\r\n// Función para manejar la validación de la contraseña\r\nfunction handlePasswordValidation() {\r\n    var password = $(this).val();\r\n    console.log(password);\r\n\r\n    if (pattern.test(password)) {\r\n        $(\"#mss\").html(\"Contrasenya vàlida\").css({\r\n            \"color\": \"green\",\r\n            \"border\": \"1px solid green\",\r\n            \"border-radius\": \"3px\",\r\n            \"margin-top\": \"5px\",\r\n            \"padding\": \"5px\",\r\n            \"max-width\": \"170px\",  // Establecer un ancho máximo\r\n            \"text-align\": \"left\"   // Alineado a la izquierda\r\n        });\r\n        // Quita el manejo del evento click en el botón (permitiendo el envío del formulario)\r\n        $(\"#btnEnviar\").prop(\"disabled\", false);\r\n    } else {\r\n        $(\"#mss\").html(\"Contrasenya invàlida\").css({\r\n            \"color\": \"red\",\r\n            \"border\": \"1px solid red\",\r\n            \"border-radius\": \"3px\",\r\n            \"margin-top\": \"5px\",\r\n            \"padding\": \"5px\",\r\n            \"max-width\": \"170px\",  // Establecer un ancho máximo\r\n            \"text-align\": \"left\"   // Alineado a la izquierda\r\n        });\r\n        // Deshabilita el botón de enviar si la contraseña no es válida\r\n        $(\"#btnEnviar\").prop(\"disabled\", true);\r\n    }\r\n}\r\n\r\n// Asigna el evento 'input' al campo de contraseña\r\n$('#password').on('keyup', handlePasswordValidation);\r\n\r\n\n\n//# sourceURL=webpack:///./App/js/password.js?");
+
+/***/ }),
+
+/***/ "./App/js/slider.js":
+/*!**************************!*\
+  !*** ./App/js/slider.js ***!
+  \**************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n\n\n//# sourceURL=webpack:///./App/js/slider.js?");
 
 /***/ })
 
