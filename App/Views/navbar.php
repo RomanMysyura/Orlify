@@ -44,18 +44,19 @@
                                 </div>
 
                             </div>
+                            <?php if ($_SESSION["role"] == "Equip Directiu"): ?>
                             <a href="/panel-de-control"
                                 class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Panel
                                 de control</a>
-
-                            <?php if ($_SESSION["role"] == "Professor"): ?>
+                                <?php endif; ?>
+                                <?php if ($_SESSION["role"] == "Professor" || $_SESSION["role"] == "Equip Directiu"): ?>
                             <a href="/orles"
                                 class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Editor
                                 de orles</a>
                             <?php endif; ?>
-                            
-                            <?php if ($_SESSION["role"] == "Professor"): ?>
-                            <a href="/orles"
+
+                            <?php if ($_SESSION["role"] == "Alumne"): ?>
+                            <a href="/meves-orles"
                                 class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Les meves orles</a>
                             <?php endif; ?>
 

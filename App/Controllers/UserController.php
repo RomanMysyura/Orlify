@@ -185,11 +185,6 @@ class UserController
         return $response;
     }
 
-    public function updateUser($request, $response, $container)
-    {
-        $response->SetTemplate("index.php");
-        return $response;
-    }
 
     public function uploadUser($request, $response, $container)
     {
