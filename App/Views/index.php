@@ -76,6 +76,7 @@
                             <img class="h-24 slide" src="/img/index/img8.png" alt="Logo 8">
                         </li>
                     </ul>
+
                     <ul x-ref="logos"
                         class="flex items-center justify-center md:justify-start [&_li]:mx-4 mt-4 [&_img]:max-w-none animate-infinite-scroll"
                         aria-hidden="true">

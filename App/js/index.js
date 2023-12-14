@@ -11,9 +11,9 @@ import { searchAlumne } from "./openmodalalumnes.js";
 import setCookie from "./cookie.js";
 import {getCookie} from "./cookie.js";
 import {initializeCookieBanner} from "./cookie.js";
-import moverSlider from "./slider.js";
-import toggleCamera from "./camara.js";
-import {mousevent} from "./mousevent.js";
+import {moverSlider} from "./slider.js";
+import {toggleCamera} from "./camara.js";
+import {setupMouseEvents} from "./mousevent.js";
 
 openModal();
 initDropFile();
@@ -26,4 +26,4 @@ getCookie();
 initializeCookieBanner();
 moverSlider();
 toggleCamera();
-mousevent();
+setupMouseEvents();
