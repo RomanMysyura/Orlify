@@ -53,6 +53,7 @@ $app->get("panel-de-control", [NavigationController::class,"panelDeControl"]);
 $app->post("updateUser", [UserController::class,"updateUser"]);
 $app->post("uploadUserAdmin", [UserController::class,"uploadUserAdmin"]);
 $app->post("uploadPhoto", [UserController::class,"uploadPhoto"]);
+$app->post("uploadPhotoFromFileEdit", [UserController::class,"uploadPhotoFromFileEdit"]);
 $app->post("uploadPhotoFromFile", [UserController::class,"uploadPhotoFromFile"]);
 $app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"]);
 $app->post("PanelUploadUser", [UserController::class,"PanelUploadUser"]);

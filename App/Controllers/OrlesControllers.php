@@ -201,6 +201,8 @@ public function UploadOrla($request, $response, $container)
 
 
     $grupsModel = $container["\App\Models\usersPDO"];
+    $OrlaModel->UploadOrla($orla_id, $name_orla, $status, $url, $group_name);
+
     $users = $usersModel->getAllUsers();
     $errors = $errorModel->geterror();
     $orles = $OrlaModel->getAllOrles();
@@ -208,7 +210,6 @@ public function UploadOrla($request, $response, $container)
  
     $photo = $photoModel->getUserSelectedPhoto($userId);
 
-    $OrlaModel->UploadOrla($orla_id, $name_orla, $status, $url, $group_name);
     
     
 
@@ -237,6 +238,7 @@ public function UploadOrla($request, $response, $container)
     $response->set("photo", $photo);
 
     
+  
 
     $response->SetTemplate("paneldecontrol.php");
     return $response;
@@ -246,21 +248,61 @@ public function UploadOrla($request, $response, $container)
 public function eliminarPhoto($request, $response, $container)
 {
     $photo_id = $_GET['id']; // Obtener el ID de la orla desde la URL
+    $userId = $_SESSION["user_id"];
+    $OrlaModel = $container["\App\Models\Orles"];
+    $usersModel = $container["\App\Models\usersPDO"];
+    $errorModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
+
+
+    $grupsModel = $container["\App\Models\usersPDO"];
+    $users = $usersModel->getAllUsers();
+    $errors = $errorModel->geterror();
+    $orles = $OrlaModel->getAllOrles();
+    $grups = $grupsModel->getAllGroups();
+ 
+    $photo = $photoModel->getUserSelectedPhoto($userId);
     $OrlaModel = $container["\App\Models\Orles"];
     $OrlaModel->eliminarPhoto($photo_id);
-    $userId = $_SESSION["user_id"];
+   
+    foreach ($users as &$user) {
+        $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+        $groups = $usersModel->getGroupByUserId($user["id"]);
+    
+        if ($groups !== null) {
+            $user["groups"] = $groups;
+        } else {
+            $user["groups"] = 'Sense grup';
+        }
+    }
+
+    
+    foreach ($grups as &$grup) {
+        $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
+    }
+
+    $response->set("users", $users);
+    $response->set("errors", $errors);
+    $response->set("orles", $orles);
+    $response->set("grups", $grups);
+    $response->set("photo", $photo);
+
     $response->SetTemplate("paneldecontrol.php");
     return $response;
 }
 public function descarregarOrla($request, $response, $container)
 {
+    // Obtener el ID de la orla
     $orla_id = $request->getParam("id");
+
+    // Obtener el formato de impresión deseado (por defecto, A4 si no se proporciona)
+    $formato_impresion = $request->getParam("formato_impresion", "A4");
 
     $OrlaModel = $container["\App\Models\Orles"];
     $orlaData = $OrlaModel->getOrlaById($orla_id);
 
-    // Utilizar la clase \Mpdf\Mpdf
-    $pdf = new \Mpdf\Mpdf();
+    // Utilizar la clase \Mpdf\Mpdf con el formato de impresión deseado
+    $pdf = new \Mpdf\Mpdf(['format' => $formato_impresion]);
 
     // Opciones del PDF
     $pdf->SetCreator('Your Name');
@@ -287,14 +329,43 @@ public function descarregarOrla($request, $response, $container)
     header('Content-Type: application/pdf');
     header('Content-Disposition: attachment; filename="orla.pdf"');
 
+    if ($formato_impresion === 'A4') {
+        $columnStyleBase = 'float:left; width: 120px; height: 150px; border-radius: 5px; margin-top: 0;';
+        $imageWidth = 80;
+        $imageHeight = 100;
+        $columnCountLimit = 8;
+        $headerSize = 24;
+        $headerMarginTop = 2;
+        $NameSize = 12;
+        $ColumnMarginLeft = 10;
+    } elseif ($formato_impresion === 'A3') {
+        $columnStyleBase = 'float:left; width: 160px; height: 200px; border-radius: 5px; margin-top: 0;';
+        $imageWidth = 120;
+        $imageHeight = 150;
+        $columnCountLimit = 8;
+        $headerSize = 32;
+        $headerMarginTop = 26;
+        $NameSize = 16;
+        $ColumnMarginLeft = 50;
+    } elseif ($formato_impresion === 'A2') {
+        $columnStyleBase = 'float:left; width: 190px; height: 250px; border-radius: 5px; margin-top: 0;';
+        $imageWidth = 150;
+        $imageHeight = 190;
+        $columnCountLimit = 7;
+        $headerSize = 48;
+        $headerMarginTop = 125;
+        $NameSize = 24;
+        $ColumnMarginLeft = 220;
+    }
+
     // Iniciar el contenido HTML
     $html = '<body style="font-family: Arial, sans-serif; margin: 0; padding: 0; text-align: center;">';
 
-    $html .= '<header style="background-color: rgba(255, 255, 255, 0);  padding: 2px;">';
-    $html .= '<h1 style="color: #000000; font-size: 24pt; text-align: center; font-style: italic;">' . $orlaData['name_orla'] . '</h1>';
+    $html .= '<header style="background-color: rgba(255, 255, 255, 0);  padding: ' . $headerMarginTop . 'px;">';
+    $html .= '<h1 style="color: #000000; font-size: ' . $headerSize . 'pt; text-align: center; font-style: italic;">' . $orlaData['name_orla'] . '</h1>';
     $html .= '</header>';
 
-    $html .= '<div style="margin-left: 8px; margin-right: 8px; border-radius: 5px; display: flex; justify-content: center; text-align: center;" class="container">';
+    $html .= '<div style="margin-left: ' . $ColumnMarginLeft . 'px; margin-right: 8px; border-radius: 5px; display: flex; justify-content: center; text-align: center;" class="container">';
     $html .= '<div style="display: flex; flex-wrap: wrap;">';
 
     $columnCount = 0; // Contador para rastrear el número de columnas en la fila actual
@@ -302,21 +373,21 @@ public function descarregarOrla($request, $response, $container)
     foreach ($photos as $photo) {
         if ($photo['role'] == 'Professor') {
             // Determinar el estilo de la columna
-            $columnStyle = 'float:left; width: 120px; height: 150px; border-radius: 5px; margin-top: 0;';
+            $columnStyle = $columnStyleBase;
 
-            // Calcular el margen izquierdo proporcional al número de fotos por línea
 
             // Agregar la columna al HTML con margen izquierdo
             $html .= '<div style="' . $columnStyle . '">';
-            $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name'] . '" style="width: 80px; height: 100px; margin: 5px; border-radius: 5px;">';
-            $html .= '<p style="margin-top: 3px; text-align: center; font-size: 10px;">' . $photo['user_name'] . " " . $photo['surname'] . '</p>';
+            $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name'] . '" style="width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px; margin: 5px; border-radius: 5px;">';
+            $html .= '<p style="margin-top: 3px; text-align: center; font-size: ' . $NameSize . 'px;">' . $photo['user_name'] . " " . $photo['surname'] . '</p>';
             $html .= '</div>';
+    
 
             // Aumentar el contador de columnas
             $columnCount++;
 
             // Si el contador es igual a 10, restablecerlo y agregar un estilo para bajar a la siguiente fila
-            if ($columnCount == 10) {
+            if ($columnCount == $columnCountLimit) {
                 $columnCount = 0;
                 $columnStyle .= 'clear: both;';
             }
@@ -326,27 +397,26 @@ public function descarregarOrla($request, $response, $container)
     $html .= '<div style="clear: both;"></div>';
 
     $html .= '<div style="margin: 0px; display: flex; justify-content: center; text-align: center;" class="">';
-    $html .= '<h6 style="color: #000000; font-size: 10pt; text-align: center; "> Institut Cendrassos - Promoció 2023-2024 </h6>';
+    $html .= '<h6 style="color: #000000; font-size: ' . $NameSize . 'px; text-align: center; "> Institut Cendrassos - Promoció 2023-2024 </h6>';
     $html .= '</div>';
 
     foreach ($photos as $photo) {
         if ($photo['role'] == 'Alumne') {
             // Determinar el estilo de la columna
-            $columnStyle = 'float:left; width: 120px; height: 150px; border-radius: 5px; margin-top: 0;';
-
+            $columnStyle = $columnStyleBase;
             // Calcular el margen izquierdo proporcional al número de fotos por línea
 
             // Agregar la columna al HTML con margen izquierdo
             $html .= '<div style="' . $columnStyle . '">';
-            $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name'] . '" style="width: 80px; height: 100px; margin: 5px; border-radius: 5px;">';
-            $html .= '<p style="margin-top: 3px; text-align: center; font-size: 10px;">' . $photo['user_name'] . " " . $photo['surname'] . '</p>';
+            $html .= '<img src="' . $photo['url'] . '" alt="' . $photo['user_name'] . '" style="width: ' . $imageWidth . 'px; height: ' . $imageHeight . 'px; margin: 5px; border-radius: 5px;">';
+            $html .= '<p style="margin-top: 3px; text-align: center; font-size: ' . $NameSize . 'px;">' . $photo['user_name'] . " " . $photo['surname'] . '</p>';
             $html .= '</div>';
 
             // Aumentar el contador de columnas
             $columnCount++;
 
             // Si el contador es igual a 30, restablecerlo y agregar un estilo para bajar a la siguiente fila
-            if ($columnCount == 30) {
+            if ($columnCount == $columnCountLimit) {
                 $columnCount = 0;
                 $columnStyle .= 'clear: both;';
             }
@@ -367,6 +437,7 @@ public function descarregarOrla($request, $response, $container)
     // Escribir el contenido del PDF en la salida
     echo $pdfContent;
 }
+
 
 
 
