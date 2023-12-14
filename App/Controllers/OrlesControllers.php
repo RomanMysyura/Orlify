@@ -65,6 +65,11 @@ class OrlesControllers
 
    
 
+
+    /**
+     * [editarOrles Funció per editar les orles]
+     * @return  [type]              [return description]
+     */
     public function editarOrles($request, $response, $container)
 {
     $userId = $_SESSION["user_id"];
