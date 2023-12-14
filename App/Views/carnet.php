@@ -9,7 +9,7 @@
     /* Agrega reglas CSS para el fondo */
     .card {
         background-image: url('../img/carnet.jpg');
-        /* Reemplaza 'ruta/a/tu/carpeta/' con la ruta correcta */
+        /* Reemplaza 'ruta/a/tu/carpeta/' con la ruta correctfa */
         background-size: cover;
         background-position: center;
     }
