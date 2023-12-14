@@ -285,23 +285,20 @@ class UserController
     public function carnetUser($request, $response, $container)
     {
         $id = $request->getParam("token");
-
+    
         $usersModel = $container["\App\Models\usersPDO"];
         $photoModel = $container["\App\Models\usersPDO"];
         $photo = $photoModel->getUserSelectedPhoto($_SESSION["user_id"]);
         $response->set("photo", $photo);
+    
         // Busca el usuario por el token
         $user = $usersModel->getUserByToken($id);
-
-        if ($user || $userId = $_SESSION["user_id"]) {
-            // Si el usuario existe o hay un token en la sesión, obtén la información
-            if (!$user) {
-                // Si no hay usuario pero hay un token en la sesión, obtén la información del usuario loggeado
-                $user = $usersModel->getUserById($userId);
-            }
-            
+    
+        // Verifica si el token existe en la base de datos
+        if ($user) {
+            // Si el usuario se encuentra por el token, obtén la información
             $group = $usersModel->getGroupForUser($user["id"]);
-            
+    
             // Pasa los datos a la vista
             $response->set("user", $user);
             $response->set("group", $group);
@@ -309,21 +306,40 @@ class UserController
            
             // Establece la plantilla
             $response->setTemplate("carnet.php");
+        } elseif (isset($_SESSION["user_id"])) {
+            // Si no se encuentra el usuario por el token pero hay un usuario iniciado sesión, muestra su información
+            $userId = $_SESSION["user_id"];
+            $user = $usersModel->getUserById($userId);
+    
+            if ($user) {
+                // Si el usuario se encuentra por la sesión, obtén la información
+                $group = $usersModel->getGroupForUser($user["id"]);
+    
+                // Pasa los datos a la vista
+                $response->set("user", $user);
+                $response->set("group", $group);
+                $response->set("uniqueUrl", "/carnet/{$user["id"]}");
+               
+                // Establece la plantilla
+                $response->setTemplate("carnet.php");
+            } else {
+                // Si no se encuentra el usuario por la sesión, muestra un mensaje de error
+                $response->set("error", "Usuario no encontrado");
+                $response->setTemplate("error.php");
+            }
         } else {
             // Si el token no coincide con ningún usuario y no hay token en la sesión, muestra un mensaje de error
-            $response->set("error", "Usuario no encontrado");
-            $response->setTemplate("error.php"); // Asegúrate de tener una plantilla para mostrar errores
+            $response->set("error", "Acceso no autorizado");
+            $response->setTemplate("error.php");
         }
-
-
+    
         return $response;
     }
     
     
     
-
-
-
+    
+    
 
     public function photoUser($request, $response, $container)
     {
