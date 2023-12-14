@@ -109,7 +109,7 @@
                                     <?= $user['groups']; ?>
                                     <?php else: ?>
                                     Sin grupo asignado
-                                    
+
                                     <?php endif; ?>
                                 </td>
                                 <td class="py-2 px-4 border-b">
@@ -185,8 +185,7 @@
             <div class="crear_usuari  flex">
 
                 <div class="w-1/2 bg-white shadow-md w-full max-w-xl mt-2 m-auto rounded px-8 pt-6 pb-8 mb-4 ">
-                    <form class=""
-                        action="/randomuser" method="post">
+                    <form class="" action="/randomuser" method="post">
                         <!-- Campos del formulario -->
                         <div class="mb-4">
                             <label class="block text-gray-700 text-md font-bold mb-4" for="username">
@@ -251,26 +250,26 @@
                     </div>
                 </div>
                 <div class="w-1/2 items-center justify-center">
-                <div id="loader"
-                    class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-200 bg-opacity-75 hidden">
-                    <l-newtons-cradle size="78" speed="1.4" color="black"></l-newtons-cradle>
-                </div>
-
-                <form id="crearUsuariosForm"
-                    class="bg-white shadow-md w-full max-w-xl mt-5 m-auto rounded px-8 pt-6 pb-8 mb-4">
-                    <label class="block text-black text-md font-bold mb-4" for="numUsuarios">
-                        Crear x número d'usuaris
-                    </label>
-                    <input id="numUsuarios" name="numUsuarios" type="text" placeholder="Número d'usuaris"
-                        class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
-                    <div class="mt-5 flex items-center justify-center">
-                        <button id="crearUsuariosBtn"
-                            class="btn btn-outline inline-flex mt-2 items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
-                            type="button">
-                            Crear
-                        </button>
+                    <div id="loader"
+                        class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-200 bg-opacity-75 hidden">
+                        <l-newtons-cradle size="78" speed="1.4" color="black"></l-newtons-cradle>
                     </div>
-                </form>
+
+                    <form id="crearUsuariosForm"
+                        class="bg-white shadow-md w-full max-w-xl mt-5 m-auto rounded px-8 pt-6 pb-8 mb-4">
+                        <label class="block text-black text-md font-bold mb-4" for="numUsuarios">
+                            Crear x número d'usuaris
+                        </label>
+                        <input id="numUsuarios" name="numUsuarios" type="text" placeholder="Número d'usuaris"
+                            class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
+                        <div class="mt-5 flex items-center justify-center">
+                            <button id="crearUsuariosBtn"
+                                class="btn btn-outline inline-flex mt-2 items-center justify-center h-10 px-6 font-medium tracking-wide text-white transition duration-200 bg-black rounded-lg hover:bg-gray-800 focus:shadow-outline focus:outline-none"
+                                type="button">
+                                Crear
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -311,7 +310,7 @@
                                 </td>
                                 <td class="py-2 px-4 border-b">
                                     <button class="btn bg-white w-16">
-                                        <a href="/downloadpdf?id=<?= $orla['orla_id']; ?>">
+                                        <a href="/descarregar-orla/<?= $orla['orla_id'] ?>/A4">
                                             <img src="../img/descargar.png" alt="pdf"
                                                 class="w-6 h-6 object-cover rounded-lg">
                                         </a>

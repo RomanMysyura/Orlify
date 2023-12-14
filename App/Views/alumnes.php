@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/main.css">
     <script src="/js/bundle.js" defer> </script>
     <script src="/js/buscarAlumnes.js" defer> </script>
+    <script src="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.css" rel="stylesheet" />
 
     <title>Document</title>
 
@@ -103,11 +105,20 @@
                         <video muted="muted" id="video" style="display: none;"></video>
                         <canvas id="canvas" style="display: none;"></canvas>
                         <div class="flex justify-center items-center mt-5 mb-5 m-10">
-                            <button id="capture"  class="btn btn-active btn-neutral  mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40" style="display: none;">Capturar foto</button>
+                            <button id="capture"
+                                class="btn btn-active btn-neutral  mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40"
+                                style="display: none;">Capturar foto</button>
                         </div>
+
+
+
+
+
+
+               
                         <form action="/uploadPhotoFromFile" method="post" enctype="multipart/form-data"
                             class="flex items-center">
-                            <input type="hidden" name="user_id" id="userIdInput" value="">
+                            <input type="hidden" name="user_id" id="userIdInput" value="<?= $alumne['user_id'] ?>">
 
 
                             <div class="">
@@ -135,20 +146,59 @@
                                     </label>
 
 
-                                </div>
 
-                 
-                                <button type="submit" class="btn btn-active btn-neutral mr-auto ml-20 mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40" >Pujar
+                                </div>
+                               
+
+                                <button type="submit"
+                                    class="btn btn-active btn-neutral  ml-20 mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-green-800 bg-green-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">Pujar
                                     Foto
                                 </button>
-            
+
                         </form>
+                        
+
+
+      
+
+
                         <form method="dialog" style="display: inline-block">
-                        <button class="btn btn-active btn-neutral ml-auto mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40"  id="modalCancelar">Cancelar</button>
-                    </form>
+                            <button
+                                class="btn btn-active btn-neutral ml-auto mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-red-800 bg-red-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40"
+                                id="modalCancelar">Cancelar</button>
+                        </form>
+                        <form action="/uploadPhotoFromFileEdit" method="post" enctype="multipart/form-data"
+                            class="flex items-center">
+                            <input type="hidden" name="user_idd" id="userIdInput2" value="<?= $alumne['user_id'] ?>">
+                        <div class="flex justify-center items-center mt-5 mb-5 m-10">
+                                    <button type="button" id="EditarFoto" onclick="toggleEditarFotoSection()"
+                                        class="btn btn-active btn-neutral mb-5 mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">
+                                        Editar Foto
+                                    </button>
+                                </div>
+                                <div id="DivEditar" style="display: none;"
+                                    class="flex justify-center items-center mt-5 mb-5 m-10 ml-16">
+                                    <h1>Retalla la fotografia:</h1>
+                                    <!-- Editor donde se recortará la imagen con la ayuda de croppr.js -->
+                                    <div id="editor"></div>
+
+                                    <h1>Resultat:</h1>
+                                    <!-- Previa del recorte -->
+                                    <canvas id="preview" class="mb-5"></canvas>
+
+                                    
+                                    <!-- Muestra de la imagen recortada en Base64 -->
+                                    <input type="text" id="base64" name="photo" style="display: none;" readonly>
+                                    <button type="submit" class="btn btn-active btn-neutral mr-auto ml-20 mt-2rounded before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">
+                                       
+                                        Pujar Foto Editada
+                                    </button>
+                                </div>
+                                </div>
+                        </form>
 
                     </div>
-                   
+
                 </dialog>
                 <?php endforeach; ?>
             </tbody>
@@ -165,7 +215,94 @@
 
     <script src="/js/editarOrles.js"></script>
     <script src="/js/publishOrla.js"></script>
+    <script>
+    function toggleEditarFotoSection() {
+        var divEditar = document.getElementById('DivEditar');
+        divEditar.style.display = (divEditar.style.display === 'none' || divEditar.style.display === '') ? 'block' :
+            'none';
+    }
 
+
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // Input File
+        const inputImage = document.querySelector('#dropzone-file');
+        // Nodo donde estará el editor
+        const editor = document.querySelector('#editor');
+        // El canvas donde se mostrará la previa
+        const miCanvas = document.querySelector('#preview');
+        // Contexto del canvas
+        const contexto = miCanvas.getContext('2d');
+        // Ruta de la imagen seleccionada
+        let urlImage = undefined;
+        // Evento disparado cuando se adjunte una imagen
+        inputImage.addEventListener('change', abrirEditor, false);
+
+        /**
+         * Método que abre el editor con la imagen seleccionada
+         */
+        function abrirEditor(e) {
+            // Obtiene la imagen
+            urlImage = URL.createObjectURL(e.target.files[0]);
+
+            // Borra editor en caso que existiera una imagen previa
+            editor.innerHTML = '';
+            let cropprImg = document.createElement('img');
+            cropprImg.setAttribute('id', 'croppr');
+            editor.appendChild(cropprImg);
+
+            // Limpia la previa en caso que existiera algún elemento previo
+            contexto.clearRect(0, 0, miCanvas.width, miCanvas.height);
+
+            // Envia la imagen al editor para su recorte
+            document.querySelector('#croppr').setAttribute('src', urlImage);
+
+            // Crea el editor
+            new Croppr('#croppr', {
+                aspectRatio: 1,
+                startSize: [100, 100],
+                onCropEnd: recortarImagen
+            })
+        }
+
+        /**
+         * Método que recorta la imagen con las coordenadas proporcionadas con croppr.js
+         */
+        function recortarImagen(data) {
+            // Variables
+            const inicioX = data.x;
+            const inicioY = data.y;
+            const nuevoAncho = data.width;
+            const nuevaAltura = data.height;
+            const zoom = 1;
+            let imagenEn64 = '';
+            // La imprimo
+            miCanvas.width = nuevoAncho;
+            miCanvas.height = nuevaAltura;
+            // La declaro
+            let miNuevaImagenTemp = new Image();
+            // Cuando la imagen se carge se procederá al recorte
+            miNuevaImagenTemp.onload = function() {
+                // Se recorta
+                contexto.drawImage(miNuevaImagenTemp, inicioX, inicioY, nuevoAncho * zoom, nuevaAltura *
+                    zoom, 0, 0, nuevoAncho, nuevaAltura);
+                // Se transforma a base64
+                imagenEn64 = miCanvas.toDataURL("image/jpeg");
+                // Mostramos el código generado
+                document.querySelector('#base64').value = imagenEn64;
+
+                    '...">';
+
+            }
+            // Proporciona la imagen cruda, sin editarla por ahora
+            miNuevaImagenTemp.src = urlImage;
+        }
+    });
+
+   
+
+
+    </script>
 </body>
 
 </html>

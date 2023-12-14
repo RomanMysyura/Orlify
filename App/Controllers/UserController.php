@@ -158,8 +158,14 @@ class UserController
     public function randomuser($request, $response, $container)
     {
 
+        $usersModel2 = $container["\App\Models\usersPDO"];
         $usersModel = $container["\App\Models\usersPDO"];
-        
+        $errorModel = $container["\App\Models\usersPDO"];
+        $orlaModel = $container["\App\Models\Orles"];
+        $grupsModel = $container["\App\Models\usersPDO"];
+        $userId = $_SESSION["user_id"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $photo = $photoModel->getUserSelectedPhoto($userId);
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $name = $_POST["username"];
@@ -172,14 +178,46 @@ class UserController
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $response->set("error_message_register", "La conta creada correctament");
             $response->SetTemplate("paneldecontrol.php");
-            $userId=$usersModel->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
+            $userId_random=$usersModel2->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
             $token = uniqid();
       
             // Guarda el token en la base de datos
-            $usersModel->saveUserToken($userId, $token);
+            $usersModel2->saveUserToken($userId_random, $token);
+            $users = $usersModel->getAllUsers();
+        $errors = $errorModel->geterror();
+        $orles = $orlaModel->getAllOrles();
+        $grups = $grupsModel->getAllGroups();
+        foreach ($users as &$user) {
+            $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+            $groups = $usersModel->getGroupByUserId($user["id"]);
+        
+            if ($groups !== null) {
+                $user["groups"] = $groups;
+            } else {
+                $user["groups"] = 'Sense grup';
+            }
+        }
+    
+        foreach ($orles as &$orla) {
+            $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
+        }
+
+        foreach ($grups as &$grup) {
+            $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
+        }
+
 
             return $response;
         }
+
+       
+    
+        $response->set("users", $users);
+        $response->set("errors", $errors);
+        $response->set("orles", $orles);
+        $response->set("grups", $grups);
+        $response->set("photo", $photo);
+    
 
         $response->SetTemplate("paneldecontrol.php");
         return $response;
@@ -221,18 +259,41 @@ class UserController
 
     public function uploadUserAdmin($request, $response, $container)
     {
-        
+        $userId = $_SESSION["user_id"];
+
         $usersModel = $container["\App\Models\usersPDO"];
         $errorModel = $container["\App\Models\usersPDO"];
         $orlaModel = $container["\App\Models\Orles"];
         $grupsModel = $container["\App\Models\usersPDO"];
         $photoModel = $container["\App\Models\usersPDO"];
 
+
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $id = $_POST["id"];
+            $name = $_POST["name"];
+            $surname = $_POST["surname"];
+            $email = $_POST["email"];
+            $phone = $_POST["phone"];
+            $dni = $_POST["dni"];
+            $birth_date = $_POST["birth_date"];
+            $group_name = $_POST["group"];
+            $role = $_POST["role"];
+            
+
+            $usersModel->editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $group_name, $role);
+
+       
+        }
+
+       
+  
+        
         $users = $usersModel->getAllUsers();
         $errors = $errorModel->geterror();
         $orles = $orlaModel->getAllOrles();
         $grups = $grupsModel->getAllGroups();
-        $photo = $photoModel->getUserSelectedPhoto($id);
+        $photo = $photoModel->getUserSelectedPhoto($UserId);
+
         foreach ($users as &$user) {
             $user["photos"] = $usersModel->getUserPhotos($user["id"]);
             $groups = $usersModel->getGroupByUserId($user["id"]);
@@ -258,27 +319,7 @@ class UserController
         $response->set("grups", $grups);
         $response->set("photo", $photo);
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $id = $_POST["id"];
-            $name = $_POST["name"];
-            $surname = $_POST["surname"];
-            $email = $_POST["email"];
-            $phone = $_POST["phone"];
-            $dni = $_POST["dni"];
-            $birth_date = $_POST["birth_date"];
-            $group_name = $_POST["group"];
-            $role = $_POST["role"];
-            
-
-            $usersModel->editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $group_name, $role);
-
-       
-        }
-
-        $id = $_POST["id"];
-        $user = $usersModel->getUserById($id);
-
-        $response->SetTemplate("paneldecontrol.php", ["user" => $user]);
+        $response->SetTemplate("paneldecontrol.php");
         return $response;
 
     }
@@ -477,13 +518,47 @@ class UserController
     public function deleteUser($request, $response, $container)
     {
         $user_id = $_GET['id'];
+        $userId = $_SESSION["user_id"];
+    $OrlaModel = $container["\App\Models\Orles"];
+    $usersModel = $container["\App\Models\usersPDO"];
+    $errorModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
 
+
+    $grupsModel = $container["\App\Models\usersPDO"];
+    $users = $usersModel->getAllUsers();
+    $errors = $errorModel->geterror();
+    $orles = $OrlaModel->getAllOrles();
+    $grups = $grupsModel->getAllGroups();
+ 
+    
+    foreach ($users as &$user) {
+        $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+        $groups = $usersModel->getGroupByUserId($user["id"]);
+    
+        if ($groups !== null) {
+            $user["groups"] = $groups;
+        } else {
+            $user["groups"] = 'Sense grup';
+        }
+    }
+
+    
+    foreach ($grups as &$grup) {
+        $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
+    }
+
+   
         $usersModel = $container["\App\Models\usersPDO"];
         $usersModel->deleteUser($user_id);
-        $userId = $_SESSION["user_id"];
-        $users = $usersModel->Idpanel($userId);
 
         $response->set("users", $users);
+        
+        $response->set("errors", $errors);
+        $response->set("orles", $orles);
+        $response->set("grups", $grups);
+        $response->set("photo", $photo);
+    
 
         $response->SetTemplate("paneldecontrol.php");
         return $response;
@@ -491,9 +566,47 @@ class UserController
 
   public function deleteerror($request, $response, $container){
     $error_id = $_GET['id'];
+    $errorrModel = $container["\App\Models\usersPDO"];
+    $errorrModel->deleteerror($error_id);
+    
+    $usersModel = $container["\App\Models\usersPDO"];
     $errorModel = $container["\App\Models\usersPDO"];
-    $errorModel->deleteerror($error_id);
+    $orlaModel = $container["\App\Models\Orles"];
+    $grupsModel = $container["\App\Models\usersPDO"];
+    $userId = $_SESSION["user_id"];
+    $photoModel = $container["\App\Models\usersPDO"];
+    $photo = $photoModel->getUserSelectedPhoto($userId);
 
+    $users = $usersModel->getAllUsers();
+    $errors = $errorModel->geterror();
+    $orles = $orlaModel->getAllOrles();
+    $grups = $grupsModel->getAllGroups();
+
+    foreach ($users as &$user) {
+        $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+        $groups = $usersModel->getGroupByUserId($user["id"]);
+    
+        if ($groups !== null) {
+            $user["groups"] = $groups;
+        } else {
+            $user["groups"] = 'Sense grup';
+        }
+    }
+
+    foreach ($orles as &$orla) {
+        $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
+    }
+
+    foreach ($grups as &$grup) {
+        $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
+    }
+
+    $response->set("users", $users);
+    $response->set("errors", $errors);
+    $response->set("orles", $orles);
+    $response->set("grups", $grups);
+    $response->set("photo", $photo);
+    
     $response->SetTemplate("paneldecontrol.php");
   return $response;
 
@@ -617,6 +730,63 @@ public function uploadPhotoFromFile($request, $response, $container)
     
     return $response;
 }
+public function uploadPhotoFromFileEdit($request, $response, $container)
+{
+    // Asegúrate de que se ha enviado la información de la imagen en Base64
+    if (isset($_POST['photo'])) {
+        $base64Image = $_POST['photo'];
+
+        // Decodificar la imagen Base64
+        $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Image));
+
+        // Generar un nombre de archivo único
+        $newFileName = uniqid('image_') . '.png';
+
+        // Ruta de destino para guardar la imagen
+        $destinationPath = "img/" . $newFileName;
+
+        // Guardar la imagen en el servidor
+        if (file_put_contents($destinationPath, $imageData)) {
+            // Éxito al guardar la imagen
+            $successMessage = '<div role="alert" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded">
+                <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Has pujat i actualitzat la foto del alumne</span>
+            </div>';
+
+            echo $successMessage;
+
+            // Resto del código para interactuar con la base de datos
+            $usersModel = $container["\App\Models\usersPDO"];
+            $UploadUserPhoto = $container["\App\Models\usersPDO"];
+
+            $user_id = $_POST['user_idd']; 
+            $userId = $_SESSION["user_id"];
+            $UploadUserPhoto->deactivateUserPhotos($user_id);
+            $usersModel->uploadPhotoFromFile($user_id, $destinationPath, 'active');
+
+        } else {
+            echo "Error al guardar la imagen.";
+        }
+    } else {
+        echo "No se ha enviado ninguna imagen.";
+        var_dump($_POST);
+    }
+
+    // Resto del código para cargar datos y renderizar la plantilla
+    $userId = $_SESSION["user_id"];
+    $photoModel = $container["\App\Models\usersPDO"];
+    $alumnes = $container["\App\Models\usersPDO"];
+    $alumnes = $alumnes->getAlumnesByProfessor($userId);
+    $photo = $photoModel->getUserSelectedPhoto($userId);
+
+    $response->set("alumnes", $alumnes);
+    $response->set("photo", $photo);
+    $response->SetTemplate("alumnes.php");
+
+    return $response;
+}
 
 public function DeleteGrup($request, $response, $container)
 {
@@ -626,8 +796,42 @@ public function DeleteGrup($request, $response, $container)
     $usersModel = $container["\App\Models\usersPDO"];
     $usersModel->DeleteGrup($grup_id);
     $userId = $_SESSION["user_id"];
-    $users = $usersModel->Idpanel($userId);
+    $errorModel = $container["\App\Models\usersPDO"];
+    $orlaModel = $container["\App\Models\Orles"];
+    $grupsModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
+    $photo = $photoModel->getUserSelectedPhoto($userId);
+   
+    $users = $usersModel->getAllUsers();
+    $errors = $errorModel->geterror();
+    $orles = $orlaModel->getAllOrles();
+    $grups = $grupsModel->getAllGroups();
 
+    foreach ($users as &$user) {
+        $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+        $groups = $usersModel->getGroupByUserId($user["id"]);
+    
+        if ($groups !== null) {
+            $user["groups"] = $groups;
+        } else {
+            $user["groups"] = 'Sense grup';
+        }
+    }
+
+    foreach ($orles as &$orla) {
+        $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
+    }
+
+    foreach ($grups as &$grup) {
+        $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
+    }
+
+    $response->set("users", $users);
+    $response->set("errors", $errors);
+    $response->set("orles", $orles);
+    $response->set("grups", $grups);
+    $response->set("photo", $photo);
+    
     $response->set("users", $users);
 
     $response->SetTemplate("paneldecontrol.php");
@@ -638,11 +842,9 @@ public function crearGrup($request, $response, $container)
 {  
     $name = $_POST["name"];
 
-    $dbConfig = $container["config"]["database"];
-    $dbModel = new Db($dbConfig["username"], $dbConfig["password"], $dbConfig["database"], $dbConfig["server"]);
-    $connection = $dbModel->getConnection();
+  
 
-    $usersModel = new UsersPDO($connection);
+    $usersModel = $container["\App\Models\usersPDO"];
     $usersModel->crearGrup($name);
     $userId = $_SESSION["user_id"];
     $users = $usersModel->Idpanel($userId);
