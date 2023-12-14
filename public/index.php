@@ -52,28 +52,31 @@ $app->get("panel-de-control", [NavigationController::class,"panelDeControl"], [[
 $app->get("recuperarpass", [NavigationController::class,"recuperarpass"]);
 $app->post("uploadUserAdmin", [UserController::class,"uploadUserAdmin"], [[\App\Middleware\App::class,"permissions"]]);
 $app->post("uploadPhoto", [UserController::class,"uploadPhoto"]);
-$app->post("uploadPhotoFromFile", [UserController::class,"uploadPhotoFromFile"], [[\App\Middleware\App::class,"permissions"]]);
+$app->post("uploadPhotoFromFile", [UserController::class,"uploadPhotoFromFile"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
+$app->post("uploadPhotoFromFileEdit", [UserController::class,"uploadPhotoFromFileEdit"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
 $app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"], [[\App\Middleware\App::class,"permissions"]]);
-$app->post("PanelUploadUser", [UserController::class,"PanelUploadUser"]);
 $app->get("Idpanel", [UserController::class,"Idpanel"]);
-$app->get("deleteUser", [UserController::class,"deleteUser"]);
-$app->get("DeleteGrup", [UserController::class,"DeleteGrup"]);
-$app->post("crearGrup", [UserController::class,"crearGrup"]);
+$app->get("deleteUser", [UserController::class,"deleteUser"], [[\App\Middleware\App::class,"permissions"]]);
+$app->get("DeleteGrup", [UserController::class,"DeleteGrup"], [[\App\Middleware\App::class,"permissions"]]);
+$app->post("crearGrup", [UserController::class,"crearGrup"], [[\App\Middleware\App::class,"permissions"]]);
 $app->get("/carnet/{token}", [UserController::class, "carnetUser"]);
-$app->get("deleteerror", [UserController::class,"deleteerror"]);
-$app->post("uploaderror", [UserController::class,"uploaderror"]);
-$app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"]);
-$app->post("UploadOrla", [OrlesControllers::class,"UploadOrla"]);
-$app->get("eliminarOrlaPanel", [OrlesControllers::class,"eliminarOrlaPanel"]);
-$app->get("eliminarPhoto", [OrlesControllers::class,"eliminarPhoto"]);
-$app->post("publish-orla", [OrlesControllers::class,"publish_orla"]);
-$app->get("descarregar-orla/{id}", [OrlesControllers::class,"descarregarOrla"]);
-$app->get("eliminar-orla", [OrlesControllers::class,"eliminarOrla"]);
-$app->post("updateNameOrla", [OrlesControllers::class,"updateNameOrla"]);
+$app->get("deleteerror", [UserController::class,"deleteerror"], [[\App\Middleware\App::class,"permissions"]]);
+$app->post("uploaderror", [UserController::class,"uploaderror"], [[\App\Middleware\App::class,"permissions"]]);
+$app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
+$app->post("UploadOrla", [OrlesControllers::class,"UploadOrla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
+$app->get("eliminarOrlaPanel", [OrlesControllers::class,"eliminarOrlaPanel"], [[\App\Middleware\App::class,"permissions"]]);
+$app->get("eliminarPhoto", [OrlesControllers::class,"eliminarPhoto"], [[\App\Middleware\App::class,"permissions"]]);
+$app->post("publish-orla", [OrlesControllers::class,"publish_orla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
+$app->get("descarregar-orla/{id}/{formato_impresion}", [OrlesControllers::class, "descarregarOrla"]);
+$app->get("eliminar-orla", [OrlesControllers::class,"eliminarOrla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
+$app->post("updateNameOrla", [OrlesControllers::class,"updateNameOrla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
 $app->post("sendRecoveryEmail", [UserController::class,"sendRecoveryEmail"]);
 $app->post("erroremail", [UserController::class,"sendRecoveryEmail"]);
 $app->get("newpass", [UserController::class,"newpass"]);
 $app->post("newpass", [UserController::class,"newpass"]);
 $app->get("errorweb", [ErrorController::class,"errorRedirect"]);
+
+
+
 
 $app->execute();

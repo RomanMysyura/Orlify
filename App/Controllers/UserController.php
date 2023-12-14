@@ -425,36 +425,7 @@ class UserController
 
    
 
-    public function PanelUploadUser($request, $response, $container)
-    {
-        $usersModel = $container["\App\Models\usersPDO"];
-        $photoModel = $container["\App\Models\usersPDO"];
-
-
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $id = $_POST["id"];
-            $name = $_POST["name"];
-            $surname = $_POST["surname"];
-            $email = $_POST["email"];
-            $phone = $_POST["phone"];
-            $dni = $_POST["dni"];
-            $birth_date = $_POST["birth_date"];
-            $role = $_POST["role"];
-
-            $usersModel->PaneleditUser($id, $name, $surname, $email, $phone, $dni, $birth_date, $role);
-
-            header("Location: paneldecontrol");
-            exit();
-        }
-
-        $id = $_POST["id"];
-        $user = $usersModel->getUserById($id);
-        $photo = $photoModel->getUserSelectedPhoto($id);
-
-        $response->set("photo", $photo);
-        $response->SetTemplate("paneldecontrol.php", ["user" => $user]);
-        return $response;
-    }
+  
 
     
     public function Idpanel($request, $response, $container)
