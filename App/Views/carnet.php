@@ -14,13 +14,13 @@
         background-position: center;
     }
 
-    /* Establece el color blanco para el texto en las etiquetas h3 y p */
+    /* Establece el color blanco para el textcdsfgo en las etiquetas h3 y p */
     .card h3,
     .card p {
         color: white;
     }
 
-    /* Aumenta el z-index de la imagen del usuario */
+    /* Aumenta el z-index de la imagen del usuarioa */
     .user-photo {
         z-index: 2;
         /* Ajusta según sea necesario */
