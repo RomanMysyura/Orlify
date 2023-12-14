@@ -1,31 +1,67 @@
 <?php
-
 namespace App\Controllers;
-
 use TCPDF;
 class OrlesControllers 
 {
 
+    /**
+     * Funció per gestionar la visualització de les orles per professor.
+     *
+     * @param   [type]  $request    [$request description]
+     * @param   [type]  $response   [$response description]
+     * @param   [type]  $container  [$container description]
+     *
+     * @return  [type]              Resposta amb les dades de les orles
+     */
     public function orles($request, $response, $container)
     {
+        $OrlaModel = $container["\App\Models\Orles"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $usersModel = $container["\App\Models\usersPDO"];
+        $userId = $request->get("SESSION", "user_id");
 
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+        $grupsprof = $usersModel->getGroupsProf($userId);
+        $_SESSION["grup_prof"] = $grupsprof;
+        $orla = $OrlaModel->getOrles($userId);
+
+        $response->set("orles", $orla);
+        $response->set("photo", $photo);
+        $response->SetTemplate("vieworles.php");
+        return $response;
+    }
+
+
+
+
+    /**
+     * mevesOrles Funció visualitzar les orles de l'alumne actual.
+     *
+     * @param   [type]  $request    [$request description]
+     * @param   [type]  $response   [$response description]
+     * @param   [type]  $container  [$container description]
+     *
+     * @return  [type]              Resposta amb les dades de les orles del alumne
+     */
+    public function mevesOrles($request, $response, $container)
+    {
         $OrlaModel = $container["\App\Models\Orles"];
         $userId = $request->get("SESSION", "user_id");
         $photoModel = $container["\App\Models\usersPDO"];
         $photo = $photoModel->getUserSelectedPhoto($userId);
+        $usersModel = $container["\App\Models\usersPDO"];
+        $grupsprof = $usersModel->getGroupsProf($userId);
+        $_SESSION["grup_prof"] = $grupsprof;
 
-
-        
         $orla = $OrlaModel->getOrles($userId);
 
         $response->set("orles", $orla);
         $response->set("photo", $photo);
 
 
-        $response->SetTemplate("vieworles.php");
+        $response->SetTemplate("viewmevesorles.php");
         return $response;
     }
-
 
    
 

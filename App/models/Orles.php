@@ -11,15 +11,31 @@ class Orles
         $this->sql = $conn;
     }
 
+
+
+
+
     public function getOrles($user_id)
     {
+        $group_ids = $_SESSION["grup_prof"];
+    
+     
+        $placeholders = implode(', ', array_map(function($id) {return ":group_id_$id";}, $group_ids));
+    
         $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, o.id AS orla_id, o.status, o.url, o.name_orla
                                     FROM users u
                                     JOIN user_groups ug ON u.id = ug.user_id
                                     JOIN groups g ON ug.group_id = g.id
                                     JOIN orla o ON g.id = o.group_id
-                                    WHERE u.id = :user_id ");
+                                    WHERE u.id = :user_id
+                                      AND g.id IN ($placeholders)");
+    
         $stmt->bindParam(":user_id", $user_id);
+    
+      
+        foreach ($group_ids as $id) {
+        $stmt->bindValue(":group_id_$id", $id);
+        }
     
         $stmt->execute();
     
@@ -27,6 +43,9 @@ class Orles
     
         return $result;
     }
+    
+    
+
 
     public function getOrlaById($orla_id)
 {
