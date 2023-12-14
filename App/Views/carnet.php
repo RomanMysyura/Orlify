@@ -14,7 +14,7 @@
         background-position: center;
     }
 
-    /* Establece el color blanco para el textcdsfgo en las etiquetas h3 y p */
+    /* Establece el color blanco para el textcdsfgo en las etiquetasdfs h3 y p */
     .card h3,
     .card p {
         color: white;
