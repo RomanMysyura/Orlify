@@ -20,12 +20,13 @@
 
                         <a href="/contactar"
                             class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Contactar</a>
-                            <?php if ($_SERVER['REQUEST_URI'] !== '/'): ?>
-    <a href="/" class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Inici</a>
-<?php endif; ?>
+                        <?php if ($_SERVER['REQUEST_URI'] !== '/'): ?>
+                        <a href="/"
+                            class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Inici</a>
+                        <?php endif; ?>
 
                     </div>
-                    
+
                 </div>
             </div>
             <div class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
@@ -41,26 +42,35 @@
                                     <a href="/contactar"
                                         class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Contactar</a>
                                 </div>
-                               
+
                             </div>
                             <a href="/panel-de-control"
                                 class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Panel
                                 de control</a>
+
+                            <?php if ($_SESSION["role"] == "Professor"): ?>
                             <a href="/orles"
-                                class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Les
-                                meves orles</a>
+                                class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Editor
+                                de orles</a>
+                            <?php endif; ?>
+                            
+                            <?php if ($_SESSION["role"] == "Professor"): ?>
+                            <a href="/orles"
+                                class="text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">Les meves orles</a>
+                            <?php endif; ?>
 
                             <details class="dropdown dropdown-bottom dropdown-end">
                                 <summary
                                     class="flex items-center justify-center text-black hover:bg-gray-300 hover:text-black rounded-md px-3 py-2 text-lg font-medium">
                                     <div class="avatar">
                                         <div class="w-10 rounded-full">
-                                        <?php if (!empty($photo)): ?>
-          <!-- Aplica border-radius al contenedor de la imagen -->
-          <img src="../<?= $photo[0]['url'] ?>" class="rounded-full w-full h-full object-cover" alt="Foto"/>
-        <?php else: ?>
-          <img src="../img/user2.png"/>
-        <?php endif; ?>
+                                            <?php if (!empty($photo)): ?>
+                                            <!-- Aplica border-radius al contenedor de la imagen -->
+                                            <img src="../<?= $photo[0]['url'] ?>"
+                                                class="rounded-full w-full h-full object-cover" alt="Foto" />
+                                            <?php else: ?>
+                                            <img src="../img/user2.png" />
+                                            <?php endif; ?>
                                         </div>
                                     </div>
                                 </summary>
@@ -88,5 +98,3 @@
 
 </nav>
 </div>
-
-
