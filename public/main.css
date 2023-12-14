@@ -1,5 +1,5 @@
 /*
-! tailwindcss v3.3.5 | MIT License | https://tailwindcss.com
+! tailwindcss v3.3.6 | MIT License | https://tailwindcss.com
 *//*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
 2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
@@ -103,8 +103,10 @@ strong {
 }
 
 /*
-1. Use the user's configured `mono` font family by default.
-2. Correct the odd `em` font sizing in all browsers.
+1. Use the user's configured `mono` font-family by default.
+2. Use the user's configured `mono` font-feature-settings by default.
+3. Use the user's configured `mono` font-variation-settings by default.
+4. Correct the odd `em` font sizing in all browsers.
 */
 
 code,
@@ -112,7 +114,9 @@ kbd,
 samp,
 pre {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; /* 1 */
-  font-size: 1em; /* 2 */
+  font-feature-settings: normal; /* 2 */
+  font-variation-settings: normal; /* 3 */
+  font-size: 1em; /* 4 */
 }
 
 /*
@@ -3081,6 +3085,12 @@ details.collapse summary::-webkit-details-marker {
 .mr-5 {
   margin-right: 1.25rem;
 }
+.mr-6 {
+  margin-right: 1.5rem;
+}
+.mr-8 {
+  margin-right: 2rem;
+}
 .mr-auto {
   margin-right: auto;
 }
@@ -3110,12 +3120,6 @@ details.collapse summary::-webkit-details-marker {
 }
 .mt-80 {
   margin-top: 20rem;
-}
-.mr-6 {
-  margin-right: 1.5rem;
-}
-.mr-8 {
-  margin-right: 2rem;
 }
 .block {
   display: block;
@@ -3201,6 +3205,12 @@ details.collapse summary::-webkit-details-marker {
 .w-16 {
   width: 4rem;
 }
+.w-2\/6 {
+  width: 33.333333%;
+}
+.w-24 {
+  width: 6rem;
+}
 .w-32 {
   width: 8rem;
 }
@@ -3233,12 +3243,6 @@ details.collapse summary::-webkit-details-marker {
 }
 .w-screen {
   width: 100vw;
-}
-.w-2\/6 {
-  width: 33.333333%;
-}
-.w-24 {
-  width: 6rem;
 }
 .max-w-7xl {
   max-width: 80rem;
@@ -4380,10 +4384,5 @@ details.collapse summary::-webkit-details-marker {
 .\[\&_li\]\:mx-4 li {
   margin-left: 1rem;
   margin-right: 1rem;
-}
-
-.\[\&_li\]\:mx-8 li {
-  margin-left: 2rem;
-  margin-right: 2rem;
 }
 
