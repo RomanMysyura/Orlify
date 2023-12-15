@@ -85,7 +85,7 @@
                     <td class="text-lg"><?= $alumne['user_phone'] ?></td>
                     <td class="text-lg"><?= $alumne['user_rol'] ?></td>
                     <td class="text-lg"><?= $alumne['photo_url'] ?></td>
-                    
+
                     <td class="text-lg">
                         <button class="btn modalFoto" data-user-id="<?= $alumne['user_id'] ?>">Actualitzar Foto</button>
                     </td>
@@ -100,65 +100,50 @@
                                 tu mateix!</p>
                         </div>
                         <div class="flex justify-center items-center mt-5 mb-5">
-                            <button id="cam" name="cam" type="button" value="Obrir càmera"
+                            <button id="cam" name="camera" type="button" value="Obrir càmera"
                                 class="btn btn-active btn-neutral  mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">
                                 <span relative="relative z-10">Obrir càmera</span>
                         </div>
-
                         <video muted="muted" id="video" style="display: none;"></video>
                         <canvas id="canvas" style="display: none;"></canvas>
                         <div class="flex justify-center items-center mt-5 mb-5 m-10">
                             <button id="capture"
                                 class="btn btn-active btn-neutral  mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40"
-                                style="display: none;">Capturar foto</button>
+                                style="display: none;">Capturar foto
+                            </button>
                         </div>
-
-
-
-
-
-
-
                         <form action="/uploadPhotoFromFile" method="post" enctype="multipart/form-data"
                             class="flex items-center">
                             <input type="hidden" name="user_id" id="userIdInput" value="<?= $alumne['user_id'] ?>">
 
-
-                            <div class="">
-                                <div class="flex items-center justify-center w-full mb-5">
-                                    <label for="dropzone-file"
-                                        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-                                        id="dropzone-label">
-                                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                                                aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 20 16">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2"
-                                                    d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                            </svg>
-                                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
-                                                    class="font-semibold">Clica</span> o arrossega la foto</p>
-                                            <p class="text-xs text-gray-500 dark:text-gray-400" id="file-name">JPG, JPEG
-                                                i
-                                                PNG</p>
-                                        </div>
-                                        <input type="file" id="dropzone-file" name="photo"
-                                            accept="image/jpeg, image/jpg, image/png" class="hidden"
-                                            onchange="displayFileName()">
-                                    </label>
-
-
-
-
-                                </div>
-
-
-                                <button type="submit"
-                                    class="btn btn-active btn-neutral  ml-20 mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-green-800 bg-green-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">Pujar
-                                    Foto
-                                </button>
-
+                            <div class="flex items-center justify-center w-full mb-5">
+                                <label for="dropzone-file"
+                                    class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                    id="dropzone-label">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                                stroke-width="2"
+                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                        </svg>
+                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span
+                                                class="font-semibold">Clica</span> o arrossega la foto</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400" id="file-name">JPG, JPEG
+                                            i
+                                            PNG</p>
+                                    </div>
+                                    <input type="file" id="dropzone-file" name="photo"
+                                        accept="image/jpeg, image/jpg, image/png" class="hidden"
+                                        onchange="displayFileName()">
+                                </label>
+                            </div>
+                            <button type="submit"
+                                class="btn btn-active btn-neutral  ml-20 mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-green-800 bg-green-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">Pujar
+                                Foto
+                            </button>
+                            <button type="submit" style="display: none;" id="modalPublicar" ></button>
+                           
                         </form>
 
 
@@ -170,6 +155,8 @@
                             <button
                                 class="btn btn-active btn-neutral ml-auto mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-red-800 bg-red-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40"
                                 id="modalCancelar">Cancelar</button>
+                             
+
                         </form>
                         <form action="/uploadPhotoFromFileEdit" method="post" enctype="multipart/form-data"
                             class="flex items-center">
@@ -195,17 +182,17 @@
 
 
                                 <!-- Muestra de la imagen recortada en Base64 -->
-                                <input type="text" id="base64" name="photo" style="display: none;" readonly>
+                                <input type="text" id="base64" name="photo" title="base64" style="display: none;" readonly>
                                 <button type="submit"
                                     class="btn btn-active btn-neutral mr-auto ml-20 mt-2rounded before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">
 
                                     Pujar Foto Editada
                                 </button>
                             </div>
+                           
 
                         </form>
                     </div>
-
                 </dialog>
                 <?php endforeach; ?>
             </tbody>
