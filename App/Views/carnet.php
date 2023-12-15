@@ -20,8 +20,11 @@
             class="profilecard bg-gray-100 dark:bg-gray-700 relative shadow-xl overflow-hidden hover:shadow-2xl group rounded-xl p-5 transition-all duration-500 transform flex items-center">
           
             <div class="flex items-center gap-4">
-                <img src="../<?= $photo[0]['url'] ?>"
-                    class="w-32 group-hover:w-36 group-hover:h-36 h-32 object-center object-cover rounded-full transition-all duration-500 delay-500 transform" />
+            <?php if (!empty($photo)): ?>
+                <img src="../<?= $photo[0]['url'] ?>" class="w-36 h-36 object-cover rounded-full"/>
+                <?php else: ?>
+                            <img src="../img/user2.png" class="w-36 h-36 object-cover rounded-full"/>
+                        <?php endif; ?>
                 <div class="w-fit transition-all transform duration-500">
                     <h1 class="text-gray-600 dark:text-gray-200 font-bold text-3xl">
                         <?= $user['surname']; ?> <?= $user['name']; ?>
