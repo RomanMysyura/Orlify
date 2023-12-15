@@ -2915,6 +2915,9 @@ details.collapse summary::-webkit-details-marker {
   right: auto;
   bottom: var(--tooltip-tail-offset);
 }
+.visible {
+  visibility: visible;
+}
 .invisible {
   visibility: hidden;
 }
@@ -3803,6 +3806,10 @@ details.collapse summary::-webkit-details-marker {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgb(239 68 68 / var(--tw-text-opacity));
+}
 .opacity-0 {
   opacity: 0;
 }
@@ -4133,6 +4140,11 @@ details.collapse summary::-webkit-details-marker {
 .focus\:border-slate-600:focus {
   --tw-border-opacity: 1;
   border-color: rgb(71 85 105 / var(--tw-border-opacity));
+}
+
+.focus\:border-black:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 
 .focus\:bg-blue-400:focus {
