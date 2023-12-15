@@ -4,305 +4,269 @@ namespace App\Controllers;
 
 class UserController
 {
+/**
+ * Gestiona la sol·licitud per a la pàgina principal (index).
 
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function index($request, $response, $container)
+{
+    // Obté l'ID de l'usuari actual de la sessió, o estableix 0 si no hi ha sessió.
+    $userId = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : 0;
 
+    // Obté instàncies del model d'usuaris i del model de fotos d'usuaris.
+    $usersModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
 
+    // Obté la foto seleccionada de l'usuari actual.
+    $photo = $photoModel->getUserSelectedPhoto($userId);
 
-    public function index($request, $response, $container)
-    {
-        $userId = isset($_SESSION["user_id"]) ? $_SESSION["user_id"] : 0;
+    // Obté tots els usuaris.
+    $users = $usersModel->getAllUsers();
+
+    // Configura les dades per a la resposta.
+    $response->set("users", $users);
+    $response->set("photo", $photo);
+
+    // Estableix la plantilla que s'utilitzarà per a la resposta.
+    $response->setTemplate("index.php");
+
+    // Retorna la resposta HTTP que s'enviarà al navegador.
+    return $response;
+}
     
-        $usersModel = $container["\App\Models\usersPDO"];
-        $photoModel = $container["\App\Models\usersPDO"];
-        $photo = $photoModel->getUserSelectedPhoto($userId);
-        $users = $usersModel->getAllUsers();
-    
-        $response->set("users", $users);
-        $response->set("photo", $photo);
-        $response->SetTemplate("index.php");
-        return $response;
-    }
-    
-
-
-
-    public function perfil($request, $response, $container)
-    {
-        // Verifica si el usuario está autenticado
-        if ($_SESSION["logged"]) {
-            
-            // Crea una instancia del modelo UsersPDO
-            $usersModel = $container["\App\Models\usersPDO"];
-            $userPhoto = $container["\App\Models\usersPDO"];
-            $photoModel = $container["\App\Models\usersPDO"];
-            
-
-            // Obtén los datos del usuario actual
-            $userId = $_SESSION["user_id"];
-            $user = $usersModel->getUserById($userId);
-            $userPhoto = $usersModel->getUserSelectedPhoto($userId);
-            $photo = $photoModel->getUserSelectedPhoto($userId);
-
-            // Pasa los datos a la vista
-            $response->set("user", $user);
-            $response->set("userPhoto", $userPhoto);
-
-            // Llama al método del modelo para obtener el grupo
-            $group = $usersModel->getGroupForUser($userId);
-
-            // Pasa los datos a la vista
-            $response->set("user", $user);
-            $response->set("group", $group);
-            $response->set("photo", $photo);
-
-            // Establece la plantilla
-            $response->SetTemplate("perfil.php");
-        } else {
-            // Si no está autenticado, redirige a la página de inicio de sesión u otra página
-            $response->redirect("/login");
-        }
-
-        return $response;
-    }
-
-
-
-
-    public function login($request, $response, $container)
-    {
-        $email = $_POST["email"];
-        $password = $_POST["password"];
-    
-        $usersModel = $container["\App\Models\usersPDO"];
+/**
+ * Gestiona la sol·licitud per al perfil d'usuari.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function perfil($request, $response, $container)
+{
+    // Verifica si l'usuari està autenticat
+    if ($_SESSION["logged"]) {
         
-         
-    
-        $loggedInUser = $usersModel->login($email, $password);
-    
-        if ($loggedInUser) {
-            $_SESSION["user_id"] = $loggedInUser["id"];
-            $_SESSION["group_id"] = $loggedInUser["group_id"];
-            $_SESSION["logged"] = true;
-            $_SESSION["role"] = $loggedInUser["role"];
-    
-            $userId = $_SESSION["user_id"];
-            $photoModel = $container["\App\Models\usersPDO"];
-           
-            $group = $usersModel->getGroupForUser($userId);
-            $user = $usersModel->getUserById($userId);
-            $userPhoto = $usersModel->getUserSelectedPhoto($userId);
-            $photo = $photoModel->getUserSelectedPhoto($userId);
-    
-            $response->set("user", $loggedInUser);
-            $response->set("group", $group);
-            $response->set("userPhoto", $userPhoto);
-            $response->set("photo", $photo);
-    
-            $response->SetTemplate("perfil.php");
-        } else {
-            $response->SetTemplate("index.php");
-            $response->set("error_message_login", "Email i/o contrasenya incorrectes");
-            $_SESSION["logged"] = false;
-        }
-    
-        return $response;
+        // Crea una instància del model UsersPDO
+        $usersModel = $container["\App\Models\usersPDO"];
+        $userPhoto = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        
+        // Obté les dades de l'usuari actual
+        $userId = $_SESSION["user_id"];
+        $user = $usersModel->getUserById($userId);
+        $userPhoto = $usersModel->getUserSelectedPhoto($userId);
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+
+        // Pasa les dades a la vista
+        $response->set("user", $user);
+        $response->set("userPhoto", $userPhoto);
+
+        // Truca al mètode del model per obtenir el grup
+        $group = $usersModel->getGroupForUser($userId);
+
+        // Pasa les dades a la vista
+        $response->set("user", $user);
+        $response->set("group", $group);
+        $response->set("photo", $photo);
+
+        // Estableix la plantilla
+        $response->SetTemplate("perfil.php");
+    } else {
+        // Si no està autenticat, redirigeix a la pàgina d'inici de sessió o una altra pàgina
+        $response->redirect("/login");
     }
-    
+
+    return $response;
+}
 
 
-    public function logout($request, $response, $container)
-    {
 
+
+
+   /**
+ * Gestiona el procés d'inici de sessió de l'usuari.
+ * 
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function login($request, $response, $container)
+{
+    // Obté les dades d'inici de sessió del formulari
+    $email = $_POST["email"];
+    $password = $_POST["password"];
+
+    // Crea una instància del model UsersPDO
+    $usersModel = $container["\App\Models\usersPDO"];
+
+    // Intenta iniciar sessió amb les credencials proporcionades
+    $loggedInUser = $usersModel->login($email, $password);
+
+    if ($loggedInUser) {
+        // Configura les variables de sessió amb la informació de l'usuari autenticat
+        $_SESSION["user_id"] = $loggedInUser["id"];
+        $_SESSION["group_id"] = $loggedInUser["group_id"];
+        $_SESSION["logged"] = true;
+        $_SESSION["role"] = $loggedInUser["role"];
+
+        // Obté més dades de l'usuari per a mostrar al perfil
+        $userId = $_SESSION["user_id"];
+        $photoModel = $container["\App\Models\usersPDO"];
+        $group = $usersModel->getGroupForUser($userId);
+        $user = $usersModel->getUserById($userId);
+        $userPhoto = $usersModel->getUserSelectedPhoto($userId);
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+
+        // Configura les dades per a la resposta
+        $response->set("user", $loggedInUser);
+        $response->set("group", $group);
+        $response->set("userPhoto", $userPhoto);
+        $response->set("photo", $photo);
+
+        // Estableix la plantilla per al perfil
+        $response->SetTemplate("perfil.php");
+    } else {
+        // Si les credencials són incorrectes, mostra un missatge d'error i redirigeix a la pàgina principal
+        $response->SetTemplate("index.php");
+        $response->set("error_message_login", "Email i/o contrasenya incorrectes");
         $_SESSION["logged"] = false;
-        $response->SetTemplate("index.php");
-        return $response;
     }
 
-
-    public function register($request, $response, $container)
-    {
-        $usersModel = $container["\App\Models\usersPDO"];
-
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $name = $_POST["username"];
-            $surname = $_POST["surname"];
-            $email = $_POST["mail"];
-            $phone = $_POST["phone"];
-            $dni = $_POST["dni"];
-            $birthDate = $_POST["birth_date"];
-            $password = $_POST["password"];
-            $groupId = $_POST["group"]; // Nuevo campo para obtener el grupo seleccionado
-
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $response->set("error_message_register", "La cuenta creada correctamente");
-            $response->SetTemplate("index.php");
-
-            // Registrar usuario y obtener el ID del nuevo usuario
-            $userId = $usersModel->registerUser($name, $surname, $email, $phone, $dni, $birthDate, 'Alumne', $hashedPassword);
-
-            // Asociar el usuario al grupo en la tabla user_groups
-            $usersModel->assignUserToGroup($userId, $groupId);
+    return $response;
+}
 
     
-              // Si no tiene un token, genera uno nuevo y guárdalo
-                  // Genera un token único
-                  $token = uniqid();
-      
-                  // Guarda el token en la base de datos
-                  $usersModel->saveUserToken($userId, $token);
 
-            return $response;
-        }
 
-        $response->SetTemplate("index.php");
-        return $response;
-    }
+/**
+ * Gestiona el procés de tancament de sessió de l'usuari.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function logout($request, $response, $container)
+{
+    // Invalideu la sessió de l'usuari
+    $_SESSION["logged"] = false;
 
-    public function randomuser($request, $response, $container)
-    {
+    // Redirigeix a la pàgina principal
+    $response->SetTemplate("index.php");
+    return $response;
+}
 
-        $usersModel2 = $container["\App\Models\usersPDO"];
-        $usersModel = $container["\App\Models\usersPDO"];
-        $errorModel = $container["\App\Models\usersPDO"];
-        $orlaModel = $container["\App\Models\Orles"];
-        $grupsModel = $container["\App\Models\usersPDO"];
-        $userId = $_SESSION["user_id"];
-        $photoModel = $container["\App\Models\usersPDO"];
-        $photo = $photoModel->getUserSelectedPhoto($userId);
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $name = $_POST["username"];
-            $surname = $_POST["surname"];
-            $email = $_POST["mail"];
-            $birthDate = $_POST["birth_date"];
-            $role = $_POST["role"];
-            $password = $_POST["password"];
 
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $response->set("error_message_register", "La conta creada correctament");
-            $response->SetTemplate("paneldecontrol.php");
-            $userId_random=$usersModel2->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
+   /**
+ * Gestiona el procés de registre d'un nou usuari.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function register($request, $response, $container)
+{
+    // Obtenir una instància del model UsersPDO
+    $usersModel = $container["\App\Models\usersPDO"];
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Obtindre les dades del formulari
+        $name = $_POST["username"];
+        $surname = $_POST["surname"];
+        $email = $_POST["mail"];
+        $phone = $_POST["phone"];
+        $dni = $_POST["dni"];
+        $birthDate = $_POST["birth_date"];
+        $password = $_POST["password"];
+        $groupId = $_POST["group"]; // Nou camp per obtenir el grup seleccionat
+
+        // Hashear la contrasenya
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // Intentar registrar l'usuari i obtenir l'ID del nou usuari
+        $userId = $usersModel->registerUser($name, $surname, $email, $phone, $dni, $birthDate, 'Alumne', $hashedPassword);
+
+        // Associar l'usuari al grup en la taula user_groups
+        $usersModel->assignUserToGroup($userId, $groupId);
+
+        // Si no té un token, genera'n un de nou i guarda'l
+        if (!$usersModel->getUserToken($userId)) {
+            // Generar un token únic
             $token = uniqid();
-      
-            // Guarda el token en la base de datos
-            $usersModel2->saveUserToken($userId_random, $token);
-            $users = $usersModel->getAllUsers();
-        $errors = $errorModel->geterror();
-        $orles = $orlaModel->getAllOrles();
-        $grups = $grupsModel->getAllGroups();
-        foreach ($users as &$user) {
-            $user["photos"] = $usersModel->getUserPhotos($user["id"]);
-            $groups = $usersModel->getGroupByUserId($user["id"]);
-        
-            if ($groups !== null) {
-                $user["groups"] = $groups;
-            } else {
-                $user["groups"] = 'Sense grup';
-            }
-        }
-    
-        foreach ($orles as &$orla) {
-            $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
+
+            // Guardar el token a la base de dades
+            $usersModel->saveUserToken($userId, $token);
         }
 
-        foreach ($grups as &$grup) {
-            $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
-        }
+        // Configurar missatge d'èxit i redirigir a la pàgina principal
+        $response->set("success_message_register", "El compte s'ha creat correctament");
+        $response->SetTemplate("index.php");
 
-
-            return $response;
-        }
-
-       
-    
-        $response->set("users", $users);
-        $response->set("errors", $errors);
-        $response->set("orles", $orles);
-        $response->set("grups", $grups);
-        $response->set("photo", $photo);
-    
-
-        $response->SetTemplate("paneldecontrol.php");
         return $response;
     }
 
-
-    public function uploadUser($request, $response, $container)
-    {
-        $usersModel = $container["\App\Models\usersPDO"];
-        $photoModel = $container["\App\Models\usersPDO"];
-
-
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $id = $_POST["id"];
-            $name = $_POST["name"];
-            $surname = $_POST["surname"];
-            $email = $_POST["email"];
-            $phone = $_POST["phone"];
-
-            $usersModel->editUser($id, $name, $surname, $email, $phone);
-
-            header("Location: perfil");
-            exit();
-        }
-
-        $id = $_POST["id"];
-        $user = $usersModel->getUserById($id);
-        $photo = $photoModel->getUserSelectedPhoto($id);
-
-        $response->set("photo", $photo);
-        $response->SetTemplate("perfil.php", ["user" => $user]);
-        return $response;
-    }
-
-    public function uploadUserAdmin($request, $response, $container)
-    {
-        $userId = $_SESSION["user_id"];
-
-        $usersModel = $container["\App\Models\usersPDO"];
-        $errorModel = $container["\App\Models\usersPDO"];
-        $orlaModel = $container["\App\Models\Orles"];
-        $grupsModel = $container["\App\Models\usersPDO"];
-        $photoModel = $container["\App\Models\usersPDO"];
+    // Si la sol·licitud no és de tipus POST, redirigir a la pàgina principal
+    $response->SetTemplate("index.php");
+    return $response;
+}
 
 
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            $id = $_POST["id"];
-            $name = $_POST["name"];
-            $surname = $_POST["surname"];
-            $email = $_POST["email"];
-            $phone = $_POST["phone"];
-            $dni = $_POST["dni"];
-            $birth_date = $_POST["birth_date"];
-            $group_name = $_POST["group"];
-            $role = $_POST["role"];
-            
-
-            $usersModel->editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $group_name, $role);
-
-       
-        }
-
-       
   
-        
+/**
+ * Gestiona la creació d'un usuari aleatori.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function randomuser($request, $response, $container)
+{
+    // Obtenir instàncies dels models necessaris
+    $usersModel2 = $container["\App\Models\usersPDO"];
+    $usersModel = $container["\App\Models\usersPDO"];
+    $errorModel = $container["\App\Models\usersPDO"];
+    $orlaModel = $container["\App\Models\Orles"];
+    $grupsModel = $container["\App\Models\usersPDO"];
+
+    // Obtenir les dades de l'usuari autenticat
+    $userId = $_SESSION["user_id"];
+    $photoModel = $container["\App\Models\usersPDO"];
+    $photo = $photoModel->getUserSelectedPhoto($userId);
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Obtindre les dades del formulari
+        $name = $_POST["username"];
+        $surname = $_POST["surname"];
+        $email = $_POST["mail"];
+        $birthDate = $_POST["birth_date"];
+        $role = $_POST["role"];
+        $password = $_POST["password"];
+
+        // Hashear la contrasenya
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // Configurar missatge d'èxit i redirigir a la pàgina de control
+        $response->set("success_message_register", "La compte s'ha creat correctament");
+        $response->SetTemplate("paneldecontrol.php");
+
+        // Registrar l'usuari aleatori i obtenir-ne l'ID
+        $userId_random = $usersModel2->registerRandomUser($name, $surname, $email, $birthDate, $hashedPassword, $role);
+
+        // Generar un token únic
+        $token = uniqid();
+
+        // Guardar el token a la base de dades
+        $usersModel2->saveUserToken($userId_random, $token);
+
+        // Obtenir les dades necessàries per a la pàgina de control
         $users = $usersModel->getAllUsers();
         $errors = $errorModel->geterror();
         $orles = $orlaModel->getAllOrles();
         $grups = $grupsModel->getAllGroups();
-        $photo = $photoModel->getUserSelectedPhoto($UserId);
 
+        // Processar les dades dels usuaris, orles i grups
         foreach ($users as &$user) {
             $user["photos"] = $usersModel->getUserPhotos($user["id"]);
             $groups = $usersModel->getGroupByUserId($user["id"]);
-        
+
             if ($groups !== null) {
                 $user["groups"] = $groups;
             } else {
                 $user["groups"] = 'Sense grup';
             }
         }
-    
+
         foreach ($orles as &$orla) {
             $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
         }
@@ -310,217 +274,485 @@ class UserController
         foreach ($grups as &$grup) {
             $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
         }
-    
-        $response->set("users", $users);
-        $response->set("errors", $errors);
-        $response->set("orles", $orles);
-        $response->set("grups", $grups);
-        $response->set("photo", $photo);
 
-        $response->SetTemplate("paneldecontrol.php");
         return $response;
-
     }
-    public function carnetUser($request, $response, $container)
-    {
-        $id = $request->getParam("token");
-    
-        $usersModel = $container["\App\Models\usersPDO"];
-        $photoModel = $container["\App\Models\usersPDO"];
-        $photo = $photoModel->getUserSelectedPhoto($_SESSION["user_id"]);
-        $response->set("photo", $photo);
-    
-        // Busca el usuario por el token
-        $user = $usersModel->getUserByToken($id);
-    
-        // Verifica si el token existe en la base de datos
-        if ($user) {
-            // Si el usuario se encuentra por el token, obtén la información
-            $group = $usersModel->getGroupForUser($user["id"]);
-    
-            // Pasa los datos a la vista
-            $response->set("user", $user);
-            $response->set("group", $group);
-            $response->set("uniqueUrl", "/carnet/{$user["id"]}");
-           
-            // Establece la plantilla
-            $response->setTemplate("carnet.php");
-        } elseif (isset($_SESSION["user_id"])) {
-            // Si no se encuentra el usuario por el token pero hay un usuario iniciado sesión, muestra su información
-            $userId = $_SESSION["user_id"];
+
+    // Obtenir les dades per a la pàgina de control i configurar la plantilla
+    $users = $usersModel->getAllUsers();
+    $errors = $errorModel->geterror();
+    $orles = $orlaModel->getAllOrles();
+    $grups = $grupsModel->getAllGroups();
+
+    $response->set("users", $users);
+    $response->set("errors", $errors);
+    $response->set("orles", $orles);
+    $response->set("grups", $grups);
+    $response->set("photo", $photo);
+    $response->SetTemplate("paneldecontrol.php");
+
+    return $response;
+}
+
+
+
+   /**
+ * Gestionar la càrrega d'informació d'un usuari.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function uploadUser($request, $response, $container)
+{
+    // Obtenir instàncies dels models necessaris
+    $usersModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Obtindre les dades del formulari
+        $id = $_POST["id"];
+        $name = $_POST["name"];
+        $surname = $_POST["surname"];
+        $email = $_POST["email"];
+        $phone = $_POST["phone"];
+
+        // Actualitzar les dades de l'usuari
+        $usersModel->editUser($id, $name, $surname, $email, $phone);
+
+        // Redirigir a la pàgina de perfil
+        header("Location: perfil");
+        exit();
+    }
+
+    // Obtindre l'ID de l'usuari i les dades corresponents
+    $id = $_POST["id"];
+    $user = $usersModel->getUserById($id);
+    $photo = $photoModel->getUserSelectedPhoto($id);
+
+    // Configurar les dades per a la plantilla i renderitzar la pàgina de perfil
+    $response->set("photo", $photo);
+    $response->SetTemplate("perfil.php", ["user" => $user]);
+    return $response;
+}
+
+
+/**
+ * Gestionar la càrrega d'informació d'un usuari per a l'administrador.
+ *
+ * @param \Emeset\Http\Request $request Objecte que representa la sol·licitud HTTP.
+ * @param \Emeset\Http\Response $response Objecte que representa la resposta HTTP.
+ * @param mixed $container Contenidor de dependències que proporciona accés a serveis i recursos.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function uploadUserAdmin($request, $response, $container)
+{
+    // Obtindre l'ID de l'usuari autenticat
+    $userId = $_SESSION["user_id"];
+
+    // Obtindre instàncies dels models necessaris
+    $usersModel = $container["\App\Models\usersPDO"];
+    $errorModel = $container["\App\Models\usersPDO"];
+    $orlaModel = $container["\App\Models\Orles"];
+    $grupsModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
+
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Obtindre les dades del formulari
+        $id = $_POST["id"];
+        $name = $_POST["name"];
+        $surname = $_POST["surname"];
+        $email = $_POST["email"];
+        $phone = $_POST["phone"];
+        $dni = $_POST["dni"];
+        $birth_date = $_POST["birth_date"];
+        $group_name = $_POST["group"];
+        $role = $_POST["role"];
+
+        // Actualitzar les dades de l'usuari
+        $usersModel->editUserAdmin($id, $name, $surname, $email, $phone, $dni, $birth_date, $group_name, $role);
+    }
+
+    // Obtindre les dades necessàries per a la pàgina de panell de control
+    $users = $usersModel->getAllUsers();
+    $errors = $errorModel->geterror();
+    $orles = $orlaModel->getAllOrles();
+    $grups = $grupsModel->getAllGroups();
+    $photo = $photoModel->getUserSelectedPhoto($userId);
+
+    foreach ($users as &$user) {
+        $user["photos"] = $usersModel->getUserPhotos($user["id"]);
+        $groups = $usersModel->getGroupByUserId($user["id"]);
+
+        if ($groups !== null) {
+            $user["groups"] = $groups;
+        } else {
+            $user["groups"] = 'Sense grup';
+        }
+    }
+
+    foreach ($orles as &$orla) {
+        $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
+    }
+
+    foreach ($grups as &$grup) {
+        $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
+    }
+
+    // Configurar les dades per a la plantilla i renderitzar la pàgina de panell de control
+    $response->set("users", $users);
+    $response->set("errors", $errors);
+    $response->set("orles", $orles);
+    $response->set("grups", $grups);
+    $response->set("photo", $photo);
+
+    $response->SetTemplate("paneldecontrol.php");
+    return $response;
+}
+
+/**
+ * Generar la visualització del carnet d'un usuari, basat en la sessió actual.
+ * 
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function carnetUser($request, $response, $container)
+{
+    // Obtenir l'ID de l'usuari des de la sessió
+    $userId = $_SESSION["user_id"];
+
+    // Obtenir instàncies dels models necessaris
+    $usersModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
+
+    // Obtenir la foto seleccionada de l'usuari des de la base de dades
+    $photo = $photoModel->getUserSelectedPhoto($userId);
+    $response->set("photo", $photo);
+
+    // Buscar l'usuari per l'ID proporcionat pel token
+    $user = $usersModel->getUserByToken($request->getParam("token"));
+
+    if ($user || $userId) {
+        // Si l'usuari existeix o hi ha una sessió iniciada, obtenir la informació
+        if (!$user) {
+            // Si no hi ha usuari però hi ha una sessió iniciada, obtenir la informació de l'usuari loggejat
             $user = $usersModel->getUserById($userId);
-    
-            if ($user) {
-                // Si el usuario se encuentra por la sesión, obtén la información
-                $group = $usersModel->getGroupForUser($user["id"]);
-    
-                // Pasa los datos a la vista
-                $response->set("user", $user);
-                $response->set("group", $group);
-                $response->set("uniqueUrl", "/carnet/{$user["id"]}");
-               
-                // Establece la plantilla
-                $response->setTemplate("carnet.php");
-            } else {
-                // Si no se encuentra el usuario por la sesión, muestra un mensaje de error
-                $response->set("error", "Usuario no encontrado");
-                $response->setTemplate("error.php");
-            }
-        } else {
-            // Si el token no coincide con ningún usuario y no hay token en la sesión, muestra un mensaje de error
-            $response->set("error", "Acceso no autorizado");
-            $response->setTemplate("error.php");
         }
-    
-        return $response;
-    }
-    
-    
-    
-    
-    
 
-    public function photoUser($request, $response, $container)
-    {
+        // Obtenir el grup de l'usuari
+        $group = $usersModel->getGroupForUser($user["id"]);
 
-        $userId = $_SESSION["user_id"];
-        $PhotoModel = $container["\App\Models\usersPDO"];
+        // Passar les dades a la vista
+        $response->set("user", $user);
+        $response->set("group", $group);
+        $response->set("uniqueUrl", "/carnet/{$user["id"]}");
 
-        $photo = $PhotoModel->getUserSelectedPhoto($userId);
-
-        $usersModel = $container["\App\Models\usersPDO"];
-
-        $photos = $usersModel->getUserPhotos($userId);
-
-        $response->set("photos", $photos);
-        $response->set("photo", $photo);
-        $response->SetTemplate("photo.php");
-        return $response;
-
+        // Establir la plantilla
+        $response->setTemplate("carnet.php");
+    } else {
+        // Si el token no coincideix amb cap usuari i no hi ha cap sessió, mostrar un missatge d'error
+        $response->set("error", "Usuari no trobat");
+        $response->setTemplate("error.php"); // Assegura't de tenir una plantilla per mostrar errors
     }
 
+    return $response;
+}
 
-    public function uploadPhoto($request, $response, $container)
-    {
-        $userId = $_SESSION["user_id"];
     
-        $UploadUserPhoto = $container["\App\Models\usersPDO"];
-        $photoModel = $container["\App\Models\usersPDO"];
-        $photo = $photoModel->getUserSelectedPhoto($userId);
-    
-        if (isset($_POST["selectedPhoto"])) {
-            $selectedPhoto = $_POST["selectedPhoto"];
-    
-            // Desactivar todas las fotos del usuario
-            $UploadUserPhoto->deactivateUserPhotos($userId);
-    
-            // Activar la foto seleccionada
-            $UploadUserPhoto->activateSelectedPhoto($userId, $selectedPhoto);
-    
-            header("Location: perfil");
-            exit();
-        } else {
-            echo 'error';
-        }
-    
-        $response->set("photo", $photo);
-        return $response;
-    }
-    
+/**
+ * Genera la visualització del carnet d'un usuari basat en un token proporcionat a través de la URL.
+ *
+ * @param \Emeset\Http\Request $request Objecte que representa la sol·licitud HTTP.
+ * @param \Emeset\Http\Response $response Objecte que representa la resposta HTTP.
+ * @param mixed $container Contenidor de dependències que proporciona accés a serveis i recursos.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function carnetUserUrl($request, $response, $container)
+{
+    // Obtenir l'ID de l'usuari des de la sessió
+    $userId = $_SESSION["user_id"];
 
-    public function cercador($request, $response, $container)
-    {
-        $userId = $_SESSION["user_id"];
-        $alumnes = $container["\App\Models\usersPDO"];
-        $alumnes = $alumnes->getAlumnesByProfessor($userId);
-        $response->set("alumnes", $alumnes);
-        $response->SetTemplate("cercador.php");
-        return $response;
-    }
+    // Obtenir instàncies dels models necessaris
+    $usersModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
 
-    public function alumnes($request, $response, $container)
-    {
-        $userId = $_SESSION["user_id"];
-        $photoModel = $container["\App\Models\usersPDO"];
-     
-        $alumnes = $container["\App\Models\usersPDO"];
-        $alumnes = $alumnes->getAlumnesByProfessor($userId);
-        $photo = $photoModel->getUserSelectedPhoto($userId);
-        $response->set("alumnes", $alumnes);
-        $response->set("photo", $photo);
-        $response->SetTemplate("alumnes.php");
+    // Obtenir la foto seleccionada de l'usuari des de la base de dades
+    $photo = $photoModel->getUserSelectedPhoto($userId);
+    $response->set("photo", $photo);
 
-        return $response;
-    }
-    
-    public function contactar($request, $response, $container)
-    {
+    // Buscar l'usuari pel token proporcionat a través de la URL
+    $user = $usersModel->getUserByToken($request->getParam("token"));
 
-        $userId = $_SESSION["user_id"];
-        $photoModel = $container["\App\Models\usersPDO"];
-        $photo = $photoModel->getUserSelectedPhoto($userId);
-        $response->set("photo", $photo);
-         $response->SetTemplate("contactar.php");
-        return $response;
- 
+    // Verificar si l'usuari es troba pel token
+    if ($user) {
+        // Si l'usuari es troba pel token, obtenir la informació
+        $group = $usersModel->getGroupForUser($user["id"]);
+
+        // Passar les dades a la vista
+        $response->set("user", $user);
+        $response->set("group", $group);
+        $response->set("uniqueUrl", "/carnet/{$user["id"]}");
+
+        // Establir la plantilla
+        $response->setTemplate("carnet.php");
+    } else {
+        // Si el token no coincideix amb cap usuari, mostrar un missatge d'error
+        $response->set("error", "Usuari no trobat");
+        $response->setTemplate("errortoken.php");
     }
 
-    public function enviarcontactar($request, $response, $container)
-    {
-        $userId = $_SESSION["user_id"];
-        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    return $response;
+}
 
+    
+    
+    
+
+/**
+ * Mostra les fotos associades a un usuari específic.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function photoUser($request, $response, $container)
+{
+    // Obtenir l'ID de l'usuari des de la sessió
+    $userId = $_SESSION["user_id"];
+
+    // Obtenir una instància del model necessari
+    $usersModel = $container["\App\Models\usersPDO"];
+
+    // Obtenir les fotos de l'usuari des de la base de dades
+    $photos = $usersModel->getUserPhotos($userId);
+
+    // Passar les dades a la vista
+    $response->set("photos", $photos);
+
+    // Establir la plantilla
+    $response->setTemplate("photo.php");
+
+    return $response;
+}
+
+
+
+/**
+ * Pujar una foto de perfil per a l'usuari actual.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function uploadPhoto($request, $response, $container)
+{
+    // Obtenir l'ID de l'usuari des de la sessió
+    $userId = $_SESSION["user_id"];
+
+    // Obtenir una instància del model necessari
+    $uploadUserPhotoModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
+
+    // Obtenir la foto seleccionada de l'usuari
+    $photo = $photoModel->getUserSelectedPhoto($userId);
+
+    // Verificar si s'ha enviat la foto seleccionada
+    if (isset($_POST["selectedPhoto"])) {
+        $selectedPhoto = $_POST["selectedPhoto"];
+
+        // Desactivar totes les fotos de l'usuari
+        $uploadUserPhotoModel->deactivateUserPhotos($userId);
+
+        // Activar la foto seleccionada
+        $uploadUserPhotoModel->activateSelectedPhoto($userId, $selectedPhoto);
+
+        // Redirigir a la pàgina de perfil
+        header("Location: perfil");
+        exit();
+    } else {
+        // Manejar l'error si no s'ha enviat la foto seleccionada
+        echo 'error';
+    }
+
+    // Passar la foto a la vista
+    $response->set("photo", $photo);
+
+    return $response;
+}
+
+    
+
+    /**
+ * Funció per gestionar la pàgina de cerca d'alumnes.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function cercador($request, $response, $container)
+{
+    // Obtenir l'ID de l'usuari des de la sessió
+    $userId = $_SESSION["user_id"];
+
+    // Obtenir una instància del model d'usuaris necessari
+    $alumnesModel = $container["\App\Models\usersPDO"];
+
+    // Obté els alumnes assignats a un professor específic
+    $alumnes = $alumnesModel->getAlumnesByProfessor($userId);
+
+    // Passar els alumnes a la vista
+    $response->set("alumnes", $alumnes);
+
+    // Establir la plantilla
+    $response->SetTemplate("cercador.php");
+
+    return $response;
+}
+
+
+    /**
+ * Funció per gestionar la pàgina d'alumnes d'un professor.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function alumnes($request, $response, $container)
+{
+    // Obtenir l'ID de l'usuari des de la sessió
+    $userId = $_SESSION["user_id"];
+
+    // Obtenir una instància del model d'usuaris i del model de fotos necessaris
+    $alumnesModel = $container["\App\Models\usersPDO"];
+    $photoModel = $container["\App\Models\usersPDO"];
+
+    // Obté els alumnes assignats a un professor específic
+    $alumnes = $alumnesModel->getAlumnesByProfessor($userId);
+
+    // Obté la foto seleccionada de l'usuari actual
+    $photo = $photoModel->getUserSelectedPhoto($userId);
+
+    // Passar els alumnes i la foto a la vista
+    $response->set("alumnes", $alumnes);
+    $response->set("photo", $photo);
+
+    // Establir la plantilla
+    $response->SetTemplate("alumnes.php");
+
+    return $response;
+}
+
+    
+   /**
+ * Funció per gestionar la pàgina de contactar.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function contactar($request, $response, $container)
+{
+    // Obtenir l'ID de l'usuari des de la sessió
+    $userId = $_SESSION["user_id"];
+
+    // Obtenir una instància del model de fotos necessari
+    $photoModel = $container["\App\Models\usersPDO"];
+
+    // Obté la foto seleccionada de l'usuari actual
+    $photo = $photoModel->getUserSelectedPhoto($userId);
+
+    // Passar la foto a la vista associada "contactar.php"
+    $response->set("photo", $photo);
+
+    // Establir la plantilla
+    $response->SetTemplate("contactar.php");
+
+    return $response;
+}
+
+
+/**
+ * Funció per gestionar l'enviament de missatges de contactar.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
+ */
+public function enviarcontactar($request, $response, $container)
+{
+    // Obtenir l'ID de l'usuari des de la sessió
+    $userId = $_SESSION["user_id"];
+
+    // Comprovar si la sol·licitud és una petició POST
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Obtenir les dades del formulari
         $mensaje = $_POST["mensaje"];
         $email = $_POST["email"];
 
+        // Obté les instàncies del model necessàries
         $errorModel = $container["\App\Models\usersPDO"];
         $photoModel = $container["\App\Models\usersPDO"];
-        $photo = $photoModel->getUserSelectedPhoto($userId);
-        
-        $Createerror = $errorModel->createerror($userId, $mensaje);
-        $response->set("photo", $photo);
-        $response->SetTemplate("contactar.php");
-        return $response;
-        } else {
-            echo 'error';
-        }
- 
-    }
 
+        // Obté la foto seleccionada de l'usuari actual
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+
+        // Crea un error amb el missatge proporcionat i l'ID de l'usuari
+        $Createerror = $errorModel->createerror($userId, $mensaje);
+
+        // Passa la foto a la vista associada "contactar.php"
+        $response->set("photo", $photo);
+
+        // Establir la plantilla
+        $response->SetTemplate("contactar.php");
+
+        return $response;
+    } else {
+        // Si no és una petició POST, mostra un missatge d'error
+        echo 'error';
+    }
+}
+
+/**
+ * Funció per obtenir informació específica del panell de control per a un usuari.
+ *
+ * @return \Emeset\Http\Response Resposta HTTP.
+ */
+public function Idpanel($request, $response, $container)
+{
+    // Obté la ID de l'usuari des de la sessió
+    $userId = $_SESSION["user_id"];
+    
+    // Accedeix al model d'usuaris des del contenidor
+    $usersModel = $container["\App\Models\usersPDO"];
+
+    // Obté informació específica del panell de control per a l'usuari
+    $users = $usersModel->Idpanel($userId);
+
+    // Estableix les dades de l'usuari i les passa a la vista del panell de control
+    $response->set("users", $users);
+
+    // Estableix la plantilla a utilitzar
+    $response->SetTemplate("paneldecontrol.php");
+
+    // Retorna la resposta HTTP
+    return $response;
+}
    
 
-  
-
+   /**
+ * Gestiona la eliminació d'un usuari.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP amb les dades actualitzades.
+ */
+public function deleteUser($request, $response, $container)
+{
+    // Obté l'ID de l'usuari a eliminar des del paràmetre de la sol·licitud GET
+    $user_id = $_GET['id'];
     
-    public function Idpanel($request, $response, $container)
-    {
-        $userId = $_SESSION["user_id"];
-        $usersModel = $container["\App\Models\usersPDO"];
+    // Obté l'ID de l'usuari actual autenticat des de la sessió
+    $userId = $_SESSION["user_id"];
 
-        $users = $usersModel->Idpanel($userId);
-
-        $response->set("users", $users);
-        $response->SetTemplate("paneldecontrol.php");
-        return $response;
-
-    }
-    public function deleteUser($request, $response, $container)
-    {
-        $user_id = $_GET['id'];
-        $userId = $_SESSION["user_id"];
+    // Crea instàncies dels models necessaris
     $OrlaModel = $container["\App\Models\Orles"];
     $usersModel = $container["\App\Models\usersPDO"];
     $errorModel = $container["\App\Models\usersPDO"];
     $photoModel = $container["\App\Models\usersPDO"];
 
-
+    // Obté les dades necessàries per mostrar la pàgina de panell de control
     $grupsModel = $container["\App\Models\usersPDO"];
     $users = $usersModel->getAllUsers();
     $errors = $errorModel->geterror();
     $orles = $OrlaModel->getAllOrles();
     $grups = $grupsModel->getAllGroups();
- 
     
+    // Itera sobre els usuaris per obtenir les fotos i grups associats
     foreach ($users as &$user) {
         $user["photos"] = $usersModel->getUserPhotos($user["id"]);
         $groups = $usersModel->getGroupByUserId($user["id"]);
@@ -532,29 +764,39 @@ class UserController
         }
     }
 
-    
+    // Itera sobre els grups per obtenir els usuaris associats
     foreach ($grups as &$grup) {
         $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
     }
 
-   
-        $usersModel = $container["\App\Models\usersPDO"];
-        $usersModel->deleteUser($user_id);
+    // Elimina l'usuari de la base de dades
+    $usersModel->deleteUser($user_id);
 
-        $response->set("users", $users);
-        
-        $response->set("errors", $errors);
-        $response->set("orles", $orles);
-        $response->set("grups", $grups);
-        $response->set("photo", $photo);
-    
+    // Configura les dades per actualitzar la pàgina de panell de control
+    $response->set("users", $users);
+    $response->set("errors", $errors);
+    $response->set("orles", $orles);
+    $response->set("grups", $grups);
+    $response->set("photo", $photo);
 
-        $response->SetTemplate("paneldecontrol.php");
-        return $response;
-    }
+    // Estableix la plantilla per la pàgina de panell de control
+    $response->SetTemplate("paneldecontrol.php");
 
-  public function deleteerror($request, $response, $container){
+    return $response;
+}
+
+
+/**
+ * Gestiona l'eliminació d'un error.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP amb les dades actualitzades.
+ */
+public function deleteerror($request, $response, $container)
+{
+    // Obté l'ID de l'error a eliminar des del paràmetre de la sol·licitud GET
     $error_id = $_GET['id'];
+    
+    // Crea instàncies dels models necessaris
     $errorrModel = $container["\App\Models\usersPDO"];
     $errorrModel->deleteerror($error_id);
     
@@ -562,15 +804,17 @@ class UserController
     $errorModel = $container["\App\Models\usersPDO"];
     $orlaModel = $container["\App\Models\Orles"];
     $grupsModel = $container["\App\Models\usersPDO"];
+    
+    // Obté les dades necessàries per mostrar la pàgina de panell de control
     $userId = $_SESSION["user_id"];
     $photoModel = $container["\App\Models\usersPDO"];
     $photo = $photoModel->getUserSelectedPhoto($userId);
-
     $users = $usersModel->getAllUsers();
     $errors = $errorModel->geterror();
     $orles = $orlaModel->getAllOrles();
     $grups = $grupsModel->getAllGroups();
 
+    // Itera sobre els usuaris per obtenir les fotos i grups associats
     foreach ($users as &$user) {
         $user["photos"] = $usersModel->getUserPhotos($user["id"]);
         $groups = $usersModel->getGroupByUserId($user["id"]);
@@ -582,53 +826,65 @@ class UserController
         }
     }
 
+    // Itera sobre els orles per obtenir les fotos associades
     foreach ($orles as &$orla) {
         $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
     }
 
+    // Itera sobre els grups per obtenir els usuaris associats
     foreach ($grups as &$grup) {
         $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
     }
 
+    // Configura les dades per actualitzar la pàgina de panell de control
     $response->set("users", $users);
     $response->set("errors", $errors);
     $response->set("orles", $orles);
     $response->set("grups", $grups);
     $response->set("photo", $photo);
     
+    // Estableix la plantilla per la pàgina de panell de control
     $response->SetTemplate("paneldecontrol.php");
-  return $response;
 
-  }
+    return $response;
+}
 
-  public function uploaderror($request, $response, $container) {
-    // Verifica si se están enviando los datos correctamente
+
+  /**
+ * Gestiona la càrrega d'un error.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP amb les dades actualitzades.
+ */
+public function uploaderror($request, $response, $container)
+{
+    // Verifica si es reben les dades correctament
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $status = $_POST["error_status"];
-        $error_id = $_POST["id"];  // Cambiado a $_POST["id"]
+        $error_id = $_POST["id"];  // Canviat a $_POST["id"]
 
         $errorModel = $container["\App\Models\usersPDO"];
 
-        // Verifica si la función uploadError está implementada correctamente en UsersPDO
+        // Verifica si la funció uploadError està implementada correctament a UsersPDO
         $errorModel->uploadError($error_id, $status);
     } else {
         echo 'error';
-
     }
 
+    // Crea instàncies dels models necessaris
     $usersModel = $container["\App\Models\usersPDO"];
     $errorModel = $container["\App\Models\usersPDO"];
     $orlaModel = $container["\App\Models\Orles"];
     $grupsModel = $container["\App\Models\usersPDO"];
     $photoModel = $container["\App\Models\usersPDO"];
 
+    // Obté les dades necessàries per mostrar la pàgina de panell de control
     $users = $usersModel->getAllUsers();
     $errors = $errorModel->geterror();
     $orles = $orlaModel->getAllOrles();
     $grups = $grupsModel->getAllGroups();
     $photo = $photoModel->getUserSelectedPhoto($id);
     
-    
+    // Itera sobre els usuaris per obtenir les fotos i grups associats
     foreach ($users as &$user) {
         $user["photos"] = $usersModel->getUserPhotos($user["id"]);
         $groups = $usersModel->getGroupByUserId($user["id"]);
@@ -640,62 +896,78 @@ class UserController
         }
     }
 
+    // Itera sobre els orles per obtenir les fotos associades
     foreach ($orles as &$orla) {
         $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
     }
 
+    // Itera sobre els grups per obtenir els usuaris associats
     foreach ($grups as &$grup) {
         $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
     }
 
+    // Configura les dades per actualitzar la pàgina de panell de control
     $response->set("users", $users);
     $response->set("errors", $errors);
     $response->set("orles", $orles);
     $response->set("grups", $grups);
     $response->set("photo", $photo);
 
+    // Estableix la plantilla per la pàgina de panell de control
     $response->SetTemplate("paneldecontrol.php");
-   return $response;
+
+    return $response;
 }
+
  
+/**
+ * Pujar una foto de l'alumne des d'un fitxer.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP amb les dades actualitzades.
+ */
 public function uploadPhotoFromFile($request, $response, $container)
 {
-    
-  
+    // Verifica si es reben les dades correctament
     if (isset($_FILES['photo'])) {
         $file = $_FILES['photo'];
 
+        // Verifica si no hi ha errors en la pujada del fitxer
         if ($file['error'] === UPLOAD_ERR_OK) {
             $tmpFilePath = $file['tmp_name'];
 
+            // Genera un nom únic pel fitxer
             $newFileName = uniqid('image_') . '.' . pathinfo($file['name'], PATHINFO_EXTENSION);
 
+            // Defineix la ruta de destí per desar el fitxer
             $destinationPath = "img/" . $newFileName;
 
+            // Mou el fitxer carregat a la ruta de destí
             if (move_uploaded_file($tmpFilePath, $destinationPath)) {
+                // Mostra un missatge d'èxit
                 $successMessage = '
                 <div role="alert" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded z-50">
                       <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       <span>Has pujat i actualitzat la foto del alumne</span>
                     </div>
-            ';
+                ';
 
-         
-            echo $successMessage;
+                echo $successMessage;
 
+                // Crea instàncies dels models necessaris
                 $usersModel = $container["\App\Models\usersPDO"];
-               
                 $UploadUserPhoto = $container["\App\Models\usersPDO"];
-                
 
+                // Obté l'ID de l'alumne
                 $user_id = $_POST['user_id']; 
                 $userId = $_SESSION["user_id"];
+
+                // Desactiva totes les fotos de l'alumne
                 $UploadUserPhoto->deactivateUserPhotos($user_id);
+
+                // Pujar la nova foto de l'alumne
                 $usersModel->uploadPhotoFromFile($user_id, $destinationPath, 'active');
-               
-    
             } else {
-                echo "Error al guardar la imagen.";
+                echo "Error al guardar la imatge.";
             }
         } else {
            echo '<div role="alert" class="fixed bottom-4 right-4 bg-amber-500 text-white px-4 py-2 rounded z-50 w-xs">
@@ -704,69 +976,79 @@ public function uploadPhotoFromFile($request, $response, $container)
          </div>';
         }
     } else {
-        echo "No se ha enviado ninguna imagen.";
+        echo "No s'ha enviat cap imatge.";
     }
-    
+
+    // Obté les dades necessàries per mostrar la pàgina d'alumnes
     $userId = $_SESSION["user_id"];
     $photoModel = $container["\App\Models\usersPDO"];
-   
-
     $alumnes = $container["\App\Models\usersPDO"];
-
     $alumnes = $alumnes->getAlumnesByProfessor($userId);
     $photo = $photoModel->getUserSelectedPhoto($userId);
 
+    // Configura les dades per actualitzar la pàgina d'alumnes
     $response->set("alumnes", $alumnes);
     $response->set("photo", $photo);
     $response->SetTemplate("alumnes.php");
-    
+
     return $response;
 }
+
+/**
+ * Funció que gestiona la pujada de fotos d'estudiants des d'un fitxer.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP amb la plantilla actualitzada.
+ */
 public function uploadPhotoFromFileEdit($request, $response, $container)
 {
-    // Asegúrate de que se ha enviado la información de la imagen en Base64
+    // Assegura't que s'ha enviat la informació de la imatge en Base64
     if (isset($_POST['photo'])) {
+        // Obté la imatge en format Base64
         $base64Image = $_POST['photo'];
 
-        // Decodificar la imagen Base64
+        // Decodifica la imatge Base64
         $imageData = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $base64Image));
 
-        // Generar un nombre de archivo único
+        // Genera un nom de fitxer únic
         $newFileName = uniqid('image_') . '.png';
 
-        // Ruta de destino para guardar la imagen
+        // Ruta de destí per desar la imatge
         $destinationPath = "img/" . $newFileName;
 
-        // Guardar la imagen en el servidor
+        // Desa la imatge al servidor
         if (file_put_contents($destinationPath, $imageData)) {
-            // Éxito al guardar la imagen
+            // Èxit en desar la imatge
             $successMessage = '<div role="alert" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded z-50">
                 <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                <span>Has pujat i actualitzat la foto del alumne</span>
+                <span>Has pujat i actualitzat la foto de estudiant</span>
             </div>';
 
             echo $successMessage;
 
-            // Resto del código para interactuar con la base de datos
+            // Resta del codi per interactuar amb la base de dades
             $usersModel = $container["\App\Models\usersPDO"];
             $UploadUserPhoto = $container["\App\Models\usersPDO"];
 
             $user_id = $_POST['user_id']; 
             $userId = $_SESSION["user_id"];
+            
+            // Desactiva totes les altres fotos de l'estudiant
             $UploadUserPhoto->deactivateUserPhotos($user_id);
+            
+            // Pujar la nova foto i activar-la
             $usersModel->uploadPhotoFromFile($user_id, $destinationPath, 'active');
 
         } else {
-            echo "Error al guardar la imagen.";
+            echo "Error al desar la imatge.";
         }
     } else {
-        echo "No se ha enviado ninguna imagen.";
+        echo "No s'ha enviat cap imatge.";
         var_dump($_POST);
     }
 
-    // Resto del código para cargar datos y renderizar la plantilla
+    // Resta del codi per carregar dades i renderitzar la plantilla
     $userId = $_SESSION["user_id"];
     $photoModel = $container["\App\Models\usersPDO"];
     $alumnes = $container["\App\Models\usersPDO"];
@@ -780,25 +1062,42 @@ public function uploadPhotoFromFileEdit($request, $response, $container)
     return $response;
 }
 
+
+/**
+ * Funció que gestiona la eliminació d'un grup específic.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP amb les dades actualitzades.
+ */
 public function DeleteGrup($request, $response, $container)
 {
+    // Obtenir l'identificador de grup des dels paràmetres de la sol·licitud
     $grup_id = $_GET['id'];
 
-
+    // Accedir al model d'usuaris des del contenidor
     $usersModel = $container["\App\Models\usersPDO"];
+
+    // Eliminar el grup utilitzant el model d'usuaris
     $usersModel->DeleteGrup($grup_id);
+
+    // Obtenir l'identificador d'usuari de la sessió actual
     $userId = $_SESSION["user_id"];
+
+    // Accedir als models necessaris des del contenidor
     $errorModel = $container["\App\Models\usersPDO"];
     $orlaModel = $container["\App\Models\Orles"];
     $grupsModel = $container["\App\Models\usersPDO"];
     $photoModel = $container["\App\Models\usersPDO"];
+
+    // Obtindre la foto seleccionada de l'usuari actual
     $photo = $photoModel->getUserSelectedPhoto($userId);
    
+    // Obtindre tots els usuaris, errors, orles i grups per actualitzar la resposta
     $users = $usersModel->getAllUsers();
     $errors = $errorModel->geterror();
     $orles = $orlaModel->getAllOrles();
     $grups = $grupsModel->getAllGroups();
 
+    // Afegir informació addicional als usuaris
     foreach ($users as &$user) {
         $user["photos"] = $usersModel->getUserPhotos($user["id"]);
         $groups = $usersModel->getGroupByUserId($user["id"]);
@@ -810,47 +1109,63 @@ public function DeleteGrup($request, $response, $container)
         }
     }
 
+    // Afegir informació addicional a les orles
     foreach ($orles as &$orla) {
         $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
     }
 
+    // Afegir informació addicional als grups
     foreach ($grups as &$grup) {
         $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
     }
 
+    // Actualitzar la resposta amb les dades actualitzades
     $response->set("users", $users);
     $response->set("errors", $errors);
     $response->set("orles", $orles);
     $response->set("grups", $grups);
     $response->set("photo", $photo);
     
-    $response->set("users", $users);
-
+    // Establir la plantilla de resposta al panell de control
     $response->SetTemplate("paneldecontrol.php");
     return $response;
 }
 
+
+/**
+ * Funció que gestiona la creació d'un grup nou.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP amb les dades actualitzades.
+ */
 public function crearGrup($request, $response, $container)
 {  
+    // Obtenció del nom del grup a partir de les dades del formulari
     $name = $_POST["name"];
 
-  
-
+    // Injecció del model d'usuaris des del contenidor
     $usersModel = $container["\App\Models\usersPDO"];
+    
+    // Creació del grup amb el nom proporcionat
     $usersModel->crearGrup($name);
+    
+    // Obtenció de l'identificador de l'usuari actual des de la sessió
     $userId = $_SESSION["user_id"];
+    
+    // Obtenció de la informació del panell per a l'usuari actual
     $users = $usersModel->Idpanel($userId);
 
-   
+    // Injecció dels models relacionats
     $errorModel = $container["\App\Models\usersPDO"];
     $orlaModel = $container["\App\Models\Orles"];
     $grupsModel = $container["\App\Models\usersPDO"];
+    
+    // Obtenció de diverses dades necessàries
     $users = $usersModel->getAllUsers();
     $errors = $errorModel->geterror();
     $orles = $orlaModel->getAllOrles();
     $grups = $grupsModel->getAllGroups();
     
-    
+    // Iteració sobre els usuaris per afegir informació addicional
     foreach ($users as &$user) {
         $user["photos"] = $usersModel->getUserPhotos($user["id"]);
         $groups = $usersModel->getGroupByUserId($user["id"]);
@@ -862,95 +1177,113 @@ public function crearGrup($request, $response, $container)
         }
     }
 
+    // Iteració sobre les orles per afegir informació addicional
     foreach ($orles as &$orla) {
         $orla["photos"] = $orlaModel->getAllPhotosOrla($orla["orla_id"]);
     }
 
+    // Iteració sobre els grups per afegir informació addicional
     foreach ($grups as &$grup) {
         $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
     }
 
+    // Configuració de les dades a la resposta HTTP
     $response->set("users", $users);
     $response->set("errors", $errors);
     $response->set("orles", $orles);
     $response->set("grups", $grups);
 
+    // Configuració addicional de les dades a la resposta HTTP
     $response->set("users", $users);
 
+    // Configuració de la plantilla a utilitzar per la resposta
     $response->SetTemplate("paneldecontrol.php");
+    
+    // Retorn de la resposta HTTP
     return $response;
-
 }
+
+/**
+ * Funció que gestiona l'enviament d'un correu electrònic de recuperació de contrasenya.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP amb la plantilla actualitzada.
+ */
 public function sendRecoveryEmail($request, $response, $container) {
+    // Injecció del model d'usuaris des del contenidor
     $emailModel = $container["\App\Models\usersPDO"];
 
-    // Verifica si el correo electrónico existe en tu lógica de aplicación
-    $email = $_POST["email"]; // Asigna un valor a la variable $email
+    // Obtenció del correu electrònic del formulari
+    $email = $_POST["email"];
+
+    // Verificació de l'existència del correu electrònic a la lògica de l'aplicació
     if ($emailModel->emailExists($email)) {
-        // Genera un token único
+        // Generació d'un token únic
         $token = uniqid();
 
-        // Almacena el token en la base de datos
+        // Emmagatzematge del token a la base de dades
         $emailModel->storeToken($email, $token);
 
-        // Intenta enviar el correo electrónico de recuperación con el token
+        // Intent de l'enviament del correu electrònic de recuperació amb el token
         try {
             $emailModel->RecoveryEmail($email, $token);
 
-            // Se ha enviado un correo para recuperar la contraseña
+            // Correu electrònic enviat amb èxit per a la recuperació de contrasenya
             $response->SetTemplate("sendemail.php");
             return $response;
 
         } catch (\Exception $e) {
-            // Manejar el error de manera segura (puede registrar en un archivo de registro)
+            // Maneig segur de l'error (pot ser registrat en un fitxer de registre)
             $response->SetTemplate("erroremail.php");
             return $response;
         }
     }
 
-    // Si el correo no existe, redirige a la página de error
+    // Si el correu electrònic no existeix, redirecció a la pàgina d'error
     $response->SetTemplate("erroremail.php");
     return $response;
 }
 
-
+/**
+ * Funció que gestiona el canvi de contrasenya per mitjà d'un formulari.
+ *
+ * @return \Emeset\Http\Response La resposta HTTP amb la plantilla actualitzada.
+ */
 public function newpass($request, $response, $container)
 {
+    // Injecció del model d'usuaris des del contenidor
     $usersModel = $container["\App\Models\usersPDO"];
 
+    // Comprova si la sol·licitud és de tipus POST
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Obté el correu electrònic i la nova contrasenya del formulari
         $email = $_POST["email"];
         $password = $_POST["password"];
 
-        // Obtener el token del usuario por correo electrónico
+        // Obté el token associat al correu electrònic de l'usuari
         $token = $usersModel->getTokenByEmail($email);
 
+        // Verifica si s'ha trobat un token vàlid
         if ($token !== false) {
-            // Cambiar la contraseña del usuario con el token proporcionado
+            // Obté les dades de l'usuari amb el correu electrònic
             $user = $usersModel->getUserByEmail($email);
 
-            // Hash de la nueva contraseña
+            // Genera el hash de la nova contrasenya
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            // Actualizar la contraseña del usuario con el hash
+            // Actualitza la contrasenya de l'usuari amb el nou hash
             $usersModel->PasswordUser($user['id'], $hashedPassword);
         } else {
-            // El correo electrónico no está registrado o no tiene un token asociado
-            // Puedes redirigir a una página de error o mostrar un mensaje de error.
-            // Por ejemplo:
-            echo "Usuario no encontrado o no tiene un token asociado";
+            // El correu electrònic no està registrat o no té un token associat
+            // Pots redirigir a una pàgina d'error o mostrar un missatge d'error.
+            // Per exemple:
+            echo "Usuari no trobat o no té un token associat";
             exit();
         }
     }
 
+    // Configuració de la plantilla a utilitzar per la resposta
     $response->SetTemplate("newpass.php");
     return $response;
 }
-
-
-
-
-
-
 
 }
