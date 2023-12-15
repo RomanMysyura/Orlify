@@ -148,7 +148,7 @@ function openEditModal(userId, name, surname, email, phone, dni, birth_date,  ro
                     <select id="role" title="role" name="role" class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300">
                     <option value="Alumne" ${user.role === 'Alumne' ? 'selected' : ''}>Alumne</option>
                     <option value="Professor" ${user.role === 'Professor' ? 'selected' : ''}>Professor</option>
-                    <option value="Admin" ${user.role === 'Admin' ? 'selected' : ''}>Admin</option>
+                    <option value="Equip Directiu" ${user.role === 'Equip Directiu' ? 'selected' : ''}>Equip Directiu</option>
                 </select>
                 <div class="card-actions justify-end mt-5">
                     <button type="submit" class="btn btn-active btn-neutral">Editar</button>
