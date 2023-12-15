@@ -5,27 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/main.css">
-    <style>
-    /* Agrega reglas CSS para el fondo */
-    .card {
-        background-image: url('../img/carnet.jpg');
-        /* Reemplaza 'ruta/a/tu/carpeta/' con la ruta correcta */
-        background-size: cover;
-        background-position: center;
-    }
-
-    /* Establece el color blanco para el texto en las etiquetas h3 y p */
-    .card h3,
-    .card p {
-        color: white;
-    }
-
-    /* Aumenta el z-index de la imagen del usuario */
-    .user-photo {
-        z-index: 2;
-        /* Ajusta según sea necesario */
-    }
-    </style>
     <title>Crear Carnet</title>
 </head>
 
