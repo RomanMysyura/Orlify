@@ -298,7 +298,7 @@ class UsersPDO
         $sql = "
             SELECT u.id AS user_id, u.name AS user_name, u.surname AS user_surname,
                    u.email AS user_email, u.phone AS user_phone, u.dni AS user_dni,
-                   u.birth_date AS user_birth_date, g.name AS group_name, p.url AS photo_url
+                   u.birth_date AS user_birth_date, u.role AS user_rol, g.name AS group_name, p.url AS photo_url
             FROM users u
             JOIN user_groups ug ON u.id = ug.user_id
             JOIN groups g ON ug.group_id = g.id
@@ -308,7 +308,7 @@ class UsersPDO
                 FROM user_groups
                 WHERE user_id = :userId
             )
-            AND u.role = 'Alumne'
+            AND (u.role = 'Alumne' OR u.id = :userId)
         ";
     
         $stmt = $this->sql->prepare($sql);
