@@ -430,43 +430,8 @@ class UsersPDO
     }
     
 
-    public function getUserToken($userId) {
-        try {
-            // Prepara la consulta SQL para obtener el token del usuario
-            $stmt = $this->sql->prepare("SELECT token FROM users WHERE id = :userId");
-            $stmt->bindParam(":userId", $userId, \PDO::PARAM_INT);
-            $stmt->execute();
-
-            // Obtiene el resultado de la consulta
-            $result = $stmt->fetch(\PDO::FETCH_ASSOC);
-
-            // Retorna el token si existe, de lo contrario, retorna null
-            return $result ? $result['token'] : null;
-        } catch (\PDOException $e) {
-            // Manejo de errores: Puedes ajustar esto según tus necesidades
-            echo "Error al obtener el token del usuario: " . $e->getMessage();
-            return null;
-        }
-    }
-    public function isValidToken($userId, $token)
-    {
-        try {
-            // Prepara la consulta SQL para obtener el token del usuario
-            $stmt = $this->sql->prepare("SELECT token FROM users WHERE id = :userId");
-            $stmt->bindParam(":userId", $userId, \PDO::PARAM_INT);
-            $stmt->execute();
     
-            // Obtiene el token almacenado en la base de datos
-            $storedToken = $stmt->fetchColumn();
-    
-            // Compara el token proporcionado con el almacenado en la base de datos
-            return ($token === $storedToken);
-        } catch (\PDOException $e) {
-            // Manejo de errores: Puedes ajustar esto según tus necesidades
-            echo "Error al verificar el token: " . $e->getMessage();
-            return false;
-        }
-    }
+
     public function getUserByToken($token)
 {
     $query = "SELECT * FROM users WHERE token = :token";

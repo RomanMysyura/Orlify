@@ -54,7 +54,7 @@ $app->post("uploadUserAdmin", [UserController::class,"uploadUserAdmin"], [[\App\
 $app->post("uploadPhoto", [UserController::class,"uploadPhoto"]);
 $app->post("uploadPhotoFromFile", [UserController::class,"uploadPhotoFromFile"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
 $app->post("uploadPhotoFromFileEdit", [UserController::class,"uploadPhotoFromFileEdit"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
-$app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"], [[\App\Middleware\App::class,"permissions"]]);
+$app->post("add_users_to_orla", [OrlesControllers::class,"add_users_to_orla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
 $app->get("Idpanel", [UserController::class,"Idpanel"]);
 $app->get("deleteUser", [UserController::class,"deleteUser"], [[\App\Middleware\App::class,"permissions"]]);
 $app->get("DeleteGrup", [UserController::class,"DeleteGrup"], [[\App\Middleware\App::class,"permissions"]]);

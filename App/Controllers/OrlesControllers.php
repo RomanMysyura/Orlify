@@ -1,15 +1,11 @@
 <?php
 namespace App\Controllers;
-use TCPDF;
 class OrlesControllers 
 {
 
     /**
      * Funció per gestionar la visualització de les orles per professor.
      *
-     * @param   [type]  $request    [$request description]
-     * @param   [type]  $response   [$response description]
-     * @param   [type]  $container  [$container description]
      *
      * @return  [type]              Resposta amb les dades de les orles
      */
@@ -37,81 +33,90 @@ class OrlesControllers
     /**
      * mevesOrles Funció visualitzar les orles de l'alumne actual.
      *
-     * @param   [type]  $request    [$request description]
-     * @param   [type]  $response   [$response description]
-     * @param   [type]  $container  [$container description]
      *
      * @return  [type]              Resposta amb les dades de les orles del alumne
      */
     public function mevesOrles($request, $response, $container)
     {
         $OrlaModel = $container["\App\Models\Orles"];
-        $userId = $request->get("SESSION", "user_id");
         $photoModel = $container["\App\Models\usersPDO"];
-        $photo = $photoModel->getUserSelectedPhoto($userId);
         $usersModel = $container["\App\Models\usersPDO"];
+    
+        $userId = $request->get("SESSION", "user_id");
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+    
         $grupsprof = $usersModel->getGroupsProf($userId);
         $_SESSION["grup_prof"] = $grupsprof;
-
+    
         $orla = $OrlaModel->getOrles($userId);
-
+    
         $response->set("orles", $orla);
         $response->set("photo", $photo);
-
-
+    
         $response->SetTemplate("viewmevesorles.php");
         return $response;
     }
+    
 
    
 
+
+    /**
+     * [editarOrles Funció per editar les orles]
+     * @return  [type]              [return description]
+     */
     public function editarOrles($request, $response, $container)
-{
-    $userId = $_SESSION["user_id"];
-    $orla_id = $_GET["id"];
-    $OrlaModel = $container["\App\Models\Orles"];
+    {
+        // Obtenir l'ID de l'usuari i l'ID de l'orla
+        $userId = $_SESSION["user_id"];
+        $orla_id = $_GET["id"];
     
-    $photos = $OrlaModel->getPhotosForOrla($orla_id);
-    $usersInOrla = $OrlaModel->getUsersInOrla($orla_id);
-    $_SESSION["orla_users_ids"] = array_column($usersInOrla, 'user_id');
-    $response->set("photos", $photos);
-    $response->set("orla_id", $orla_id);
-    $orlaName = $OrlaModel->getOrlaName($orla_id);
-    $response->set("orlaName", $orlaName);
-    $orlaStatus = $OrlaModel->getStatusOrla($orla_id);
-    $response->set("orlaStatus", $orlaStatus);
-
-    // Obtener la lista de usuarios y grupos
-    $usersModel = $container["\App\Models\usersPDO"];
-    $users = $usersModel->getAllUsers();
-    $groups = $usersModel->getAllGroups();
-
-    $grupsprof = $usersModel->getGroupsProf($userId);
-    $_SESSION["grup_prof"] = $grupsprof;
+        // Obtenir instàncies dels models necessaris
+        $OrlaModel = $container["\App\Models\Orles"];
+        $usersModel = $container["\App\Models\usersPDO"];
+        $photoModel = $container["\App\Models\usersPDO"];
     
-    // Pasar la lista de usuarios y grupos a la vista
-    $response->set("users", $users);
-    $response->set("groups", $groups);
+        // Obtenir fotos i usuaris a l'orla
+        $photos = $OrlaModel->getPhotosForOrla($orla_id);
+        $usersInOrla = $OrlaModel->getUsersInOrla($orla_id);
+        $_SESSION["orla_users_ids"] = array_column($usersInOrla, 'user_id');
     
-    // Obtener la lista de usuarios en la orla
+        // Configurar dades per a la resposta
+        $response->set("photos", $photos);
+        $response->set("orla_id", $orla_id);
+        $response->set("orlaName", $OrlaModel->getOrlaName($orla_id));
+        $response->set("orlaStatus", $OrlaModel->getStatusOrla($orla_id));
     
-    $photoModel = $container["\App\Models\usersPDO"];
-
-    $photo = $photoModel->getUserSelectedPhoto($userId);
-    $response->set("photo", $photo);
-    // Para cada grupo, obtener los usuarios del grupo
-    $usersInGroups = [];
-    foreach ($groups as $group) {
-        $usersInGroup = $usersModel->getUsersInGroup($group['id']);
-        $usersInGroups[$group['id']] = $usersInGroup;
+        // Obtenir la llista d'usuaris i grups
+        $users = $usersModel->getAllUsers();
+        $groups = $usersModel->getAllGroups();
+        $grupsprof = $usersModel->getGroupsProf($userId);
+        $_SESSION["grup_prof"] = $grupsprof;
+    
+        // Passar la llista d'usuaris i grups a la vista
+        $response->set("users", $users);
+        $response->set("groups", $groups);
+    
+        // Obtenir la foto seleccionada per l'usuari
+        $photo = $photoModel->getUserSelectedPhoto($userId);
+        $response->set("photo", $photo);
+    
+        // Obtenir usuaris en grups
+        $usersInGroups = [];
+        foreach ($groups as $group) {
+            $usersInGroup = $usersModel->getUsersInGroup($group['id']);
+            $usersInGroups[$group['id']] = $usersInGroup;
+        }
+        $response->set("usersInGroups", $usersInGroups);
+    
+        // Configurar sessió i plantilla de resposta
+        $_SESSION["orla_id"] = $orla_id;
+        $response->SetTemplate("editarOrles.php");
+    
+        return $response;
     }
-
-    $response->set("usersInGroups", $usersInGroups);
-    $_SESSION["orla_id"] = $orla_id;
-    $response->SetTemplate("editarOrles.php");
-
-    return $response;
-}
+    
+    
 
     
     
