@@ -55,6 +55,7 @@
                     <th class="font-bold text-lg">Nom, Curs</th>
                     <th class="font-bold text-lg">Fecha de naixement</th>
                     <th class="font-bold text-lg">Numero de telefon</th>
+                    <th class="font-bold text-lg">Rol</th>
                     <th class="font-bold text-lg">Ubicació de la foto</th>
                     <th></th>
                 </tr>
@@ -82,7 +83,9 @@
                     </td>
                     <td class="text-lg"><?= $alumne['user_birth_date'] ?></td>
                     <td class="text-lg"><?= $alumne['user_phone'] ?></td>
+                    <td class="text-lg"><?= $alumne['user_rol'] ?></td>
                     <td class="text-lg"><?= $alumne['photo_url'] ?></td>
+                    
                     <td class="text-lg">
                         <button class="btn modalFoto" data-user-id="<?= $alumne['user_id'] ?>">Actualitzar Foto</button>
                     </td>
@@ -115,7 +118,7 @@
 
 
 
-               
+
                         <form action="/uploadPhotoFromFile" method="post" enctype="multipart/form-data"
                             class="flex items-center">
                             <input type="hidden" name="user_id" id="userIdInput" value="<?= $alumne['user_id'] ?>">
@@ -147,8 +150,9 @@
 
 
 
+
                                 </div>
-                               
+
 
                                 <button type="submit"
                                     class="btn btn-active btn-neutral  ml-20 mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-green-800 bg-green-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">Pujar
@@ -156,10 +160,10 @@
                                 </button>
 
                         </form>
-                        
 
 
-      
+
+
 
 
                         <form method="dialog" style="display: inline-block">
@@ -169,34 +173,37 @@
                         </form>
                         <form action="/uploadPhotoFromFileEdit" method="post" enctype="multipart/form-data"
                             class="flex items-center">
-                            <input type="hidden" name="user_idd" id="userIdInput2" value="<?= $alumne['user_id'] ?>">
-                        <div class="flex justify-center items-center mt-5 mb-5 m-10">
-                                    <button type="button" id="EditarFoto" onclick="toggleEditarFotoSection()"
-                                        class="btn btn-active btn-neutral mb-5 mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">
-                                        Editar Foto
-                                    </button>
-                                </div>
-                                <div id="DivEditar" style="display: none;"
-                                    class="flex justify-center items-center mt-5 mb-5 m-10 ml-16">
-                                    <h1>Retalla la fotografia:</h1>
-                                    <!-- Editor donde se recortará la imagen con la ayuda de croppr.js -->
-                                    <div id="editor"></div>
+                            <input type="hidden" name="user_id" id="UserIdInputEdit" value="<?= $alumne['user_id'] ?>">
 
-                                    <h1>Resultat:</h1>
-                                    <!-- Previa del recorte -->
-                                    <canvas id="preview" class="mb-5"></canvas>
 
-                                    
-                                    <!-- Muestra de la imagen recortada en Base64 -->
-                                    <input type="text" id="base64" name="photo" style="display: none;" readonly>
-                                    <button type="submit" class="btn btn-active btn-neutral mr-auto ml-20 mt-2rounded before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">
-                                       
-                                        Pujar Foto Editada
-                                    </button>
-                                </div>
-                                </div>
+                            <div class="flex justify-center items-center mt-5 mb-5 m-10">
+                                <button type="button" id="EditarFoto"
+                                    onclick="toggleEditarFotoSection('<?= $alumne['user_id'] ?>')"
+                                    class="btn btn-active btn-neutral mb-5 mt-2rounded  before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">
+                                    Editar Foto
+                                </button>
+                            </div>
+                            <div id="DivEditar" style="display: none;"
+                                class="flex justify-center items-center mt-5 mb-5 m-10 ml-16">
+                                <h1>Retalla la fotografia:</h1>
+                                <!-- Editor donde se recortará la imagen con la ayuda de croppr.js -->
+                                <div id="editor"></div>
+
+                                <h1>Resultat:</h1>
+                                <!-- Previa del recorte -->
+                                <canvas id="preview" class="mb-5"></canvas>
+
+
+                                <!-- Muestra de la imagen recortada en Base64 -->
+                                <input type="text" id="base64" name="photo" style="display: none;" readonly>
+                                <button type="submit"
+                                    class="btn btn-active btn-neutral mr-auto ml-20 mt-2rounded before:ease relative h-12 w-40 overflow-hidden border border-grey-800 bg-grey-800 text-grey-300 shadow-2xl transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:shadow-gray-800 hover:before:-translate-x-40">
+
+                                    Pujar Foto Editada
+                                </button>
+                            </div>
+
                         </form>
-
                     </div>
 
                 </dialog>
@@ -216,11 +223,15 @@
     <script src="/js/editarOrles.js"></script>
     <script src="/js/publishOrla.js"></script>
     <script>
-    function toggleEditarFotoSection() {
+    function toggleEditarFotoSection(user_id) {
         var divEditar = document.getElementById('DivEditar');
         divEditar.style.display = (divEditar.style.display === 'none' || divEditar.style.display === '') ? 'block' :
             'none';
+
+        // Check if user_id is defined
+        console.log("User ID: ", user_id);
     }
+
 
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -291,17 +302,13 @@
                 // Mostramos el código generado
                 document.querySelector('#base64').value = imagenEn64;
 
-                    '...">';
+                '...">';
 
             }
             // Proporciona la imagen cruda, sin editarla por ahora
             miNuevaImagenTemp.src = urlImage;
         }
     });
-
-   
-
-
     </script>
 </body>
 

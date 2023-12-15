@@ -17,9 +17,10 @@ export function openModal() {
     
             // Obtener el elemento de entrada oculta para el user_id en el formulario
             var userIdInput = document.getElementById('userIdInput');
-    
+            var UserIdInputEdit = document.getElementById('UserIdInputEdit');
             // Actualizar el valor del campo user_id en el formulario
             userIdInput.value = userId;
+            UserIdInputEdit.value = userId;
     
             // Mostrar el modal
             document.getElementById('my_modal_2').showModal();
