@@ -71,7 +71,6 @@ $app->get("descarregar-orla/{id}/{formato_impresion}", [OrlesControllers::class,
 $app->get("eliminar-orla", [OrlesControllers::class,"eliminarOrla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
 $app->post("updateNameOrla", [OrlesControllers::class,"updateNameOrla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
 $app->post("sendRecoveryEmail", [UserController::class,"sendRecoveryEmail"]);
-$app->post("erroremail", [UserController::class,"sendRecoveryEmail"]);
 $app->get("newpass", [UserController::class,"newpass"]);
 $app->post("newpass", [UserController::class,"newpass"]);
 $app->get("errorweb", [ErrorController::class,"errorRedirect"]);

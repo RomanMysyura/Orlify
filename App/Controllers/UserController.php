@@ -222,7 +222,12 @@ public function randomuser($request, $response, $container)
     // Obtenir les dades de l'usuari autenticat
     $userId = $_SESSION["user_id"];
     $photoModel = $container["\App\Models\usersPDO"];
+
     $photo = $photoModel->getUserSelectedPhoto($userId);
+    $users = $usersModel->getAllUsers();
+    $errors = $errorModel->geterror();
+    $orles = $orlaModel->getAllOrles();
+    $grups = $grupsModel->getAllGroups();
 
     if ($_SERVER["REQUEST_METHOD"] === "POST") {
         // Obtindre les dades del formulari
@@ -249,12 +254,6 @@ public function randomuser($request, $response, $container)
         // Guardar el token a la base de dades
         $usersModel2->saveUserToken($userId_random, $token);
 
-        // Obtenir les dades necessàries per a la pàgina de control
-        $users = $usersModel->getAllUsers();
-        $errors = $errorModel->geterror();
-        $orles = $orlaModel->getAllOrles();
-        $grups = $grupsModel->getAllGroups();
-
         // Processar les dades dels usuaris, orles i grups
         foreach ($users as &$user) {
             $user["photos"] = $usersModel->getUserPhotos($user["id"]);
@@ -274,22 +273,17 @@ public function randomuser($request, $response, $container)
         foreach ($grups as &$grup) {
             $grup["users"] = $grupsModel->getAllUsersGrup($grup["id"]);
         }
-
+        $response->SetTemplate("paneldecontrol.php");
         return $response;
     }
 
     // Obtenir les dades per a la pàgina de control i configurar la plantilla
-    $users = $usersModel->getAllUsers();
-    $errors = $errorModel->geterror();
-    $orles = $orlaModel->getAllOrles();
-    $grups = $grupsModel->getAllGroups();
 
     $response->set("users", $users);
     $response->set("errors", $errors);
     $response->set("orles", $orles);
     $response->set("grups", $grups);
     $response->set("photo", $photo);
-    $response->SetTemplate("paneldecontrol.php");
 
     return $response;
 }
