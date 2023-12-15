@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="/main.css">
     <title><?= $app_config["app"]["name"] ?></title>
-
+    <link rel="manifest" href="/manifest.json">
 </head>
 <!-- Contenedor del banner de cookies -->
 <div id="cookie-banner" class="fixed bottom-0 w-full bg-gray-800 p-4 text-center shadow-md opacity-100 z-50">
