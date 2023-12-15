@@ -1272,16 +1272,20 @@ public function newpass($request, $response, $container)
 
             // Actualitza la contrasenya de l'usuari amb el nou hash
             $usersModel->PasswordUser($user['id'], $hashedPassword);
+
+            // Redirigeix a la vista "uploadpass.php" després de canviar la contrasenya
+            $response->SetTemplate("uploadpass.php");
+            return $response;
         } else {
             // El correu electrònic no està registrat o no té un token associat
             // Pots redirigir a una pàgina d'error o mostrar un missatge d'error.
             // Per exemple:
-            echo "Usuari no trobat o no té un token associat";
-            exit();
+            $response->SetTemplate("erroremail.php");
+            return $response;
         }
     }
 
-    // Configuració de la plantilla a utilitzar per la resposta
+    // Configuració de la plantilla a utilitzar per la resposta si no és una sol·licitud POST
     $response->SetTemplate("newpass.php");
     return $response;
 }
