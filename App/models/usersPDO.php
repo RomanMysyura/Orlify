@@ -7,31 +7,64 @@ class UsersPDO
 {
     private $sql;
 
-    public function __construct($conn)
-    {
-        $this->sql = $conn;
-    }
-
-    public function getAllUsers()
-    {
-        $sql = "SELECT * FROM users";
-        $stmt = $this->sql->prepare($sql);
-        $stmt->execute();
-
-        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    }
+   /**
+ * Constructor de la classe que inicialitza la connexió a la base de dades.
+ *
+ * @param \PDO $conn La connexió PDO a la base de dades.
+ */
+public function __construct($conn)
+{
+    // Inicialitza la propietat $sql amb la connexió proporcionada
+    $this->sql = $conn;
+}
 
 
+   /**
+ * Obté totes les dades dels usuaris de la base de dades.
+ *
+ * @return array Un array associatiu amb les dades dels usuaris.
+ */
+public function getAllUsers()
+{
+    // Consulta SQL per seleccionar totes les columnes de la taula 'users'
+    $sql = "SELECT * FROM users";
+    
+    // Preparació de la consulta
+    $stmt = $this->sql->prepare($sql);
+    
+    // Execució de la consulta
+    $stmt->execute();
+
+    // Retorna totes les files com un array associatiu
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+}
 
 
-    public function getUserById($userId)
-    {
-        $sql = "SELECT * FROM users WHERE id = ?";
-        $stmt = $this->sql->prepare($sql);
-        $stmt->execute([$userId]);
 
-        return $stmt->fetch(\PDO::FETCH_ASSOC);
-    }
+
+
+   /**
+ * Obté les dades d'un usuari pel seu identificador.
+ *
+ * @param int $userId L'identificador de l'usuari.
+ *
+ * @return array|false Un array associatiu amb les dades de l'usuari o false si no es troba.
+ */
+public function getUserById($userId)
+{
+    // Consulta SQL per seleccionar totes les columnes de la taula 'users' on l'ID coincideixi
+    $sql = "SELECT * FROM users WHERE id = ?";
+    
+    // Preparació de la consulta amb el paràmetre d'ID
+    $stmt = $this->sql->prepare($sql);
+    
+    // Execució de la consulta amb l'ID proporcionat
+    $stmt->execute([$userId]);
+
+    // Retorna les dades de l'usuari com un array associatiu o false si no es troba cap usuari
+    return $stmt->fetch(\PDO::FETCH_ASSOC);
+}
+
 
     
     public function login($email, $password)
