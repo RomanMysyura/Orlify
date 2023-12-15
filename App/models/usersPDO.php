@@ -510,27 +510,26 @@ public function getUserPhotos($userId)
 }
 
 
-   /**
- * Obté la foto seleccionada d'un usuari de la base de dades.
+/**
+ * Obté la foto seleccionada per a un usuari específic.
  *
- * @param int $userId L'identificador de l'usuari.
+ * @param int $userId Identificador de l'usuari.
  *
- * @return array Un array associatiu amb les dades de la foto seleccionada de l'usuari.
+ * @return array Retorna un array associatiu amb les dades de la foto seleccionada o un array buit si no es troba cap coincidència.
  */
 public function getUserSelectedPhoto($userId)
 {
-    // Consulta SQL per seleccionar la foto activa d'un usuari
+    // Consulta SQL per obtenir les dades de la foto seleccionada
     $sql = "SELECT * FROM photo WHERE user_id = ? AND selected_photo = 'active' LIMIT 1";
-    
-    // Preparació de la consulta amb l'ID de l'usuari
+
+    // Preparació i execució de la consulta SQL
     $stmt = $this->sql->prepare($sql);
-    
-    // Execució de la consulta
     $stmt->execute([$userId]);
 
-    // Retorna la primera fila com un array associatiu
-    return $stmt->fetch(\PDO::FETCH_ASSOC);
+    // Retorna les dades de la foto seleccionada com a array associatiu
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 }
+
 
 
 
