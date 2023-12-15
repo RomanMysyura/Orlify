@@ -897,7 +897,7 @@ public function RecoveryEmail($email)
 
         // Configuració del contingut del correu com a HTML
         $mail->isHTML(true);
-        $mail->Subject = 'Recuperació de contrasenya';
+        $mail->Subject = 'Recuperacio de contrasenya';
 
         // Cos HTML amb l'enllaç
         $htmlBody = '<p>Hem rebut una sol·licitud per restablir la teva contrasenya. Si us plau, segueix les instruccions que rebràs per correu.</p>';
