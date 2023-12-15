@@ -30,7 +30,7 @@ class Container extends EmesetContainer {
         };
         $this["\App\Models\usersPDO"] = function ($c) {
             // Aqui podem inicialitzar totes les dependències del controlador i passar-les com a paràmetre.
-            return new \App\Models\UsersPDO(
+            return new \App\Models\usersPDO(
                 $c["\App\Models\Db"]->getConnection()
             );
         

@@ -76,6 +76,16 @@ public function perfil($request, $response, $container)
     }
     
 
+    if (isset($_SESSION['error_message'])) {
+        echo '<div role="alert" class="fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded z-50">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                  <span>' . $_SESSION['error_message'] . '</span>
+                </div>';
+    
+        // Clear the error message from the session
+        unset($_SESSION['error_message']);
+    }
+
     return $response;
 }
 
@@ -566,8 +576,11 @@ public function uploadPhoto($request, $response, $container)
         header("Location: perfil");
         exit();
     } else {
-        // Manejar l'error si no s'ha enviat la foto seleccionada
-        echo 'error';
+        $_SESSION['error_message'] = 'Has de seleccionar una fotografia!';
+
+    // Redirect to the perfil page
+    header("Location: perfil");
+    exit();
     }
 
     // Passar la foto a la vista

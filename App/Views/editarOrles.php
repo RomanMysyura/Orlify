@@ -16,10 +16,11 @@
 
     <div class="flex items-center justify-center">
         <form id="updateNameForm" action="/updateNameOrla" method="POST">
-            <input type="text" name="id_orla" value="<?= $orla_id ?>" style="display: none;">
-            <input type="text" placeholder="<?= $orlaName ?>" name="nom" id="nom"
+            <input type="text" name="id_orla" value="<?= $orla_id ?>" style="display: none;" title="Orla id">
+            <input type="text" placeholder="<?= $orlaName ?>" name="nom" id="nom" title="Nom de la orla"
                 class="input w-auto text-4xl text-center bg-slate-100 font-bold shadow-inner" value="<?= $orlaName ?>"
                 onkeydown="submitOnEnter(event)">
+            <button type="submit" style="display: none;" title="Boton"></button>
         </form>
 
     </div>
@@ -122,19 +123,20 @@ echo '</ul>';
                     <li>
                         <form id="formatoImpresionForm">
                             
-                            <select id="formatoImpresion" name="formato_impresion" class="select select-bordered select-sm w-full max-w-xs ">
+                            <select id="formatoImpresion" name="formato_impresion" title="Formato de impresion" class="select select-bordered select-sm w-full max-w-xs ">
 ">
                                 <option value="A4">A4</option>
                                 <option value="A3">A3</option>
                                 <option value="A2">A2</option>
                                 <!-- Agrega más opciones según tus necesidades -->
                             </select>
+                            <button type="submit" style="display: none;" title="Boton"></button>
                         </form>
                     </li>
                     <li class="ml-auto">
                         <a>
                             <?php echo $orlaStatus; ?>
-                            <input type="checkbox" class="toggle toggle-success" id="checkboxToggle"
+                            <input type="checkbox" class="toggle toggle-success" id="checkboxToggle" title="Publicar orla"
                                 value="<?php echo $orla_id; ?>"
                                 <?php echo ($orlaStatus === 'Public') ? 'checked' : ''; ?> />
                         </a>
