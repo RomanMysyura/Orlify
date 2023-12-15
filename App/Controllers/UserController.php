@@ -74,6 +74,7 @@ public function perfil($request, $response, $container)
         // Si no està autenticat, redirigeix a la pàgina d'inici de sessió o una altra pàgina
         $response->redirect("/login");
     }
+    
 
     return $response;
 }
