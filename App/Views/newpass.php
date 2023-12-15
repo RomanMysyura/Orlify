@@ -18,13 +18,13 @@
                 <div class="relative">
                     <input id="email" title="email" name="email" type="text"
                         placeholder="Correu electronic"
-                        class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-black transition-colors focus:outline-none peer bg-inherit" />
+                        class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
                 </div>
             </div>
             <div class="mt-5 relative">
                 <input id="password" title="password" name="password" type="password"
                     placeholder="Contrasenya"
-                    class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-black transition-colors focus:outline-none peer bg-inherit" />
+                    class="border-b w-full border-gray-300 py-1 focus:border-b-2 focus:border-blue-700 transition-colors focus:outline-none peer bg-inherit" />
 
                 <!-- Botón para mostrar información al pasar el ratón -->
                 <button id="infoButton" type="button" title="Password info"
