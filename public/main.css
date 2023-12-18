@@ -3527,6 +3527,10 @@ details.collapse summary::-webkit-details-marker {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
+.bg-red-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
+}
 .bg-opacity-75 {
   --tw-bg-opacity: 0.75;
 }
@@ -3554,6 +3558,10 @@ details.collapse summary::-webkit-details-marker {
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
+}
+.object-center {
+  -o-object-position: center;
+     object-position: center;
 }
 .p-10 {
   padding: 2.5rem;
@@ -4118,6 +4126,14 @@ details.collapse summary::-webkit-details-marker {
 .active\:bg-blue-700:active {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
+
+.group:hover .group-hover\:h-36 {
+  height: 9rem;
+}
+
+.group:hover .group-hover\:w-36 {
+  width: 9rem;
 }
 
 .group:hover .group-hover\:opacity-100 {
