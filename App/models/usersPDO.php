@@ -155,35 +155,36 @@ class usersPDO
     }
 
 
-
     /**
-     * Obté el nom del grup i el seu identificador associat a un usuari.
-     *
-     * @param int $userId L'identificador de l'usuari.
-     *
-     * @return array|null Un array amb el nom i l'identificador del grup de l'usuari o null si no té cap grup assignat.
-     */
-    public function getGroupByUserId($userId)
-    {
-        // Consulta SQL per obtenir el nom i l'identificador del grup de l'usuari
-        $query = "SELECT groups.name AS group_name, groups.id  AS group_id
+ * Obté el nom del grup al qual pertany un usuari.
+ *
+ * @param int $userId L'identificador de l'usuari.
+ *
+ * @return string|null El nom del grup al qual pertany l'usuari o null si no pertany a cap grup.
+ */
+public function getGroupByUserId($userId)
+{
+    // Consulta SQL per obtenir el nom del grup de l'usuari
+    $query = "SELECT groups.name AS group_name, groups.id AS group_id
               FROM user_groups
               JOIN groups ON user_groups.group_id = groups.id
               WHERE user_groups.user_id = :user_id";
 
-        // Preparació de la consulta amb el paràmetre de l'ID d'usuari
-        $statement = $this->sql->prepare($query);
-        $statement->bindParam(':user_id', $userId, \PDO::PARAM_INT);
+    // Preparació de la consulta amb el paràmetre de l'ID de l'usuari
+    $statement = $this->sql->prepare($query);
+    $statement->bindParam(':user_id', $userId, \PDO::PARAM_INT);
 
-        // Execució de la consulta
-        $statement->execute();
+    // Execució de la consulta
+    $statement->execute();
 
-        // Obtenció del nom i l'identificador del grup com un array associatiu
-        $group = $statement->fetch(\PDO::FETCH_ASSOC);
+    // Obtenció de les dades del grup com un array associatiu
+    $group = $statement->fetch(\PDO::FETCH_ASSOC);
+    
+    // Retorna el nom del grup si existeix, sinó retorna null
+    return $group['group_name'] ?? null;
+}
 
-        // Retorna un array amb el nom i l'identificador del grup o null si no té cap grup assignat
-        return $group ? $group : null;
-    }
+
 
     /**
      * Registra un nou usuari a la base de dades.
