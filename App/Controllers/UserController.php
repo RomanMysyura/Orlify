@@ -89,7 +89,51 @@ public function perfil($request, $response, $container)
     return $response;
 }
 
+public function register($request, $response, $container)
+{
+    // Obtenir una instància del model UsersPDO
+    $usersModel = $container["\App\Models\usersPDO"];
 
+    if ($_SERVER["REQUEST_METHOD"] === "POST") {
+        // Obtindre les dades del formulari
+        $name = $_POST["username"];
+        $surname = $_POST["surname"];
+        $email = $_POST["mail"];
+        $phone = $_POST["phone"];
+        $dni = $_POST["dni"];
+        $birthDate = $_POST["birth_date"];
+        $password = $_POST["password"];
+        $groupId = $_POST["group"]; // Nou camp per obtenir el grup seleccionat
+
+        // Hashear la contrasenya
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // Intentar registrar l'usuari i obtenir l'ID del nou usuari
+        $userId = $usersModel->registerUser($name, $surname, $email, $phone, $dni, $birthDate, 'Alumne', $hashedPassword);
+
+        // Associar l'usuari al grup en la taula user_groups
+        $usersModel->assignUserToGroup($userId, $groupId);
+
+        // Si no té un token, genera'n un de nou i guarda'l
+        if (!$usersModel->getUserToken($userId)) {
+            // Generar un token únic
+            $token = uniqid();
+
+            // Guardar el token a la base de dades
+            $usersModel->saveUserToken($userId, $token);
+        }
+
+        // Configurar missatge d'èxit i redirigir a la pàgina principal
+        $response->set("success_message_register", "El compte s'ha creat correctament");
+        $response->SetTemplate("index.php");
+
+        return $response;
+    }
+
+    // Si la sol·licitud no és de tipus POST, redirigir a la pàgina principal
+    $response->SetTemplate("index.php");
+    return $response;
+}
 
 
 
@@ -168,51 +212,6 @@ public function logout($request, $response, $container)
  *
  * @return \Emeset\Http\Response La resposta HTTP que s'enviarà al navegador.
  */
-public function register($request, $response, $container)
-{
-    // Obtenir una instància del model UsersPDO
-    $usersModel = $container["\App\Models\usersPDO"];
-
-    if ($_SERVER["REQUEST_METHOD"] === "POST") {
-        // Obtindre les dades del formulari
-        $name = $_POST["username"];
-        $surname = $_POST["surname"];
-        $email = $_POST["mail"];
-        $phone = $_POST["phone"];
-        $dni = $_POST["dni"];
-        $birthDate = $_POST["birth_date"];
-        $password = $_POST["password"];
-        $groupId = $_POST["group"]; // Nou camp per obtenir el grup seleccionat
-
-        // Hashear la contrasenya
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        // Intentar registrar l'usuari i obtenir l'ID del nou usuari
-        $userId = $usersModel->registerUser($name, $surname, $email, $phone, $dni, $birthDate, 'Alumne', $hashedPassword);
-
-        // Associar l'usuari al grup en la taula user_groups
-        $usersModel->assignUserToGroup($userId, $groupId);
-
-        // Si no té un token, genera'n un de nou i guarda'l
-        if (!$usersModel->getUserToken($userId)) {
-            // Generar un token únic
-            $token = uniqid();
-
-            // Guardar el token a la base de dades
-            $usersModel->saveUserToken($userId, $token);
-        }
-
-        // Configurar missatge d'èxit i redirigir a la pàgina principal
-        $response->set("success_message_register", "El compte s'ha creat correctament");
-        $response->SetTemplate("index.php");
-
-        return $response;
-    }
-
-    // Si la sol·licitud no és de tipus POST, redirigir a la pàgina principal
-    $response->SetTemplate("index.php");
-    return $response;
-}
 
 
   
