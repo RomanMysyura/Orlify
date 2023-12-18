@@ -3,7 +3,7 @@
 namespace App\Models;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-class UsersPDO
+class usersPDO
 {
     private $sql;
 
