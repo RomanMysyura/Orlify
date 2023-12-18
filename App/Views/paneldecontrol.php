@@ -283,7 +283,6 @@
                             <tr>
                                 <th class="py-2 px-4 border-b  text-gray-700">ID</th>
                                 <th class="py-2 px-4 border-b  text-gray-700">Estat</th>
-                                <th class="py-2 px-4 border-b  text-gray-700">Enllaç</th>
                                 <th class="py-2 px-4 border-b  text-gray-700">Nom</th>
                                 <th class="py-2 px-4 border-b  text-gray-700">Grup</th>
                                 <th class="py-2 px-4 border-b  text-gray-700">PDF</th>
@@ -299,9 +298,6 @@
                                 </td>
                                 <td class="py-2 px-4 border-b">
                                     <?= $orla['status'] ?>
-                                </td>
-                                <td class="py-2 px-4 border-b">
-                                    <a href="<?= $orla['url'] ?>" target="_blank" name="Orlaurl"><?= $orla['url'] ?></a>
                                 </td>
                                 <td class="py-2 px-4 border-b">
                                     <?= $orla['name_orla'] ?>
