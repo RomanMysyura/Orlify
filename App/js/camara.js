@@ -7,21 +7,20 @@ export function toggleCamera() {
     const context = canvas ? canvas.getContext('2d') : null;
     let isCameraOpen = false;
 
-    // Resto del código ...
 
-    // Capturar una foto cuando se hace clic en el botón
+    // Capturar una foto quan es fa clic al botó
     if (canvas) {
         captureButton.addEventListener('click', () => {
-            // Dibujar el fotograma actual del video en el lienzo
+            // Dibuixar el fotograma actual del vídeo al llenç
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            // Mostrar el enlace de descarga y configurar la imagen
+            // Mostrar l'enllaç de descàrrega i configurar la imatge
             const imageDataURL = canvas.toDataURL('image/png');
             downloadLink.href = imageDataURL;
             downloadLink.download = 'captura.png';
             downloadLink.style.display = 'inline-block';
 
-            // Crear un nuevo elemento img y agregarlo al contenedor de imágenes capturadas
+            // Crear un nou element img i afegir-lo al contenidor d'imatges capturades
             const img = document.createElement('img');
             img.src = imageDataURL;
             screenshotsContainer.prepend(img);

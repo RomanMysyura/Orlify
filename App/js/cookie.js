@@ -1,11 +1,8 @@
-// Function to set a cookie
-// Function to set a cookie with SameSite=None and Secure
+// Funció per establir una galeta
+// Funció per establir una galeta amb SameSite=None i Secure
 export default function setCookie(name, value, days) {
     var expires = "";
-    var sameSite = "; SameSite=None ;Secure";
-
-    // Añade Secure si estás utilizando HTTPS
-    var secureFlag = location.protocol === "https:" ? "; Secure" : "";
+    var sameSite = "; SameSite=None; Secure"; // Afegeix Secure si estàs utilitzant HTTPS
 
     if (days) {
         var date = new Date();
@@ -13,9 +10,10 @@ export default function setCookie(name, value, days) {
         expires = "; expires=" + date.toUTCString();
     }
 
-    document.cookie = name + "=" + value + expires + sameSite + secureFlag + "; path=/";
+    document.cookie = name + "=" + value + expires + sameSite + "; path=/";
 }
 
+// Funció per obtenir una galeta
 export function getCookie(name) {
     var nameEQ = name + "=";
     var ca = document.cookie.split(';');
@@ -27,29 +25,30 @@ export function getCookie(name) {
     return null;
 }
 
+// Funció per inicialitzar la barra de galetes
 export function initializeCookieBanner() {
-    // Verificar si ya se aceptaron las cookies utilizando sessionStorage o la cookie directamente
+    // Verificar si ja s'han acceptat les galetes utilitzant sessionStorage o la galeta directament
     if (sessionStorage.getItem("cookiesAccepted") || getCookie('cookieAccepted')) {
         var cookieBannerElement = document.getElementById("cookie-banner");
         if (cookieBannerElement) {
             cookieBannerElement.classList.add("hidden");
         }
     } else {
-        // Cuando el DOM esté cargado
+        // Quan el DOM estigui carregat
         document.addEventListener("DOMContentLoaded", function () {
             var acceptCookiesButton = document.getElementById("accept-cookies");
             var cookieBannerElement = document.getElementById("cookie-banner");
 
             if (acceptCookiesButton && cookieBannerElement) {
-                // Manejar clic en el botón de aceptar cookies
+                // Gestionar clic al botó d'acceptar galetes
                 acceptCookiesButton.addEventListener("click", function () {
-                    // Eliminar el banner de cookies
+                    // Eliminar la barra de galetes
                     cookieBannerElement.classList.add("hidden");
 
-                    // Marcar que las cookies fueron aceptadas (almacenar en sessionStorage)
+                    // Marcar que les galetes han estat acceptades (emmagatzematge a sessionStorage)
                     sessionStorage.setItem("cookiesAccepted", "true");
 
-                    // Setear la cookie
+                    // Establir la galeta
                     setCookie('cookieAccepted', 'true', 365);
                 });
             }
@@ -57,8 +56,7 @@ export function initializeCookieBanner() {
     }
 }
 
-// Encapsula la lógica de inicialización en una función autoejecutable
+// Encapsula la lògica d'inicialització en una funció autoexecutable
 (function () {
     initializeCookieBanner();
 })();
-

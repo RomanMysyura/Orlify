@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/main.css">
     <script src="/js/bundle.js" defer> </script>
     <script src="/js/buscarAlumnes.js" defer> </script>
+    
     <script src="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.js"></script>
     <link href="https://cdn.jsdelivr.net/gh/jamesssooi/Croppr.js@2.3.0/dist/croppr.min.css" rel="stylesheet" />
 
@@ -206,16 +207,18 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
     <script src="/js/downloadPDF.js"></script>
-
+   
     <script src="/js/editarOrles.js"></script>
     <script src="/js/publishOrla.js"></script>
     <script>
+
+        // Obrir o tancar el div de editar foto
     function toggleEditarFotoSection(user_id) {
         var divEditar = document.getElementById('DivEditar');
         divEditar.style.display = (divEditar.style.display === 'none' || divEditar.style.display === '') ? 'block' :
             'none';
 
-        // Check if user_id is defined
+        
         console.log("User ID: ", user_id);
     }
 
@@ -223,39 +226,39 @@
 
     document.addEventListener('DOMContentLoaded', () => {
 
-        // Input File
+        
         const inputImage = document.querySelector('#dropzone-file');
-        // Nodo donde estará el editor
+        // El editor
         const editor = document.querySelector('#editor');
-        // El canvas donde se mostrará la previa
+        // El canvas
         const miCanvas = document.querySelector('#preview');
-        // Contexto del canvas
+        // El context
         const contexto = miCanvas.getContext('2d');
-        // Ruta de la imagen seleccionada
+        // La imatge en base64
         let urlImage = undefined;
-        // Evento disparado cuando se adjunte una imagen
+        
         inputImage.addEventListener('change', abrirEditor, false);
 
         /**
-         * Método que abre el editor con la imagen seleccionada
+         * Metode que obre el editor de imatges
          */
         function abrirEditor(e) {
-            // Obtiene la imagen
+            // Obté la url de la imatge
             urlImage = URL.createObjectURL(e.target.files[0]);
 
-            // Borra editor en caso que existiera una imagen previa
+            // Borra l'editor per si hi havia alguna imatge anterior
             editor.innerHTML = '';
             let cropprImg = document.createElement('img');
             cropprImg.setAttribute('id', 'croppr');
             editor.appendChild(cropprImg);
 
-            // Limpia la previa en caso que existiera algún elemento previo
+            // Nateja el canvas
             contexto.clearRect(0, 0, miCanvas.width, miCanvas.height);
 
-            // Envia la imagen al editor para su recorte
+            // Envia la imatge a l'editor
             document.querySelector('#croppr').setAttribute('src', urlImage);
 
-            // Crea el editor
+            // Crea l'editor
             new Croppr('#croppr', {
                 aspectRatio: 1,
                 startSize: [100, 100],
@@ -264,7 +267,7 @@
         }
 
         /**
-         * Método que recorta la imagen con las coordenadas proporcionadas con croppr.js
+         * Metode que retalla la imatge
          */
         function recortarImagen(data) {
             // Variables
@@ -274,25 +277,25 @@
             const nuevaAltura = data.height;
             const zoom = 1;
             let imagenEn64 = '';
-            // La imprimo
+            // La imprimeix per pantalla
             miCanvas.width = nuevoAncho;
             miCanvas.height = nuevaAltura;
-            // La declaro
+            // Es declara
             let miNuevaImagenTemp = new Image();
-            // Cuando la imagen se carge se procederá al recorte
+            // Quan la imatge canvia, es retalla
             miNuevaImagenTemp.onload = function() {
-                // Se recorta
+                // Es retalla
                 contexto.drawImage(miNuevaImagenTemp, inicioX, inicioY, nuevoAncho * zoom, nuevaAltura *
                     zoom, 0, 0, nuevoAncho, nuevaAltura);
-                // Se transforma a base64
+                // es transforma a base64
                 imagenEn64 = miCanvas.toDataURL("image/jpeg");
-                // Mostramos el código generado
+                // Mostrem el resultat
                 document.querySelector('#base64').value = imagenEn64;
 
                 '...">';
 
             }
-            // Proporciona la imagen cruda, sin editarla por ahora
+            // Proporciona la url de la imatge
             miNuevaImagenTemp.src = urlImage;
         }
     });
