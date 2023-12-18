@@ -70,7 +70,7 @@
                                             <img src="../<?= $photo[0]['url'] ?>"
                                                 class="rounded-full w-full h-full object-cover" alt="Foto" />
                                             <?php else: ?>
-                                            <img src="../img/user2.png" />
+                                            <img src="../img/user2.png" alt="Default"/>
                                             <?php endif; ?>
                                         </div>
                                     </div>

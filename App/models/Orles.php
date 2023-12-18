@@ -14,12 +14,21 @@ class Orles
 
 
 
+   
+/**
+ * Funció per obtenir les orles associades a un usuari
+ *
+ * @param   int  $user_id  ID de l'usuari
+ *
+ * @return  array           Array amb les dades de les orles associades a l'usuari
+ */
 
     public function getOrles($user_id)
     {
+        // Obtenir els grups als quals pertany l'usuari
         $group_ids = $_SESSION["grup_prof"];
     
-     
+         // Crear una cadena de marcadors de posició per a la clàusula WHERE IN
         $placeholders = implode(', ', array_map(function($id) {return ":group_id_$id";}, $group_ids));
     
         $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, o.id AS orla_id, o.status, o.url, o.name_orla
@@ -46,6 +55,13 @@ class Orles
     
     
 
+  /**
+ * Funció per obtenir les dades d'una orla segons el seu ID
+ *
+ * @param   int  $orla_id  ID de l'orla
+ *
+ * @return  array           Array amb les dades de l'orla
+ */
 
     public function getOrlaById($orla_id)
 {
@@ -58,6 +74,11 @@ class Orles
 }
 
 
+/**
+ * Funció per obtenir totes les orles amb les seves dades associades
+ *
+ * @return  array  Array amb les dades de totes les orles
+ */
     public function getAllOrles()
     {
         $stmt = $this->sql->prepare("SELECT o.id AS orla_id, o.status, o.url, o.name_orla, g.name AS group_name, g.id AS group_id
@@ -68,6 +89,13 @@ class Orles
         return $result;
     }
 
+    /**
+ * Funció per obtenir totes les fotos associades a una orla
+ *
+ * @param   int  $orla_id  ID de l'orla
+ *
+ * @return  array           Array amb les dades de les fotos de l'orla
+ */
    public function getAllPhotosOrla($orla_id)
     {
         $stmt = $this->sql->prepare("SELECT p.id AS photo_id, p.name, p.url
@@ -82,6 +110,14 @@ class Orles
         return $result;
     }
 
+    
+    /**
+ * Funció per obtenir els usuaris associats a una orla
+ *
+ * @param   int  $orla_id  ID de l'orla
+ *
+ * @return  array           Array amb els IDs d'usuaris associats a l'orla
+ */ 
     public function getUsersInOrla($orla_id)
     {
         $stmt = $this->sql->prepare("SELECT user_id FROM orla_users WHERE orla_id = :orla_id");
@@ -92,9 +128,13 @@ class Orles
     }
     
     
-    
-
-    
+    /**
+ * Funció per obtenir el nom d'una orla pel seu ID
+ *
+ * @param   int  $orla_id  ID de l'orla
+ *
+ * @return  string         Nom de l'orla
+ */
     public function getOrlaName($orla_id)
     {
         $stmt = $this->sql->prepare("SELECT name_orla FROM orla WHERE id = :orla_id");
@@ -104,6 +144,14 @@ class Orles
         return $result["name_orla"];
     }
 
+
+    /**
+ * Funció per obtenir l'estat d'una orla pel seu ID
+ *
+ * @param   int  $orla_id  ID de l'orla
+ *
+ * @return  string         Estat de l'orla
+ */
     public function getStatusOrla($orla_id)
 {
     $stmt = $this->sql->prepare("SELECT status FROM orla WHERE id = :orla_id");
@@ -116,7 +164,11 @@ class Orles
 
 
 
-
+/**
+ * Funció per publicar o despublicar una orla
+ *
+ * @param   int  $orlaId  ID de l'orla
+ */
 public function publishOrla($orlaId)
 {
     $stmtSelect = $this->sql->prepare("SELECT status FROM orla WHERE id = :orlaId");
@@ -135,10 +187,10 @@ public function publishOrla($orlaId)
 }
 
 
-
-    
-    
-
+/**
+ * Crea una nova orla associada al grup de la sessió actual.
+ * Si no s'ha definit 'group_id' a la sessió, mostra un missatge d'error.
+ */
     public function createNewOrla()
     {
        
@@ -155,6 +207,13 @@ public function publishOrla($orlaId)
     }
     
 
+    /**
+ * Obté les fotos associades a una orla específica.
+ *
+ * @param   int  $orla_id  ID de la orla
+ *
+ * @return  array           Fotos de la orla
+ */
     public function getPhotosForOrla($orla_id)
     {
         $stmt = $this->sql->prepare("SELECT p.id AS photo_id, u.name AS user_name, u.surname, p.url, u.role
@@ -169,28 +228,44 @@ public function publishOrla($orlaId)
         return $result;
     }
     
+    /**
+ * Elimina una orla i tots els seus registres associats a la base de dades.
+ *
+ * @param   int  $orla_id  ID de la orla a eliminar
+ */
     public function eliminarOrla($orla_id)
     {
-        // Eliminar registros de orla_users asociados a la orla
         $stmtOrlaUsers = $this->sql->prepare("DELETE FROM orla_users WHERE orla_id = :orla_id");
         $stmtOrlaUsers->bindParam(":orla_id", $orla_id);
         $stmtOrlaUsers->execute();
     
-        // Ahora puedes eliminar la orla de la tabla orla
         $stmtOrla = $this->sql->prepare("DELETE FROM orla WHERE id = :orla_id");
         $stmtOrla->bindParam(":orla_id", $orla_id);
         $stmtOrla->execute();
     
-        // Redireccionar o retornar según sea necesario
     }
 
+    /**
+ * Elimina una foto específica de la base de dades.
+ *
+ * @param   int  $photo_id  ID de la foto a eliminar
+ */
 public function eliminarPhoto($photo_id){
         
         $stmt = $this->sql->prepare("DELETE FROM photo WHERE id = :photo_id");
         $stmt->bindParam(":photo_id", $photo_id);
         $stmt->execute();
 }
-    
+ 
+/**
+ * Actualitza els detalls d'una orla existent.
+ *
+ * @param   int     $orla_id    ID de l'orla a actualitzar
+ * @param   string  $name_orla  Nou nom de l'orla
+ * @param   string  $status     Nou estat de l'orla
+ * @param   string  $url        Nova URL de l'orla
+ * @param   string  $group_name Nom del grup associat a l'orla
+ */
    public function UploadOrla($orla_id, $name_orla, $status, $url, $group_name)
     {
         $stmt = $this->sql->prepare("UPDATE orla SET name_orla = :name_orla, status = :status, url = :url, group_id  = (SELECT id FROM groups WHERE name = :group_name) WHERE id = :orla_id");
@@ -204,15 +279,18 @@ public function eliminarPhoto($photo_id){
 
     
 
-
+/**
+ * Afegeix usuaris a una orla específica.
+ *
+ * @param   int    $orla_id        ID de l'orla a la qual s'afegeixen els usuaris
+ * @param   array  $selected_users Usuaris seleccionats per afegir a l'orla
+ */
     public function addUsersToOrla($orla_id, $selected_users)
     {
-        // Eliminar todos los usuarios asociados a la orla
         $stmtDelete = $this->sql->prepare("DELETE FROM orla_users WHERE orla_id = :orla_id");
         $stmtDelete->bindParam(":orla_id", $orla_id);
         $stmtDelete->execute();
     
-        // Iterar sobre los usuarios seleccionados y realizar la inserción en la tabla orla_users
         foreach ($selected_users as $user_id) {
             $stmtInsert = $this->sql->prepare("INSERT INTO orla_users (user_id, orla_id) VALUES (:user_id, :orla_id)");
             $stmtInsert->bindParam(":user_id", $user_id);
@@ -222,7 +300,12 @@ public function eliminarPhoto($photo_id){
     }
     
     
-   
+   /**
+ * Actualitza el nom d'una orla existent.
+ *
+ * @param   int     $orla_id    ID de l'orla a actualitzar
+ * @param   string  $name_orla  Nou nom de l'orla
+ */
     public function UploadNameOrla($orla_id, $name_orla)
     {
         $stmt = $this->sql->prepare("UPDATE orla SET name_orla = :name_orla WHERE id = :orla_id");

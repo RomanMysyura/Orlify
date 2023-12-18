@@ -29,14 +29,14 @@
                     <h1 class="text-gray-600 dark:text-gray-200 font-bold text-3xl">
                         <?= $user['surname']; ?> <?= $user['name']; ?>
                     </h1>
-                    <p class="text-gray-400 text-2xl"><?= $user['role']; ?></p>
+                    <p class="text-gray-500 text-2xl"><?= $user['role']; ?></p>
                     <a
-                        class="text-xl text-gray-500 dark:text-gray-200 group-hover:opacity-100 opacity-0 transform transition-all delay-300 duration-500">
+                        class="text-xl text-gray-600 dark:text-gray-200 group-hover:opacity-100 opacity-0 transform transition-all delay-300 duration-500">
                         <?= $user['email']; ?>
                     </a>
                     <br>
                     <a
-                        class="text-xl text-gray-500 dark:text-gray-200 group-hover:opacity-100 opacity-0 transform transition-all delay-300 duration-500">
+                        class="text-xl text-gray-600 dark:text-gray-200 group-hover:opacity-100 opacity-0 transform transition-all delay-300 duration-500">
                         <?= isset($group) ? $group : 'N/A'; ?>
                     </a>
                 </div>
