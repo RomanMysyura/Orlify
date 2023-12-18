@@ -10,10 +10,6 @@ class Orles
     {
         $this->sql = $conn;
     }
-
-
-
-
    
 /**
  * Funció per obtenir les orles associades a un usuari
@@ -23,35 +19,45 @@ class Orles
  * @return  array           Array amb les dades de les orles associades a l'usuari
  */
 
-    public function getOrles($user_id)
-    {
-        // Obtenir els grups als quals pertany l'usuari
-        $group_ids = $_SESSION["grup_prof"];
-    
-         // Crear una cadena de marcadors de posició per a la clàusula WHERE IN
-        $placeholders = implode(', ', array_map(function($id) {return ":group_id_$id";}, $group_ids));
-    
-        $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, o.id AS orla_id, o.status, o.url, o.name_orla
-                                    FROM users u
-                                    JOIN user_groups ug ON u.id = ug.user_id
-                                    JOIN groups g ON ug.group_id = g.id
-                                    JOIN orla o ON g.id = o.group_id
-                                    WHERE u.id = :user_id
-                                      AND g.id IN ($placeholders)");
-    
-        $stmt->bindParam(":user_id", $user_id);
-    
-      
-        foreach ($group_ids as $id) {
-        $stmt->bindValue(":group_id_$id", $id);
-        }
-    
+ public function getOrles($user_id)
+ {
+     // Obtenir els grups als quals pertany l'usuari
+     $group_ids = $_SESSION["grup_prof"];
+ 
+     // Crear una cadena de marcadors de posición per a la clàusula WHERE IN
+     $placeholders = implode(', ', array_map(function ($id) {
+         return ":group_id_$id";
+     }, $group_ids));
+ 
+     $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, o.id AS orla_id, o.status, o.url, o.name_orla
+                                 FROM users u
+                                 JOIN user_groups ug ON u.id = ug.user_id
+                                 JOIN groups g ON ug.group_id = g.id
+                                 JOIN orla o ON g.id = o.group_id
+                                 WHERE u.id = :user_id
+                                   AND g.id IN ($placeholders)");
+ 
+     $stmt->bindParam(":user_id", $user_id);
+ 
+     foreach ($group_ids as $id) {
+         $stmt->bindValue(":group_id_$id", $id);
+     }
+ 
+     try {
         $stmt->execute();
-    
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-    
         return $result;
+    } catch (\PDOException $e) {
+        // Manejar el error aquí
+        die("Error en la ejecución de la consulta: " . $e->getMessage());
     }
+    
+ 
+     $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
+ 
+     return $result;
+ }
+ 
     
     
 

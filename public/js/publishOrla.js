@@ -4,7 +4,7 @@ $(document).ready(function() {
         var isChecked = $(this).prop('checked');
         // Captura el valor de orlaId del checkbox actual
 
-        var url = '/publica-orla';
+        var url = '/publish-orla';
 
         // Mostra l'animació de càrrega
         $('.loading-indicator').show();
