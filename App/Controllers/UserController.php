@@ -758,13 +758,14 @@ public function deleteUser($request, $response, $container)
     $errorModel = $container["\App\Models\usersPDO"];
     $photoModel = $container["\App\Models\usersPDO"];
 
+    $usersModel->deleteUser($user_id);
     // Obté les dades necessàries per mostrar la pàgina de panell de control
     $grupsModel = $container["\App\Models\usersPDO"];
     $users = $usersModel->getAllUsers();
     $errors = $errorModel->geterror();
     $orles = $OrlaModel->getAllOrles();
     $grups = $grupsModel->getAllGroups();
-    
+    ;
     // Itera sobre els usuaris per obtenir les fotos i grups associats
     foreach ($users as &$user) {
         $user["photos"] = $usersModel->getUserPhotos($user["id"]);

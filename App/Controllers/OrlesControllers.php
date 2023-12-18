@@ -167,11 +167,11 @@ public function eliminarOrla($request, $response, $container)
  * 
   */
 public function eliminarOrlaPanel($request, $response, $container)
-{
+{   
+    $userId = $_SESSION["user_id"]; // Obtenir l'ID de l'usuari
     $orla_id = $_GET['id']; // Obtenir l'ID de la orla desde la URL
     $OrlaModel = $container["\App\Models\Orles"];
     $OrlaModel->eliminarOrla($orla_id); // Eliminar l'orla
-    $userId = $_SESSION["user_id"]; // Obtenir l'ID de l'usuari
 
     $response->SetTemplate("paneldecontrol.php");
     return $response;
