@@ -34,7 +34,7 @@ class Orles
         $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, o.id AS orla_id, o.status, o.url, o.name_orla
                                     FROM users u
                                     JOIN user_groups ug ON u.id = ug.user_id
-                                    JOIN groups g ON ug.group_id = g.id
+                                    JOIN `groups` g ON ug.group_id = g.id
                                     JOIN orla o ON g.id = o.group_id
                                     WHERE u.id = :user_id
                                       AND g.id IN ($placeholders)");
@@ -83,7 +83,7 @@ class Orles
     {
         $stmt = $this->sql->prepare("SELECT o.id AS orla_id, o.status, o.url, o.name_orla, g.name AS group_name, g.id AS group_id
                                     FROM orla o
-                                    JOIN groups g ON o.group_id = g.id");
+                                    JOIN `groups` g ON o.group_id = g.id");
         $stmt->execute();
         $result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         return $result;

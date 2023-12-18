@@ -111,7 +111,7 @@ class usersPDO
         // Consulta SQL per obtenir el nom del grup de l'usuari
         $query = "SELECT groups.name AS group_name 
               FROM user_groups
-              JOIN groups ON user_groups.group_id = groups.id
+              JOIN `groups` ON user_groups.group_id = `groups`.id
               WHERE user_groups.user_id = :user_id";
 
         // Preparació de la consulta amb el paràmetre de l'ID d'usuari
@@ -165,9 +165,9 @@ class usersPDO
 public function getGroupByUserId($userId)
 {
     // Consulta SQL per obtenir el nom del grup de l'usuari
-    $query = "SELECT groups.name AS group_name, groups.id AS group_id
+    $query = "SELECT `groups`.name AS group_name, `groups`.id AS group_id
               FROM user_groups
-              JOIN groups ON user_groups.group_id = groups.id
+              JOIN `groups` ON user_groups.group_id = `groups`.id
               WHERE user_groups.user_id = :user_id";
 
     // Preparació de la consulta amb el paràmetre de l'ID de l'usuari
@@ -274,7 +274,7 @@ public function getGroupByUserId($userId)
     public function getGroups()
     {
         // Consulta SQL per seleccionar totes les columnes de la taula 'groups'
-        $sql = "SELECT * FROM groups";
+        $sql = "SELECT * FROM `groups`";
 
         // Preparació de la consulta
         $stmt = $this->sql->prepare($sql);
