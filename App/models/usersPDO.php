@@ -294,7 +294,7 @@ public function getGroupByUserId($userId)
     public function getAllGroups()
     {
         // Consulta SQL per seleccionar totes les columnes de la taula 'groups'
-        $sql = "SELECT * FROM groups";
+        $sql = "SELECT * FROM `groups`";
 
         // Preparació de la consulta
         $stmt = $this->sql->prepare($sql);
@@ -367,7 +367,7 @@ public function getGroupByUserId($userId)
         $stm->execute([':group_id' => $groupId]);
 
         // Després, eliminar de la taula groups
-        $stm = $this->sql->prepare("DELETE FROM groups WHERE id = :id");
+        $stm = $this->sql->prepare("DELETE FROM `groups` WHERE id = :id");
         $stm->execute([':id' => $groupId]);
     }
 
@@ -380,7 +380,7 @@ public function getGroupByUserId($userId)
     public function crearGrup($name)
     {
         // Consulta SQL per inserir el nou grup amb el nom proporcionat
-        $sql = "INSERT INTO groups (name) VALUES (?)";
+        $sql = "INSERT INTO `groups` (name) VALUES (?)";
 
         // Preparació de la consulta amb el nom del grup
         $stmt = $this->sql->prepare($sql);
@@ -436,7 +436,7 @@ public function getGroupByUserId($userId)
         ]);
 
         // Inserir la nova assignació del grup per a l'usuari
-        $stmt = $this->sql->prepare("INSERT INTO user_groups (user_id, group_id) VALUES (:id, (SELECT id FROM groups WHERE name = :group_name))");
+        $stmt = $this->sql->prepare("INSERT INTO user_groups (user_id, group_id) VALUES (:id, (SELECT id FROM `groups` WHERE name = :group_name))");
         $stmt->execute([
             ':id' => $id,
             ':group_name' => $group_name
@@ -609,7 +609,7 @@ public function getAlumnesByProfessor($userId)
                u.birth_date AS user_birth_date, u.role AS user_rol, g.name AS group_name, p.url AS photo_url
         FROM users u
         JOIN user_groups ug ON u.id = ug.user_id
-        JOIN groups g ON ug.group_id = g.id
+        JOIN `groups` g ON ug.group_id = g.id
         LEFT JOIN photo p ON u.id = p.user_id AND p.selected_photo = 'active'
         WHERE ug.group_id IN (
             SELECT group_id
@@ -733,7 +733,7 @@ public function IdPanel($userId)
     $stmt = $this->sql->prepare("SELECT u.id AS user_id, u.name, u.surname, g.id AS group_id, g.name
                                 FROM users u
                                 JOIN user_groups ug ON u.id = ug.user_id
-                                JOIN groups g ON ug.group_id = g.id");
+                                JOIN `groups` g ON ug.group_id = g.id");
 
     // Execució de la consulta
     $stmt->execute();
