@@ -76,14 +76,14 @@ public function perfil($request, $response, $container)
     }
     
 
-    if (isset($_SESSION['error_message'])) {
+    if (isset($_SESSION['upload_error'])) {
         echo '<div role="alert" class="fixed bottom-4 right-4 bg-red-500 text-white px-4 py-2 rounded z-50">
                   <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                  <span>' . $_SESSION['error_message'] . '</span>
+                  <span>' . $_SESSION['upload_error'] . '</span>
                 </div>';
-    
+        
         // Clear the error message from the session
-        unset($_SESSION['error_message']);
+        unset($_SESSION['upload_error']);
     }
 
     return $response;
@@ -530,12 +530,16 @@ public function photoUser($request, $response, $container)
 
     // Obtenir una instància del model necessari
     $usersModel = $container["\App\Models\usersPDO"];
+    $PhotoModel = $container["\App\Models\usersPDO"];
+
+    $photo = $PhotoModel->getUserSelectedPhoto($userId);
 
     // Obtenir les fotos de l'usuari des de la base de dades
     $photos = $usersModel->getUserPhotos($userId);
 
     // Passar les dades a la vista
     $response->set("photos", $photos);
+    $response->set("photo", $photo);
 
     // Establir la plantilla
     $response->setTemplate("photo.php");
@@ -576,11 +580,12 @@ public function uploadPhoto($request, $response, $container)
         header("Location: perfil");
         exit();
     } else {
-        $_SESSION['error_message'] = 'Has de seleccionar una fotografia!';
-
-    // Redirect to the perfil page
-    header("Location: perfil");
-    exit();
+        // No se ha seleccionado ninguna foto
+        $_SESSION['upload_error'] = 'Has de seleccionar una foto!.';
+        
+        // Redirect to the perfil page
+        header("Location: perfil");
+        exit();
     }
 
     // Passar la foto a la vista
@@ -699,6 +704,15 @@ public function enviarcontactar($request, $response, $container)
 
         // Crea un error amb el missatge proporcionat i l'ID de l'usuari
         $Createerror = $errorModel->createerror($userId, $mensaje);
+
+        $successMessage = '
+        <div role="alert" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded z-50">
+              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              <span>Missatge enviat correctament.</span>
+            </div>
+        ';
+
+        echo $successMessage;
 
         // Passa la foto a la vista associada "contactar.php"
         $response->set("photo", $photo);
