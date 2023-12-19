@@ -9,7 +9,7 @@
     <title>Contactar</title>
 </head>
 
-<body>
+<body class="bg-gray-300">
     <?php include 'navbar.php'; ?>
  
 

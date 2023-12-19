@@ -1,12 +1,12 @@
 $(document).ready(function() {
-    // Usa una clase en lugar de un id, ya que los id deben ser únicos
+    // Utilitza una classe en lloc d'un id, ja que els id han de ser únics
     $('.toggle').change(function() {
         var isChecked = $(this).prop('checked');
         // Captura el valor de orlaId del checkbox actual
 
         var url = '/publish-orla';
 
-        // Muestra la animación de carga
+        // Mostra l'animació de càrrega
         $('.loading-indicator').show();
 
         $.ajax({
@@ -17,21 +17,21 @@ $(document).ready(function() {
             },
             success: function(response) {
                 console.log(response);
-                console.log("Solicitud enviada correctamente");
+                console.log("Sol·licitud enviada correctament");
 
-                // Espera 1 segundo (1000 milisegundos) antes de ocultar la animación
+                // Espera 1 segon (1000 mil·lisegons) abans d'amagar l'animació
                 setTimeout(function() {
-                    // Oculta la animación de carga después de 1 segundo
+                    // Amaga l'animació de càrrega després d'1 segon
                     $('.loading-indicator').hide();
 
-                    // Recarga la página después de que la solicitud AJAX se ha completado con éxito
+                    // Recarrega la pàgina després que la sol·licitud AJAX s'hagi completat amb èxit
                     location.reload();
                 }, 1000);
             },
             error: function(error) {
-                console.log("Error al enviar la solicitud");
+                console.log("Error en enviar la sol·licitud");
 
-                // Oculta la animación de carga en caso de error
+                // Amaga l'animació de càrrega en cas d'error
                 setTimeout(function() {
                     $('.loading-indicator').hide();
                 }, 1000);

@@ -269,6 +269,7 @@
                                 Crear
                             </button>
                         </div>
+                        <button type="submit" style="display: none;" title="Submit"></button>
                     </form>
                 </div>
             </div>
@@ -282,7 +283,6 @@
                             <tr>
                                 <th class="py-2 px-4 border-b  text-gray-700">ID</th>
                                 <th class="py-2 px-4 border-b  text-gray-700">Estat</th>
-                                <th class="py-2 px-4 border-b  text-gray-700">Enllaç</th>
                                 <th class="py-2 px-4 border-b  text-gray-700">Nom</th>
                                 <th class="py-2 px-4 border-b  text-gray-700">Grup</th>
                                 <th class="py-2 px-4 border-b  text-gray-700">PDF</th>
@@ -298,9 +298,6 @@
                                 </td>
                                 <td class="py-2 px-4 border-b">
                                     <?= $orla['status'] ?>
-                                </td>
-                                <td class="py-2 px-4 border-b">
-                                    <a href="<?= $orla['url'] ?>" target="_blank"><?= $orla['url'] ?></a>
                                 </td>
                                 <td class="py-2 px-4 border-b">
                                     <?= $orla['name_orla'] ?>
@@ -494,13 +491,14 @@
                                     <td class="py-2 px-4 border-b">
                                         <select name="error_status" class="select select-bordered w-full max-w-xs">
                                             <?php foreach (['Pendent', 'Resolta', 'Rebutjada'] as $status): ?>
-                                            <option <?= ($error['error_status'] === $status) ? 'selected' : '' ?>>
+                                            <option <?= ($error['error_status'] === $status) ? 'selected' : '' ?> title="Status" name="staut" aria-label="estat">
                                                 <?= $status ?>
                                             </option>
                                             <?php endforeach; ?>
                                         </select>
                                     </td>
                                     <td class="py-2 px-4 border-b">
+                                        <!-- Visible Submit Button -->
                                         <button type="submit" class="btn bg-white w-16">
                                             <img src="../img/actualizar.png" alt="update"
                                                 class="w-6 h-6 object-cover rounded-lg">

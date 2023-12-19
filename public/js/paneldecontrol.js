@@ -1,16 +1,20 @@
+
+// Alternar la descripció quan es prem el botó
 function toggleDescription(button) {
-    var description = button.previousElementSibling; // Assuming the description is the previous sibling
+    var description = button.previousElementSibling; // Suposant que la descripció és el germà anterior
     description.classList.toggle('hidden');
     button.classList.toggle('bg-gray-400');
 
-    // Toggle button text between "Mostrar más" and "Mostrar menos"
+    // Alternar el text del botó entre "Mostrar más" i "Mostrar menos"
     var buttonText = button.textContent.trim();
     button.textContent = buttonText === 'Mostrar más' ? 'Mostrar menos' : 'Mostrar más';
 }
 
 $(document).ready(function() {
+    // Amaga tots els elements que no són el primer
     $(".editorles,  .crear_usuari, .notifications, .editar_grups").hide();
 
+    // Gestionar els botons de la barra lateral
     $("#editarUsuarioBtn").click(function() {
         $(".editar_usuari, .crear_usuari, .editorles, .editar_grups  .notifications").hide();
         $("#editorlesBtn,  #crearUsuarioBtn, #notificationsBtn, #editarGrupsBtn").removeClass("bg-gray-400").addClass(
@@ -65,7 +69,7 @@ $(document).ready(function() {
     
 
    
-
+// Funció per a crear un usuari aleatori
     $("#crearUsuarioPrueba").click(function() {
         fetch('https://randomuser.me/api/')
             .then(response => response.json())
@@ -80,6 +84,7 @@ $(document).ready(function() {
             .catch(error => console.error('Error:', error));
     });
 
+    // Funció per crear un buscador de usuaris
     $("#searchInput").on("keyup", function () {
         var searchTerm = $(this).val().toLowerCase();
 
@@ -90,23 +95,16 @@ $(document).ready(function() {
         });
     });
 
-    $("#searchInput2").on("keyup", function () {
-        var searchTerm = $(this).val().toLowerCase();
-
-        $(".userRow").each(function () {
-            var currentRowText = $(this).text().toLowerCase();
-            var showRow = currentRowText.indexOf(searchTerm) > -1;
-            $(this).toggle(showRow);
-        });
-    });
-
+    
  
 });
+
+// Funció per a obrir el modal d'edició
 function openEditModal(userId, name, surname, email, phone, dni, birth_date,  role, group) {
-    // Obtén los datos del usuario correspondiente (puedes hacer una solicitud AJAX si es necesario)
+    // Obté els dades de l'usuari corresponent 
     var user = obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_date,  role, group);
 
-    // Actualiza el contenido del modal con los datos del usuario
+    // Actualiza el contingut del modal amb les dades de l'usuari
     document.getElementById('user_details').innerHTML = `
         
         
@@ -148,7 +146,7 @@ function openEditModal(userId, name, surname, email, phone, dni, birth_date,  ro
                     <select id="role" title="role" name="role" class="input bg-transparent rounded-sm outline-none border-b-black hover:bg-white hover:border-bs-blue focus:bg-white focus:outline-none transition-colors duration-300">
                     <option value="Alumne" ${user.role === 'Alumne' ? 'selected' : ''}>Alumne</option>
                     <option value="Professor" ${user.role === 'Professor' ? 'selected' : ''}>Professor</option>
-                    <option value="Admin" ${user.role === 'Admin' ? 'selected' : ''}>Admin</option>
+                    <option value="Equip Directiu" ${user.role === 'Equip Directiu' ? 'selected' : ''}>Equip Directiu</option>
                 </select>
                 <div class="card-actions justify-end mt-5">
                     <button type="submit" class="btn btn-active btn-neutral">Editar</button>
@@ -158,19 +156,18 @@ function openEditModal(userId, name, surname, email, phone, dni, birth_date,  ro
     </div>
     `;
 
-    // Abre el modal
+    // Obre el modal
     document.getElementById('edit_modal').showModal();
 }
 
-// Función para cerrar el modal
+// Funció per tancar el modal
 function closeEditModal() {
     document.getElementById('edit_modal').close();
 }
 
-// Esta función es solo un ejemplo y deberías reemplazarla con la lógica real para obtener los datos del usuario
+// Obté les dades de l'usuari 
 function obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_date,  role, group) {
-    // Aquí puedes hacer una solicitud AJAX al servidor para obtener los datos del usuario
-    // Por ahora, devolvemos un objeto con datos de ejemplo
+    // Retorna un objecte amb les dades de l'usuari
     return {
         id: userId,
         name: name,
@@ -184,26 +181,26 @@ function obtenerDatosUsuario(userId, name, surname, email, phone, dni, birth_dat
     };
 }
 
-// Function to create a random user
+// Funcio per crear un numero d'usuaris aleatoris a partir de el numero que es posa el usuari
 $("#crearUsuariosBtn").click(async function () {
     var numUsuarios = $("#numUsuarios").val();
 
     if (numUsuarios && !isNaN(numUsuarios) && numUsuarios > 0) {
-        // Show the loader
+        // Ensenyar el loader
         $("#loader").removeClass("hidden");
 
         try {
-            // Wrap the loop in an async function
+            
             for (var i = 0; i < numUsuarios; i++) {
-                await crearUsuarioAleatorio(); // Wait for the asynchronous function to complete
+                await crearUsuarioAleatorio(); // Espera a que es crei l'usuari
             }
 
-            // Redirect after creating users
+           
             window.location.href = "/panel-de-control";
         } catch (error) {
             console.error('Error creating users:', error);
         } finally {
-            // Hide the loader
+            // Amaga el loader
             $("#loader").addClass("hidden");
         }
     } else {
@@ -211,18 +208,19 @@ $("#crearUsuariosBtn").click(async function () {
     }
 });
 
+// Funció per crear un usuari aleatori
 async function crearUsuarioAleatorio() {
     try {
-        // Fetch random user data
+        // Obtenir les dades de l'usuari aleatori
         const response = await fetch('https://randomuser.me/api/');
         const data = await response.json();
 
-        // Create a new form for each user
+        // Crear un formulari per enviar les dades de l'usuari
         var form = document.createElement('form');
         form.setAttribute('method', 'post');
         form.setAttribute('action', '/randomuser');
 
-        // Create hidden input fields for user data
+        // Afegir els camps ocults amb les dades de l'usuari
         addHiddenField(form, 'mail', data.results[0].email);
         addHiddenField(form, 'username', data.results[0].name.first);
         addHiddenField(form, 'surname', data.results[0].name.last);
@@ -230,19 +228,19 @@ async function crearUsuarioAleatorio() {
         addHiddenField(form, 'role', 'Alumne');
         addHiddenField(form, 'password', 'testing10');
 
-        // Append the form to the body
+        // Afegir el formulari al body
         document.body.appendChild(form);
 
-        // Submit the form using fetch
+        // Enviar el formulari
         const formResponse = await fetch('/randomuser', {
             method: 'POST',
             body: new FormData(form),
         });
 
-        // Handle the form submission response if needed
+        // Comprovar que s'ha enviat correctament
         console.log('Form submitted successfully');
 
-        // Remove the form from the body
+        // Eliminar el formulari
         document.body.removeChild(form);
     } catch (error) {
         console.error('Error:', error);
@@ -250,7 +248,7 @@ async function crearUsuarioAleatorio() {
 }
 
 
-// Function to add hidden input field to a form
+// Funció per amagar els inputs de la creació d'usuari
 function addHiddenField(form, name, value) { 
     var input = document.createElement('input');
     input.setAttribute('type', 'hidden');
@@ -259,8 +257,9 @@ function addHiddenField(form, name, value) {
     form.appendChild(input);
 }
 
+// Funció per obrir el collapse de les orles y mostrar les fotos
 function toggleCollapse(id) {
-    console.log("Toggle collapse for ID:", id); // Verifica si se llama correctamente
+    console.log("Toggle collapse for ID:", id); 
 
     const collapseElement = document.getElementById(id);
     if (collapseElement) {
@@ -274,7 +273,7 @@ function toggleCollapse(id) {
 
             photosContainer.innerHTML = '';
 
-            // Agregar las fotos al contenedor
+            // Afegir les fotos al contenidor
             photos.forEach(photo => {
                 const photoContainer = document.createElement('div');
                 photoContainer.classList.add('flex-shrink-0', 'items-center', 'justify-center', 'mx-5');
@@ -302,8 +301,9 @@ function toggleCollapse(id) {
 }
 
 
+// Funció per obrir el collapse dels usuaris y mostrar les fotos
 function toggleCollapse2(id) {
-    console.log("Toggle collapse for ID:", id); // Verifica si se llama correctamente
+    console.log("Toggle collapse for ID:", id);
 
     const collapseElement = document.getElementById(id);
     if (collapseElement) {
@@ -316,7 +316,7 @@ function toggleCollapse2(id) {
 
             photosContainer.innerHTML = '';
 
-            // Agregar las fotos al contenedor
+            // Afegir les fotos al contenidor
             photod.forEach(photo => {
                 const photoContainer = document.createElement('div');
                 photoContainer.classList.add('flex-shrink-0', 'items-center', 'justify-center', 'mx-5');
@@ -342,11 +342,12 @@ function toggleCollapse2(id) {
     }
 }
 
+// Funció per obrir el modal d'edició
 function openEditModal2(orlaid, name, status, url, group_id, group_name) {
-    // Obtén los datos del usuario correspondiente (puedes hacer una solicitud AJAX si es necesario)
+    // Obté els dades de la orla corresponent  
     var orla = obtenerDatosOrla(orlaid, name, status, url, group_id, group_name);
 
-    // Actualiza el contenido del modal con los datos del usuario
+    // Actualiza el contingut del modal amb les dades de la orla
     document.getElementById('user_details2').innerHTML = `
     <div class="w-full max-w-md m-auto bg-white rounded-md mt-5">
     <form action="/UploadOrla" method="post">
@@ -381,19 +382,18 @@ function openEditModal2(orlaid, name, status, url, group_id, group_name) {
         
     `;
 
-    // Abre el modal
+    // Obre el modal
     document.getElementById('edit_modal2').showModal();
 }
 
-// Función para cerrar el modal
+// Funció per tancar el modal
 function closeEditModal2() {
     document.getElementById('edit_modal2').close();
 }
 
-// Esta función es solo un ejemplo y deberías reemplazarla con la lógica real para obtener los datos del usuario
+// Obté les dades de la orla
 function obtenerDatosOrla(orlaid, name, status, url, group_id, group_name) {
-    // Aquí puedes hacer una solicitud AJAX al servidor para obtener los datos del usuario
-    // Por ahora, devolvemos un objeto con datos de ejemplo
+    // Retorna un objecte amb les dades de la orla
     return {
         orlaid: orlaid,
         name: name,
@@ -404,10 +404,11 @@ function obtenerDatosOrla(orlaid, name, status, url, group_id, group_name) {
     };
 }
 
+// Funció per obrir el modal d'edició
 function openEditModal3(id, name, description) {
-    // Obtén los datos del usuario correspondiente (puedes hacer una solicitud AJAX si es necesario)
+    
 
-    // Actualiza el contenido del modal con los datos del usuario
+    // Crea un nou grup 
     document.getElementById('user_details3').innerHTML = `
     <div class="w-full max-w-md m-auto bg-white rounded-md mt-5">
    <form action="/crearGrup" method="post">
@@ -426,11 +427,11 @@ function openEditModal3(id, name, description) {
         
     `;
 
-    // Abre el modal
+    // Obre el modal
     document.getElementById('edit_modal3').showModal();
 }
 
-// Función para cerrar el modal
+// Funció per tancar el modal
 function closeEditModal3() {
     document.getElementById('edit_modal2').close();
 }

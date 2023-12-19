@@ -26,7 +26,6 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../vendor/autoload.php";
 
 
-
 /* Creem els diferents models */
 $contenidor = new \App\Container(__DIR__ . "/../App/config.php");
 
@@ -59,7 +58,7 @@ $app->get("Idpanel", [UserController::class,"Idpanel"]);
 $app->get("deleteUser", [UserController::class,"deleteUser"], [[\App\Middleware\App::class,"permissions"]]);
 $app->get("DeleteGrup", [UserController::class,"DeleteGrup"], [[\App\Middleware\App::class,"permissions"]]);
 $app->post("crearGrup", [UserController::class,"crearGrup"], [[\App\Middleware\App::class,"permissions"]]);
-$app->get("/carnet/{token}", [UserController::class, "carnetUser"]);
+$app->get("/carnet/{token}", [UserController::class, "carnetUserUrl"]);
 $app->get("deleteerror", [UserController::class,"deleteerror"], [[\App\Middleware\App::class,"permissions"]]);
 $app->post("uploaderror", [UserController::class,"uploaderror"], [[\App\Middleware\App::class,"permissions"]]);
 $app->get("create-new-orla", [OrlesControllers::class,"createNewOrla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
@@ -71,12 +70,9 @@ $app->get("descarregar-orla/{id}/{formato_impresion}", [OrlesControllers::class,
 $app->get("eliminar-orla", [OrlesControllers::class,"eliminarOrla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
 $app->post("updateNameOrla", [OrlesControllers::class,"updateNameOrla"], [[\App\Middleware\App::class,"permissionsProfessor"]]);
 $app->post("sendRecoveryEmail", [UserController::class,"sendRecoveryEmail"]);
-$app->post("erroremail", [UserController::class,"sendRecoveryEmail"]);
 $app->get("newpass", [UserController::class,"newpass"]);
 $app->post("newpass", [UserController::class,"newpass"]);
 $app->get("errorweb", [ErrorController::class,"errorRedirect"]);
-
-
 
 
 $app->execute();
