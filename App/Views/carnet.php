@@ -33,7 +33,7 @@
                     <p class="text-gray-500 text-2xl"><?= $user['role']; ?></p>
                     <a
                         class="text-xl text-gray-600 dark:text-gray-200 group-hover:opacity-100 opacity-0 transform transition-all delay-300 duration-500">
-                        <?= $user['email']; ?>
+                        <?= $user['email'];?>
                     </a>
                     <br>
                     <a
