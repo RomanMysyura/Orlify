@@ -12,10 +12,6 @@
 <body class="bg-gray-200">
     <?php include "navbar.php" ?>
 
-
-
-
-
     <div class="w-full mt-20 dark:bg-slate-800 gap-6 flex items-center justify-center h-80">
         <div
             class="profilecard bg-gray-100 dark:bg-gray-700 relative shadow-xl overflow-hidden hover:shadow-2xl group rounded-xl p-5 transition-all duration-500 transform flex items-center">
