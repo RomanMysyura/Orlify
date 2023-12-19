@@ -26,7 +26,6 @@ error_reporting(E_ERROR | E_WARNING | E_PARSE);
 include "../vendor/autoload.php";
 
 
-
 /* Creem els diferents models */
 $contenidor = new \App\Container(__DIR__ . "/../App/config.php");
 
@@ -74,8 +73,6 @@ $app->post("sendRecoveryEmail", [UserController::class,"sendRecoveryEmail"]);
 $app->get("newpass", [UserController::class,"newpass"]);
 $app->post("newpass", [UserController::class,"newpass"]);
 $app->get("errorweb", [ErrorController::class,"errorRedirect"]);
-
-
 
 
 $app->execute();
