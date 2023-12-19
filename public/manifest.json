@@ -2,7 +2,7 @@
     "name": "Nombre de tu aplicación",
     "short_name": "Nombre corto",
     "description": "Descripción de tu aplicación",
-    "start_url": "/",
+    "start_url": "/carnet/656a1ca99bc97",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#000000",
