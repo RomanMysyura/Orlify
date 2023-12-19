@@ -28,7 +28,7 @@
                         <?php endif; ?>
                 <div class="w-fit transition-all transform duration-500">
                     <h1 class="text-gray-600 dark:text-gray-200 font-bold text-3xl">
-                        <?= $user['surname']; ?> <?= $user['name']; ?>
+                        <?= $user['surname']; ?> <?= $user['name'];?>
                     </h1>
                     <p class="text-gray-500 text-2xl"><?= $user['role']; ?></p>
                     <a
