@@ -42,10 +42,7 @@
                     </a>
                 </div>
             </div>
-            <div class="flex items-center justify-end mt-4 ml-auto">
-                <img src="/img/QrCodeCarnet.png" alt=""
-                    class="w-28 h-28 object-cover rounded-full transition-all duration-500 delay-500 transform" />
-            </div>
+           
         </div>
 
 
