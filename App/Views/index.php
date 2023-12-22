@@ -14,7 +14,7 @@
         Utilitzem cookies per millorar la teva experiència al lloc. En continuar, acceptes l'ús de galetes.
     </p>
     <button id="accept-cookies" class="mt-2 bg-black hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-        Aceptar
+    Aceptar
     </button>
 </div>
 
