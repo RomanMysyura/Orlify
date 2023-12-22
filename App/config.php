@@ -23,6 +23,6 @@ return [
         "server" => "localhost",
         "username" => "root",
         "password" => "",
-        "database" => ""
+        "database" => "orles"
     ]
 ];
