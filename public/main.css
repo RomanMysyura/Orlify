@@ -3175,9 +3175,6 @@ details.collapse summary::-webkit-details-marker {
 .w-24 {
   width: 6rem;
 }
-.w-28 {
-  width: 7rem;
-}
 .w-32 {
   width: 8rem;
 }
@@ -3829,9 +3826,6 @@ details.collapse summary::-webkit-details-marker {
 }
 .delay-300 {
   transition-delay: 300ms;
-}
-.delay-500 {
-  transition-delay: 500ms;
 }
 .duration-150 {
   transition-duration: 150ms;
