@@ -12,7 +12,7 @@
 
 <body>
 
-    <?php include "navbar.php" ?>
+    <?php include "navbar.php"?>
 
     <div class="flex items-center justify-center">
         <form id="updateNameForm" action="/updateNameOrla" method="POST">
